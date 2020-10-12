@@ -1,0 +1,169 @@
+.myself-container{
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  background: #ffffff;
+  
+  .right-user-info{
+    margin-top: 110px;
+    padding-left: 56px;
+    flex: 1 1;
+    border-left: 1px solid #8E8E8E;
+    .right-title{
+      padding-bottom: 20px;
+      font-size: 24px;
+      color: #000000;
+      border-bottom: 1px solid #8E8E8E;
+    }
+    // 用户个人信息
+    .user-mes{
+      display: flex;
+      margin: 15px 0 20px;
+      font-size: 18px;
+      .user-img{
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+      }
+      .detail-mes{
+        flex: 1;
+        .detail-item{
+          display: flex;
+          &+.detail-item{
+            margin-top:24px;
+          }
+          .item-message{
+            width: 33.3%;
+            display: flex;
+            .item-btn{
+              cursor: pointer;
+              font-style: normal;
+              color: #B88E74;
+              &+.item-btn{
+                padding-left: 20px;
+              }
+            }
+          }
+        }
+
+      }
+    }
+    // 收货地址
+    .my-address{
+      display: flex;
+      margin: 16px 0;
+      .address{
+        width: 310px;
+        min-height: 170px;
+        // padding: 50px;
+        border: 1px solid #B88E74;
+        color: #B88E74;
+        &+.address{
+          margin-left: 20px;
+
+        }
+      }
+      .address-empty{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        font-size: 18px;
+        cursor: pointer;
+        .icon-add{
+          font-size: 30px;
+          margin-bottom: 12px;
+        }
+      }
+      .address-item{
+        display: flex;
+        flex-direction: column;
+        padding: 20px 16px 8px;
+        .shou-huo-name{
+          font-size: 20px;
+          color: #000000;
+        }
+        .detail-mes{
+          display: flex;
+          flex-direction: column;
+          color: #000;
+          >i{
+            font-style: normal;
+          }
+          .phone{
+            margin-top: 8px;
+            color: #686868;
+          }
+        }
+        .btn-box{
+          color: #fff;
+          text-align: right;
+          font-size: 24px;
+          .btn-item{
+            background-color: #B88E74;
+            padding: 4px;
+            border-radius: 50%;
+            margin-left: 8px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+ // 新增，编辑地址 ---- 弹窗
+ .add_edit_address{
+    display: flex;
+    flex-direction: column;
+    .address_item{
+      display: flex;
+      &+.address_item{
+        margin-top: 20px;
+      }
+      .receive-name{
+        margin-right: 10px;
+      }
+      .receive-phone{
+        margin-left: 10px;
+      }
+    }
+  }
+  // 个人信息更改 ---- 弹窗
+  .modal-user-info{
+
+    .info-item{
+      display: flex;
+      align-items: center;
+      &+.info-item{
+        margin-top: 20px;
+      }
+      .item-left-title{
+        display: block;
+        width: 80px;
+      }
+      .item-detail{
+        flex:1;
+      }
+      .gender-box{
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        .gender-item{
+          width: 45%;
+          display: inline-block;
+          height: 32px;
+          line-height: 32px;
+          text-align: center;
+          border: 1px solid #8E8E8E;
+          cursor: pointer;
+          &.active{
+            border: 1px solid #B78E74;
+            background-color: #B88E74;
+            color: #fff;
+          }
+        }
+
+      }
+    }
+  }

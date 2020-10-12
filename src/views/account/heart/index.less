@@ -1,0 +1,97 @@
+.heart-container{
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  .right-user-info{
+    margin-top: 110px;
+    padding-left: 56px;
+    flex: 1;
+    border-left: 1px solid #8E8E8E;
+    .right-title{
+      padding-bottom: 20px;
+      font-size: 24px;
+      color: #000000;
+      border-bottom: 1px solid #8E8E8E;
+      display: flex;
+      justify-content: space-between;
+    }
+        // 空状态 css
+        .empty-content{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+          padding: 60px;
+          .icon-image{
+            font-size: 72px;
+            color: #BA8056;
+          }
+          .detail-mes{
+            font-size: 24px;
+            font-weight: 500;
+            color: #74523C;
+            padding: 20px;
+          }
+          .link-content{
+            font-size: 14px;
+            font-weight: 500;
+            color: #74523C;
+            .link-url{
+              color: #0067FF;
+              font-style: normal;
+              display: inline-block;
+              padding: 0 12px;
+              cursor: pointer;
+            }
+          }
+        }
+        // 心愿单 css
+        .heart-content{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .heart-item{
+            width: 49%;
+            display: flex;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #B88E74;
+            position: relative;
+            padding-left: 150px;
+            >img{
+              width: 140px;
+              height: 140px;
+              margin: auto;
+              position: absolute;
+              left: 10px;
+              bottom: 10px;
+              top: 10px;
+            }
+            .item-detail-mes{
+              display: flex;
+              flex-direction: column;
+              padding-left: 16px;
+              color: #74523C;
+              flex: 1;
+              .name, .danwei{
+                font-size: 16px;
+              }
+              .btn-detail{
+                font-size: 16px;
+                cursor: pointer;
+              }
+              .price{
+                font-size: 20px;
+                display: block;
+              }
+              .action-btns{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              }
+            }
+          }
+        }
+  }
+}

@@ -1,0 +1,278 @@
+.my-order-content-page{
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  background: #ffffff;
+  .right-order-info{
+    margin-top: 110px;
+    padding-left: 56px;
+    flex: 1 1;
+    border-left: 1px solid #8E8E8E;
+    .right-title{
+      padding-bottom: 20px;
+      font-size: 24px;
+      color: #000000;
+      border-bottom: 1px solid #8E8E8E;
+    }
+    .order-item{
+      margin-top: 20px;
+      border: 1px solid #B88E74;
+      .title{
+        display: flex;
+        justify-content: space-between;
+        background: #FCE7DA;
+        padding: 4px 10px;
+        position: relative;
+        &.get-cigar{
+          background: #EFEFEF;
+        }
+        .date-mes{
+          padding-right: 36px;
+        }
+        .right-totle-price{
+          font-size: 20px;
+          padding-right: 56px;
+        }
+        .delete-button{
+          position: absolute;
+          top: 5px;
+          right: 10px;
+          font-size: 16px;
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 50%;
+          background-color: gray;
+          color: #fff;
+        }
+      }
+      //
+      .order-main-message{
+        display: flex;
+        padding: 16px;
+        position: relative;
+        
+        .order-left{
+          flex:1;
+          .order-item-mes{
+            display: flex;
+            align-items: center;
+            &+.order-item-mes{
+              border-top: 1px solid #B88E74;
+            }
+            .item-img{
+              width: 80px;
+              height: 100px;
+            }
+            .item-name-box{
+              display: flex;
+              flex: 1;
+              padding-left: 12px;
+              flex-direction: column;
+            }
+            .item-price, .item-number{
+              width: 100px;
+              text-align: center;
+            }
+          }
+        }
+        .kuaidi-message{
+          width: 150px;
+          width: 150px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 20px;
+          border-left: 1px solid #B88E74;
+
+          .send-status{
+            cursor: pointer;
+          }
+        }
+        .jiaoyi-message{
+          width: 200px;
+          width: 150px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 20px;
+          border-left: 1px solid #B88E74;
+          .check-send{
+            cursor: pointer;
+            color: #FA3030;
+          }
+          .order-detail-btn{
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  .page-box{
+    text-align: right;
+    padding: 20px 0;
+  }
+
+  //支付弹唱
+  .pay-background{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .pay-box-alert{
+    position: fixed;
+    width: 700px;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    background: #FFFFFF;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    .pay-left-message{
+      padding: 24px;
+      width: 50%;
+      .title{
+        font-size: 20px;
+      }
+      .NO-detail{
+        font-size: 14px;
+        padding: 12px 0 ;
+      }
+      .total-money{
+        font-size: 44px;
+        .ant-statistic-content{
+          font-size: 36px;
+        }
+      }
+      .check-title{
+        padding-top: 30px;
+      }
+
+      .alipay-btn{
+        display: block;
+        width: 85%;
+        height: 44px;
+        margin: 10px auto;
+        >i{
+          color: #00AAF2;
+          position: absolute;
+          left: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 32px;
+          width: 32px;
+          height: 32px;
+        }
+        &.selected{
+          color: #fff;
+          background: #00AAF2;
+          >i{
+            color: #fff;
+          }
+        }
+        &:hover{
+          border-color: #00AAF2;
+        }
+      }
+      .wechat-btn{
+        display: block;
+        width: 85%;
+        margin: 10px auto;
+        height: 44px;
+        >i{
+          color: #0ABC08;
+          position: absolute;
+          left: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 32px;
+          width: 32px;
+          height: 32px;
+        }
+        &.selected{
+          color: #fff;
+          background: #0ABC08;
+          >i{
+            color: #fff;
+          }
+        }
+        &:hover{
+          border-color: #0ABC08;
+        }
+      }
+    }
+    .pay-right-QRCode{
+      width: 50%;
+      &.wechat{
+        background: #0ABC08;
+      }
+      &.alipay{
+        background: #00AAF2;
+      }
+    }
+    .close-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 空的时候展示
+.empty-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 60px;
+  .icon-image{
+    font-size: 72px;
+    color: #BA8056;
+  }
+  .detail-mes{
+    font-size: 24px;
+    font-weight: 500;
+    color: #74523C;
+    padding: 20px;
+  }
+  .link-content{
+    font-size: 14px;
+    font-weight: 500;
+    color: #74523C;
+    .link-url{
+      color: #0067FF;
+      font-style: normal;
+      display: inline-block;
+      padding: 0 12px;
+      cursor: pointer;
+    }
+  }
+}

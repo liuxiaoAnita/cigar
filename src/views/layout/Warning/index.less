@@ -1,0 +1,58 @@
+.WarnPage-content{
+  position: fixed;
+  width: 800px;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  background: #FFFFFF;
+  transform: translateX(-50%) translateY(-50%);
+  .warn-detail{
+    padding: 30px;
+    .title{
+      color: #73523C;
+      font-size: 24px;
+    }
+    .message{
+      display: block;
+      font-size: 16px;
+      font-weight: 400;
+      color: #432512;
+    }
+    .warn-title{
+      font-size: 24px;
+      font-weight: 800;
+      color: #73523C;
+      margin: 20px;
+      text-align: center;
+    }
+
+  }
+  .button-content{
+    text-align: center;
+    background: #E0E0E0;
+    padding: 20px;
+    .ask-age{
+      font-size: 24px;
+      font-weight: 400;
+      color: #73523C;
+    }
+    .ask-buttons{
+      margin-top: 24px;
+      .ant-btn{
+        width: 160px;
+        &+.ant-btn{
+          margin-left: 30px;
+        }
+      }
+    }
+  }
+}
+.warn-background{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9;
+  background-color: rgba(0, 0, 0, 0.5);
+}

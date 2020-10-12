@@ -1,0 +1,123 @@
+.banner-box{
+  width:100%;
+  padding: 0 calc((100% - 1200px) / 2);
+  background: #fff;
+  .swiper-container {
+    padding: 0 30px;
+    width: 100%;
+    // height: 300px;
+    margin: 20px auto;
+  }
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff000;
+    
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  .swiper-button-prev,
+  .swiper-button-next{
+    background: #73523C;
+    border-radius: 30px;
+    width: 60px;
+    height: 60px;
+    &::before{
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: 20px;
+      height:20px;
+      border: 2px solid #fff;
+      top: 50%;
+      left: 50%;
+      transform: rotate(45deg) translateX(-50%) translateY(-50%);
+      transform-origin: left top;
+    }
+  }
+  .swiper-button-prev{
+    &::before{
+      border-width: 0 0 2px 2px;
+    }
+  }
+  .swiper-button-next{
+    &::before{
+      border-width: 2px 2px 0 0;
+    }
+  }
+
+
+  // 每个商品的css
+  .thing-item{
+    border: 1px solid #CEA489;
+    background: #FFFFFF;
+    display: flex;
+    padding:10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: #432512;
+    position: relative;
+    .item-top{
+      position: absolute;
+      top: 0;
+      left: 10px;
+      right: 10px;
+      .item-grade{
+        float: left;
+        font-size: 36px;
+        color: #73523C;
+      }
+      .item-star{
+        display: flex;
+        flex-direction: column;
+        float: right;
+        text-align: right;
+      }
+    }
+    .thing-name{
+      font-size: 14px;
+    }
+    .thing-danwei{
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .unit-price{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      text-align: left;
+      .del-price{
+        font-size: 14px;
+        color: #949494;
+      }
+      .now-price{
+        font-size: 24px;
+        color: #432512;
+      }
+    }
+    .add-bus{
+      border: 2px solid #B78E74;
+      width: 100%;
+      padding: 8px;
+      color: #B78E74;
+      margin-top: 10px;
+      cursor: pointer;
+      &.before{
+        background: #B78E74;
+        color: #432512;
+      }
+    }
+  }
+}

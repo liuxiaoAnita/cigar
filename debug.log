@@ -1,0 +1,4 @@
+[1010/222154.547:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
+[1011/222154.558:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
+[1012/005848.785:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Fran\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\dbf6e4cf-877a-4275-a930-70fa2bbf1aa1: 系统找不到指定的路径。 (0x3)
+[1012/005910.043:ERROR:http_transport_win.cc(276)] WinHttpSendRequest: 操作成功完成。 (0x0)

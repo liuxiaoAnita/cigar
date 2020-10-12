@@ -1,0 +1,122 @@
+.login-container {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  // background: #2d3a4b;
+  // background-image: url('~@/assets/images/bg.jpg');
+  background-color: #fff;
+  background-size: 100% 100%;
+  & > .title {
+    color: #eee;
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0px auto 30px auto;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .spin-wrap {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    line-height: 90vh;
+    z-index: 999;
+  }
+  .content {
+    // position: absolute;
+    background-color: #fff;
+    // left: 50%;
+    // top: 50%;
+    width: 1200px;
+    margin: auto;
+    padding: 30px 30px 0 30px;
+    // transform: translate(-50%, -60%);
+    // box-shadow: 0 0 10px 2px rgba(40, 138, 204, 0.16);
+    border-radius: 3px;
+    .login-box {
+      display: flex;
+      .login-item{
+        width: 50%;
+        padding-right: calc((50% - 420px));
+      }
+    }
+    .title {
+      text-align: left;
+      margin: 0 0 30px 0;
+      font-size: 36px;
+      color: #73523C;
+    }
+    .two-button-wrap {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .row-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .user-type-button {
+      width: 45%;
+    }
+    .form-button{
+      margin-top: 20px;
+    }
+    .ant-form-item-children{
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+    .login-form-button {
+      width: 40%;
+    }
+    .forget-password{
+      font-size: 14px;
+      font-family: Alibaba PuHuiTi;
+      font-weight: 400;
+      color: #432512;
+      cursor: pointer;
+    }
+    .login-form-forgot {
+      float: right;
+    }
+  }
+  // input颜色改变
+  .ant-input-affix-wrapper .ant-input{
+    color: #B78E74;
+  }
+  .ant-form-item-children{
+    position: relative;
+    .yzmImage{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9;
+      height: 32px;
+    }
+  }
+
+  .top-box{
+    margin-bottom: 24px;
+    .top-name{
+      font-size: 24px;
+      color: #000000;
+    }
+    .top-mess{
+      font-size: 18px;
+      color: #8D8D8D;
+    }
+  }
+  .birthday-gender{
+    .ant-form-item-children{
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

@@ -1,0 +1,181 @@
+.ant-layout-header {
+  transition: width 0.2s;
+  z-index: 9;
+  position: relative;
+  height: 270px;
+  // height: 64px;
+  background: #fff !important;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display: flex;
+  justify-content: space-between;
+  .header-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .phone-call-me {
+    font-size: 14px;
+    color: #73523c;
+    font-weight: 500;
+  }
+  .right-menu {
+    float: right;
+    display: flex;
+    .noLogin{
+      .btn-login{
+        padding: 0 10px;
+        cursor: pointer;
+      }
+      .btn-register{
+        padding: 0 10px;
+        cursor: pointer;
+      }
+    }
+    .name {
+      padding: 0 10px;
+    }
+    .car-top {
+      font-size: 14px;
+      color: #73523c;
+      font-weight: 500;
+      cursor: pointer;
+      > span {
+        padding: 0 16px;
+        .car-num {
+          color: #de2323;
+        }
+      }
+    }
+    .dropdown-wrap {
+      cursor: pointer;
+      display: inline-block;
+      .ant-dropdown-menu-item {
+        padding: 6px 20px 8px 15px;
+        i {
+          padding-right: 15px;
+        }
+      }
+      .anticon-caret-down {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+.fix-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+}
+.header-logo {
+  text-align: center;
+  margin: 16px 0;
+  .search-box {
+    text-align: center;
+    margin-top: 16px;
+  }
+}
+// tabs
+.tabs_content {
+  padding: 0 calc((100% - 1200px) / 2);
+  background: #73523c;
+  position: relative;
+ .tab-father-content{ 
+    display: flex;
+    justify-content: center;
+    .tab-item {
+      font-size: 16px;
+      font-weight: 400;
+      color: #ffffff;
+      cursor: pointer;
+      & + .tab-item {
+        padding-left: 60px;
+      }
+      .tab-name{
+        padding: 12px 0;
+      }
+    }
+  }
+  .tab-children{
+    margin: 0px calc((100% - 1200px) / 2);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 47px;
+    z-index: 9;
+    background: #fff;
+    border: 1px solid #CEA489;
+    border-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    .child-item{
+      width: 33.3%;
+      padding: 12px;
+      cursor: pointer;
+      &:hover{
+        background: #CEA489;
+        color: #fff;
+      }
+    }
+    &.not-show-child{
+      display: none;
+    }
+    &.show-child{
+      display: flex;
+    }
+  }
+}
+
+// hover 购物车css
+.hover-shop-bus{
+  position: fixed;
+  background: #fff;
+  z-index: 99999;
+  top: 60px;
+  padding: 16px;
+  right: 30px;
+  border: 1px solid #442612;
+  text-align: center;
+  .shop-car-box{
+    max-height: 320px;
+    overflow-y: scroll;
+    .item-box{
+      display: flex;
+      border-bottom: 1px solid #887060;
+      padding: 10px;
+
+      .item-image{
+        width: 79px;
+        height: 100px;
+      }
+      .item-detail{
+        padding: 10px 0 0 10px;
+        background-origin: padding-box;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .item-name{
+          
+          font-size: 14px;
+          font-family: Alibaba PuHuiTi;
+          font-weight: 400;
+          color: #74523C;
+        }
+        .item-action{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .item-btn-delete{
+            background: #74523C;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+  .go-car-btn{
+    // position: absolute;
+    width: 80%;
+  }
+}
