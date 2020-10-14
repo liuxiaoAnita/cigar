@@ -7,7 +7,7 @@ import "./index.less";
 class MyOrderPage extends Component {
   state = {
     users: [],
-    isPayStatus: true,
+    isPayStatus: false,
     payData: [],
     payType: 'alipay'
   };
