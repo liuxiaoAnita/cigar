@@ -36,6 +36,7 @@ const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/view
 const MyPlatter = Loadable({loader: () => import(/*webpackChunkName:'MyPlatter'*/'@/views/myplatter'),loading: Loading});
 const MyOrder = Loadable({loader: () => import(/*webpackChunkName:'MyOrder'*/'@/views/account/myorder'),loading: Loading});
 const OrderDetail = Loadable({loader: () => import(/*webpackChunkName:'OrderDetail'*/'@/views/account/orderdetail'),loading: Loading});
+const Paying = Loadable({loader: () => import(/*webpackChunkName:'Paying'*/'@/views/account/paying'),loading: Loading});
 
 export default [
   { path: "/dashboard", component: Dashboard, roles: ["admin","editor","guest"] },
@@ -74,5 +75,6 @@ export default [
   { path: "/myplatter", component: MyPlatter },
   { path: "/myorder", component: MyOrder },
   { path: "/orderdetail", component: OrderDetail },
+  { path: "/paying", component: Paying },
   
 ];

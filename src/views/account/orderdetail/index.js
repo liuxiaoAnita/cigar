@@ -3,6 +3,7 @@ import { Tooltip, Icon, Popover, Button, Pagination, Statistic  } from "antd";
 
 
 import "./index.less";
+const statusArr = ['', '待付款', '待发货', '待收货', '已收货', '已评价']
 class OrderDetailPage extends Component {
   state = {
     orderData: {
@@ -30,7 +31,7 @@ class OrderDetailPage extends Component {
        "goodsmoney":"商品金额",// 商品金额
       "createDate":"下单时间",// 下单时间
       "coupon_money":" 优惠金额",// 优惠金额
-      "status":"1",// 订单状态（1：待付款2：待发货3：待收货：4：已收货5：已评价）
+      "status": 3,// 订单状态（1：待付款2：待发货3：待收货：4：已收货5：已评价）
       dataList:[{
         "productId":"111",// 商品id
          "zh_name":'中文名中文名中文名',///中文名
@@ -66,13 +67,6 @@ class OrderDetailPage extends Component {
   })
   }
 
-
-  renderList = () => {
-    return (
-      <div>8888</div>
-    )
-  }
-
   renderOrderStatus = () => {
     const {orderData} = this.state
     return(
@@ -80,7 +74,7 @@ class OrderDetailPage extends Component {
         <div className='info-title'>订单详情</div>
         <div className='order-top'>
           <span className='order-id'>订单号：{orderData.orderId || ''}</span>
-          <span className='order-status'>订单状态：{orderData.status}</span>
+          <span className='order-status'>订单状态：{statusArr[orderData.status]}</span>
           <Button className='order-kefu'>联系客服</Button>
         </div>
       </>
@@ -93,10 +87,11 @@ class OrderDetailPage extends Component {
       <>
       <div className='order-progress'>
         <div className='progress progress-name'>
-          <span className='progress-item selected'>下单</span>
-          <span className='progress-item'>付款</span>
-          <span className='progress-item'>发货</span>
-          <span className='progress-item'>交易成功</span>
+          {/* 订单状态（1：待付款2：待发货3：待收货：4：已收货5：已评价） */}
+          <span className={`progress-item selected`}>下单</span>
+          <span className={`progress-item ${orderData.status >= 2 && 'selected'}`}>付款</span>
+          <span className={`progress-item ${orderData.status >= 3 && 'selected'}`}>已发货</span>
+          <span className={`progress-item ${orderData.status >= 4 && 'selected'}`}>交易成功</span>
         </div>
         <div className='progress progress-time'>
           <span className='progress-item'>{orderData.createDate}</span>
