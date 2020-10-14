@@ -199,7 +199,9 @@ class MyOrderPage extends Component {
 
   // 详情
   handelDetail = val => {
-    console.log(val)
+    const {orderId} = val
+    this.props.history.push(`/orderdetail?orderId=${orderId}`)
+
   }
   // 评价
   handelRate = val => {
