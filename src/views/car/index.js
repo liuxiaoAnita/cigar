@@ -39,7 +39,7 @@ class CarPage extends Component {
             <span className='name'>原价</span><span className='price'>¥ 990.12</span>
           </div>
           <div className='right-detail'>
-            <span className='name'>推广价</span><span className='price'>¥ ¥ 950.32</span>
+            <span className='name'>推广价</span><span className='price'>¥ 950.32</span>
           </div>
           <div className='right-detail'>
             <span className='name'>优惠折扣</span><span className='price'>¥ 10.32</span>
@@ -113,9 +113,9 @@ class CarPage extends Component {
         <div className="car-shop-content">
           <div className='car-title'>购物车</div>
           <div className='car-detail'>
-            {/* {this.renderBusLeft()}
-            {this.renderBusRight()} */}
-            {this.renderEmpty()}
+            {this.renderBusLeft()}
+            {this.renderBusRight()}
+            {/* {this.renderEmpty()} */}
           </div>
         </div>
       </div>

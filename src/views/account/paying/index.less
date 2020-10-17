@@ -1,0 +1,65 @@
+.order-detail-content-page{
+  width: 1200px;
+  margin: 0 auto;
+  padding: 30px 0;
+  .title-name{
+    font-size: 36px;
+    padding: 25px 0;
+    border-bottom: 1px solid #8E8E8E;
+  }
+  .address-content{
+    .address-title{
+      padding: 24px 0;
+      font-size: 30px;
+    }
+    .showAddress-btn{
+      font-size: 18px;
+      padding: 20px 0;
+      text-align: center;
+      background: #E6E6E6;
+      cursor: pointer;
+    }
+    .address-box{
+      display: flex;
+      flex-wrap: wrap;
+      max-height: 160px;
+      transition: max-height ease-in-out 0.4s;
+      overflow: hidden;
+      &.show{
+        max-height: 1000px;
+        // height:500px;
+      }
+      .address-item{
+        width: 23%;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 16px;
+        border: 1px solid #E34848;
+        position: relative;
+        .receive-name{
+          font-size: 24px;
+          padding-bottom: 12px;
+        }
+        .receive-phone{
+          font-size: 16px;
+        }
+        .receive-address{
+          color: #686868;
+        }
+        .edit-button{
+          font-size: 24px;
+          color: #fff;
+          background: #B88E74;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
