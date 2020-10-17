@@ -10,6 +10,7 @@ const MenuLeftPage = (props) => {
     {titleName: '账户信息', id: 'myself'},
     {titleName: '订单记录', id: 'myorder'},
     {titleName: '心愿单', id: 'heart'},
+    {titleName: '我的评价', id: 'myrate'},
   ]
   const defaultKey = getQueryString('key')
   return (

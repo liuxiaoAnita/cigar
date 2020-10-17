@@ -73,6 +73,7 @@ class PayingPage extends Component {
                 {/* <Icon className='edit-button' type="edit" /> */}
               </div>
             ))}
+            <div className={`address-item add-new-address`}>添加新地址</div>
           </div>
           <div className='showAddress-btn' onClick={() => this.setState({addressShowAll: !addressShowAll})}>{addressShowAll ? '显示更多收货地址' : '隐藏部分收货地址'}</div>
        </div>

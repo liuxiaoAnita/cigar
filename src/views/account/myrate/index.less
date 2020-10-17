@@ -1,0 +1,75 @@
+.my-rate-content-page{
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  .right-my-rate{
+    margin-top: 110px;
+    padding-left: 56px;
+    flex: 1 1;
+    border-left: 1px solid #8E8E8E;
+    .title-name{
+      font-size: 36px;
+      padding: 25px 0;
+      border-bottom: 1px solid #8E8E8E;
+    }
+  }
+
+  // 打分 详情
+  .rate-box{
+
+    .rate-item{
+      margin: 16px 0;
+      border: 1px solid #B78E74;
+      .rate-title{
+        font-size: 18px;
+        background: #FCE7DA;
+        padding: 16px;
+        .rate-date{
+          padding-right: 20px;
+        }
+      }
+      .rate-detail{
+        display: flex;
+        padding: 16px 20px;
+        .left-mess{
+          flex: 3;
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          font-size: 14px;
+          .detail-star{
+            display: flex;
+            align-items: center;
+            .fenshu{
+              font-size: 36px;
+              color: #73523C;
+              padding-right: 20px;
+            }
+          }
+        }
+        .right-mess{
+          flex: 2;
+          display: flex;
+          align-items: center;
+          padding-left: 12px;
+          border-left: 1px solid #B78E74;
+          .goods-img{
+            height: 128px;
+            width: 100px;
+          }
+          .detail-name-box{
+            padding-left: 12px;
+            font-size: 18px;
+          }
+
+        }
+      }
+    }
+  }
+
+  // 分页
+  .page-box{
+    display: flex;
+    justify-content: flex-end;
+  }
+}

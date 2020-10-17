@@ -44,6 +44,28 @@
         border: 1px solid #CECECE;
         position: relative;
         cursor: pointer;
+        &.add-new-address{
+          color: #B78E74;
+          font-size: 18px;
+          position: relative;
+          padding-top: 80px;
+          text-align: center;
+          &::before{
+            content: '+';
+            display: block;
+            position: absolute;
+            color: #fff;
+            background-color: #CEA489;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 24px;
+            left: 50%;
+            top: 25%;
+            transform: translateX(-50%);
+          }
+        }
         &.selected{
           border: 1px solid #E34848;
           &::before{
