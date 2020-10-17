@@ -7,11 +7,17 @@
     padding: 25px 0;
     border-bottom: 1px solid #8E8E8E;
   }
-  .address-content{
-    .address-title{
-      padding: 24px 0;
-      font-size: 30px;
+  .title-second{
+    padding: 24px 0;
+    font-size: 30px;
+    display: block;
+    .red-name{
+      color: #E34848;
+      font-style: normal;
+      padding-left: 32px;
     }
+  }
+  .address-content{
     .showAddress-btn{
       font-size: 18px;
       padding: 20px 0;
@@ -35,8 +41,23 @@
         display: flex;
         flex-direction: column;
         padding: 20px 16px;
-        border: 1px solid #E34848;
+        border: 1px solid #CECECE;
         position: relative;
+        cursor: pointer;
+        &.selected{
+          border: 1px solid #E34848;
+          &::before{
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            content: '';
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: green;
+          }
+        }
         .receive-name{
           font-size: 24px;
           padding-bottom: 12px;
@@ -59,6 +80,87 @@
           bottom: 20px;
           cursor: pointer;
         }
+      }
+    }
+  }
+  // 商品信息
+  .goods-detail{
+    .goods-item{
+      align-items: center;
+      font-size: 18px;
+      display: flex;
+      &+.goods-item{
+        border-top: 1px solid  #CECECE;
+      }
+
+      .left-mes{
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      img{
+        width: 100px;
+        height: 128px;
+      }
+      .goods-mes-name{
+        padding-left: 18px;
+        display: flex;
+        flex-direction: column;
+      }
+      .goods-price-num{
+        font-size: 18px;
+        padding: 40px;
+      }
+      .goods-totle-price{
+        color: #E13434;
+      }
+    }
+  }
+
+  // 配送方式
+  .send-content{
+    padding-bottom: 20px;
+    .send-box{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .send-item{
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        padding-left: 32px;
+        font-size: 24px;
+        &.send-right-mes{
+          color: #E13434;
+        }
+        >span{
+          padding: 10px 0;
+          display: block;
+        }
+      }
+    }
+  }
+
+  // 总结
+  .summary-content{
+    border-top: 1px solid #CECECE;
+    padding: 28px 0;
+    .detail-message{
+      text-align: right;
+      font-size: 30px;
+      >span{
+        padding-left: 20px;
+        color: #E13434;
+      }
+    }
+    .button-box{
+      text-align: right;
+      margin-top: 40px;
+      .ant-btn{
+        margin-left: 20px;
+        height: 64px;
+        width: 240px;
+        font-size: 24px;
       }
     }
   }
