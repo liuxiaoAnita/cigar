@@ -211,7 +211,10 @@ const LayoutHeader = (props) => {
     </div>
   )
   
-
+  const handleClick = (lang) => {
+      localStorage.setItem("lang", lang)
+      window.location.reload();
+  }
   const renderLogo = () => (
     <div className='header-logo'>
       <img src={homeLogo} />
@@ -221,7 +224,11 @@ const LayoutHeader = (props) => {
           onSearch={value => console.log(value)}
           style={{ width: 200 }}
         />
-        <span>中文/Eng</span>
+        <span className='changeLanuge'>
+          <i onClick={() => handleClick('zh')} className='itemBtn'>中文</i>
+          /
+          <i onClick={() => handleClick('en')} className='itemBtn'>英文</i>
+        </span>
       </div>
     </div>
   );

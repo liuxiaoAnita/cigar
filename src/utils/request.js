@@ -18,7 +18,6 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
-    console.log(config)
     // Do something before request is sent
     if (store.getState().user.token) {
       // 让每个请求携带token-- ['Authorization']为自定义key 请根据实际情况自行修改

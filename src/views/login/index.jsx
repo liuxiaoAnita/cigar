@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import intl from 'react-intl-universal';
 import { Form, Icon, Input, Button, message, Spin, Divider } from "antd";
 import { connect } from "react-redux";
 import DocumentTitle from "react-document-title";
@@ -73,7 +74,7 @@ const Login = (props) => {
     <DocumentTitle title={"用户登录"}>
       <div className="login-container">
         <div className="content">
-            <div className="title">用户登录</div>
+            <div className="title">{intl.get('user.loginTitle')}</div>
             <div className='login-box '>
               <Form onSubmit={handleSubmit} className='login-item left'>
                 {renderTitle('已加入会员', '如果您已经拥有账户，请使用您的电子邮件地址登录')}
