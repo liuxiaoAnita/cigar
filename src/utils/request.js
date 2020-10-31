@@ -6,13 +6,19 @@ import { logout } from "@/store/actions";
 
 //创建一个axios示例
 const service = axios.create({
-  baseURL: process.env.REACT_APP_BASE_API, // api 的 base_url
+  baseURL: '', // api 的 base_url
+   dataType:"json",
+   header:{
+    "Content-Type":"application/json",
+  },
+  withCredentials: false,
   timeout: 5000, // request timeout
 });
 
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    console.log(config)
     // Do something before request is sent
     if (store.getState().user.token) {
       // 让每个请求携带token-- ['Authorization']为自定义key 请根据实际情况自行修改

@@ -15,7 +15,8 @@ const Login = (props) => {
   const handleLogin = (username, password) => {
     // 登录完成后 发送请求 调用接口获取用户信息
     setLoading(true);
-    login(username, password)
+    const params = {"cmd":"getAgreementList","nowPage":1,"pageCount":10}
+    login(params)
       .then((data) => {
         message.success("登录成功");
         handleUserInfo(data.token);

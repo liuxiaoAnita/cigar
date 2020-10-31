@@ -1,10 +1,12 @@
 import request from '@/utils/request'
 
+let formData = new FormData();
 export function reqLogin(data) {
+  formData.append('json', JSON.stringify(data));
   return request({
-    url: '/login',
+    url: '/service',
     method: 'post',
-    data
+    data: formData
   })
 }
 

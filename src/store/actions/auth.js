@@ -1,20 +1,14 @@
 import { setUserToken, resetUser } from "./user";
 import { reqLogin, reqLogout } from "@/api/login";
 import { setToken, removeToken } from "@/utils/auth";
-export const login = (username, password) => (dispatch) => {
+
+
+
+export const login = (params) => (dispatch) => {
   return new Promise((resolve, reject) => {
-    reqLogin({ username: username.trim(), password: password })
+    reqLogin(params)
       .then((response) => {
-        const { data } = response;
-        if (data.status === 0) {
-          const token = data.token;
-          dispatch(setUserToken(token));
-          setToken(token);
-          resolve(data);
-        } else {
-          const msg = data.message;
-          reject(msg);
-        }
+        console.log(response)
       })
       .catch((error) => {
         reject(error);
