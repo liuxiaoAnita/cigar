@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Icon, Input, Button, message, Spin, Divider,DatePicker ,Select } from "antd";
 import { connect } from "react-redux";
 import DocumentTitle from "react-document-title";
@@ -8,33 +8,52 @@ import {getQueryString} from '@/utils/index';
 import "./index.less";
 
 const { Option } = Select;
-const ForgetPage = (props) => {
-  const { form, token, login, getUserInfo } = props;
+const RegisterPage = (props) => {
+  const { form, login } = props;
   const { getFieldDecorator } = form;
   const [loading, setLoading] = useState(false);
+  const [confirmDirty, setConfirmDirty] = useState(false);
+  const [code, setCode] = useState('')
+  const [iconUrl, setIconUrl] = useState('')
 
-  const handleLogin = (username, password) => {
+  useEffect(() => {
+    login({cmd: 'sendSms'})
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          console.log(res.body)
+          const {body} = res
+          setCode(body.code)
+          setIconUrl(body.icon)
+        } else {
+          message.error(`${res.resultNote}`);
+          setLoading(false);
+        }
+      })
+  }, []);
+
+  const handleLogin = (params) => {
     // 登录完成后 发送请求 调用接口获取用户信息
     setLoading(true);
-    login(username, password)
-      .then((data) => {
-        message.success("登录成功");
-        handleUserInfo(data.token);
+    login(params)
+      .then((res) => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success("注册成功，即将跳转登录页");
+          setTimeout(() => {
+            props.history.push("/login");
+          }, 1000);
+          setLoading(false);
+        } else {
+          message.error(`${res.resultNote}`);
+          setLoading(false);
+        }
       })
       .catch((error) => {
         setLoading(false);
         message.error(error);
       });
-  };
-
-  // 获取用户信息
-  const handleUserInfo = (token) => {
-    getUserInfo(token)
-      .then((data) => {})
-      .catch((error) => {
-        message.error(error);
-      });
-  };
+  };  
 
   const handleSubmit = (event) => {
     // 阻止事件的默认行为
@@ -44,9 +63,14 @@ const ForgetPage = (props) => {
     form.validateFields((err, values) => {
       // 检验成功
       if (!err) {
-        const { username, password,yzm } = values;
-        // handleLogin(username, password, yzm);
+        let birth = '';
+        if (values['birth']) {
+          birth = values['birth'].format('YYYY-MM-DD')
+        }
         console.log('注册function')
+        const params = {"cmd":"userRegist", ...values, birth}
+        console.log(params)
+        handleLogin(params);
       } else {
         console.log("检验失败!");
       }
@@ -69,6 +93,38 @@ const ForgetPage = (props) => {
     console.log(`selected ${value}`);
   }
 
+  const compareToFirstPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('保持密码一致哦');
+    } else {
+      callback();
+    }
+  };
+
+  const handleConfirmBlur = e => {
+    const { value } = e.target;
+    setConfirmDirty(confirmDirty || !!value)
+  };
+
+  const checkPassword =  (rule, value, callback) => {//必须为字母加数字且长度不小于8位
+    var str = value;
+     if (str == null || str.length <8) {
+      callback('字母加数字且长度不小于8位');
+     }
+     var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+     if (!reg1.test(str)) {
+      callback('字母加数字且长度不小于8位');
+     }
+     var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+     if (reg.test(str)) {
+      callback()
+     } else {
+      callback('字母加数字且长度不小于8位');
+     }
+ }
+
+
   return (
     <DocumentTitle title={"建立新的账户"}>
       <div className="login-container">
@@ -81,8 +137,12 @@ const ForgetPage = (props) => {
                     {renderTitle('登录信息')}
                    
                       <Form.Item>
-                        {getFieldDecorator("emailNumber", {
+                        {getFieldDecorator("eamil", {
                           rules: [
+                            {
+                              type: 'email',
+                              message: 'The input is not valid E-mail!',
+                            },
                             {
                               required: true,
                               whitespace: true,
@@ -107,6 +167,15 @@ const ForgetPage = (props) => {
                               whitespace: true,
                               message: "请输入密码",
                             },
+                            { validator: checkPassword }
+                            // ({ getFieldValue }) => ({
+                            //   validator(rule, value) {
+                            //     if (!value || getFieldValue('password') === value) {
+                            //       return Promise.resolve();
+                            //     }
+                            //     return Promise.reject('The two passwords that you entered do not match!');
+                            //   },
+                            // }),
                           ],
                           initialValue: "", // 初始值
                         })(
@@ -114,17 +183,21 @@ const ForgetPage = (props) => {
                             prefix={
                               <Icon type="lock" style={{ color: "#B78E74" }} />
                             }
+                            type="password"
                             placeholder="密码"
                           />
                         )}
                       </Form.Item>
                       <Form.Item>
-                        {getFieldDecorator("againPassword", {
+                        {getFieldDecorator("confirm", {
                           rules: [
                             {
                               required: true,
                               whitespace: true,
                               message: "请确认密码",
+                            },
+                            {
+                              validator: compareToFirstPassword,
                             },
                           ],
                           initialValue: "", // 初始值
@@ -135,11 +208,12 @@ const ForgetPage = (props) => {
                             }
                             type="password"
                             placeholder="确认密码"
+                            onBlur={handleConfirmBlur}
                           />
                         )}
                       </Form.Item>
                       <Form.Item>
-                        <img width='60' className='yzmImage' src={homeGWC} alt='验证码' />
+                        <img width='60' className='yzmImage' src={iconUrl} alt='验证码' />
                         {getFieldDecorator("yzm", {
                           rules: [
                             {
@@ -159,7 +233,7 @@ const ForgetPage = (props) => {
                   <div className='login-item left'>
               {renderTitle('个人信息', '')}
                 <Form.Item>
-                  {getFieldDecorator("userName", {
+                  {getFieldDecorator("nickname", {
                     rules: [
                       {
                         required: true,
@@ -178,7 +252,7 @@ const ForgetPage = (props) => {
                   )}
                 </Form.Item>
                 <Form.Item>
-                  {getFieldDecorator("phoneNum", {
+                  {getFieldDecorator("phone", {
                     rules: [
                       {
                         required: true,
@@ -196,20 +270,31 @@ const ForgetPage = (props) => {
                     />
                   )}
                 </Form.Item>
-                <Form.Item className='birthday-gender'>
-                  <DatePicker placeholder='生日' onChange={onChangeBirthday} />
-                  <Select placeholder='性别' style={{ width: 120 }} onChange={handleChange}>
-                    <Option value="man">男</Option>
-                    <Option value="woman">女</Option>
-                  </Select>
-                </Form.Item>
+                <div>
+                      <div>
+                      <Form.Item>
+                        {getFieldDecorator('birth', {})(<DatePicker placeholder='生日' />)}
+                      </Form.Item>
+                      </div>
+                      <div>
+                      {getFieldDecorator('sex', {})(
+                      <Select placeholder='性别' style={{ width: 120 }} onChange={handleChange}>
+                        <Option value="man">男</Option>
+                        <Option value="woman">女</Option>
+                      </Select>
+                      )}
+                      </div>
+                </div>
+
                 <Form.Item>
+                  {getFieldDecorator("wx", {})(
                     <Input
-                      prefix={
-                        <Icon type="wechat" style={{ color: "#B78E74" }} />
-                      }
-                      placeholder="微信ID"
-                    />
+                    prefix={
+                      <Icon type="wechat" style={{ color: "#B78E74" }} />
+                    }
+                    placeholder="微信ID"
+                  />
+                  )}
                 </Form.Item>
             </div>
                 </div>
@@ -231,7 +316,7 @@ const ForgetPage = (props) => {
   );
 };
 
-const WrapForgetPage = Form.create()(ForgetPage);
+const WrapForgetPage = Form.create()(RegisterPage);
 
 export default connect((state) => state.user, { login, getUserInfo })(
   WrapForgetPage

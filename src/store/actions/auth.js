@@ -8,7 +8,7 @@ export const login = (params) => (dispatch) => {
   return new Promise((resolve, reject) => {
     reqLogin(params)
       .then((response) => {
-        console.log(response)
+        resolve(response.data) 
       })
       .catch((error) => {
         reject(error);

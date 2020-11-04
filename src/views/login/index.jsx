@@ -13,27 +13,27 @@ const Login = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (username, password) => {
+  const handleLogin = (param, password) => {
     // 登录完成后 发送请求 调用接口获取用户信息
     setLoading(true);
-    const params = {"cmd":"getAgreementList","nowPage":1,"pageCount":10}
+    const params = {"cmd":"userLogin", param, password}
+    console.log(login(params))
     login(params)
-      .then((data) => {
-        message.success("登录成功");
-        handleUserInfo(data.token);
-        props.history.push("/home");
+      .then((res) => {
+        console.log(res)
+        if (`${res.result}` === '0') {
+          setLoading(false);
+          message.success("登录成功");
+
+          props.history.push("/home");
+        } else {
+          message.error(`${res.resultNote}`);
+          setLoading(false);
+        }
+       
       })
       .catch((error) => {
         setLoading(false);
-        message.error(error);
-      });
-  };
-
-  // 获取用户信息
-  const handleUserInfo = (token) => {
-    getUserInfo(token)
-      .then((data) => {})
-      .catch((error) => {
         message.error(error);
       });
   };
