@@ -24,7 +24,26 @@ const Login = (props) => {
         if (`${res.result}` === '0') {
           setLoading(false);
           message.success("登录成功");
+          initGetUserInfo(res.body.uid)
+          localStorage.setItem('userUid', res.body.uid)
           props.history.push("/home");
+        } else {
+          message.error(`${res.resultNote}`);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        message.error(error);
+      });
+  };
+
+  const initGetUserInfo = (uid) => {
+    const params = {cmd: 'userInfo', uid}
+    login(params)
+      .then((res) => {
+        if (`${res.result}` === '0') {
+          localStorage.setItem('userInfoMes', JSON.stringify(res.body))
         } else {
           message.error(`${res.resultNote}`);
           setLoading(false);
@@ -35,7 +54,7 @@ const Login = (props) => {
         setLoading(false);
         message.error(error);
       });
-  };
+  }
 
   const handleSubmit = (event) => {
     // 阻止事件的默认行为
@@ -87,7 +106,7 @@ const Login = (props) => {
                           message: "请输入用户名",
                         },
                       ],
-                      initialValue: "admin", // 初始值
+                      initialValue: "liuxiao@qq.com", // 初始值
                     })(
                       <Input
                         prefix={
@@ -106,7 +125,7 @@ const Login = (props) => {
                           message: "请输入密码",
                         },
                       ],
-                      initialValue: "123456", // 初始值
+                      initialValue: "12345678q", // 初始值
                     })(
                       <Input
                         prefix={

@@ -1,12 +1,12 @@
-import React , { useState } from 'react';
+import React , { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
-import { Icon, Menu, Dropdown, Modal, Layout, Avatar,Input, InputNumber, Divider, Button  } from "antd";
+import { Icon, Menu, Dropdown, Modal, Layout, Avatar,Input, InputNumber, Divider, Button, message  } from "antd";
 import homeDH from "@/assets/images/home_dh.png";
 import homeGWC from "@/assets/images/home_gwc.png";
 import homeLogo from "@/assets/images/home_logo.png";
 import { Link } from "react-router-dom";
-import { logout, getUserInfo } from "@/store/actions";
+import { logout, getUserInfo, login } from "@/store/actions";
 import FullScreen from "@/components/FullScreen";
 import Settings from "@/components/Settings";
 import "./index.less";
@@ -20,15 +20,60 @@ const LayoutHeader = (props) => {
     name,
     sidebarCollapsed,
     logout,
+    login,
     getUserInfo,
     showSettings,
     fixedHeader,
   } = props;
   token && getUserInfo(token);
+  
   const [tabChild, setTabChild] = useState([]);
   const [isShowChild, setShowChild] = useState(false);
   const [isShowShopCar, setShowShopCar] = useState(false);
+  const [uid, setUid] = useState('')
+  const [infoMes, setInfoMes] = useState({})
   
+  useEffect(() => {
+    const userUid = localStorage.getItem('userUid')
+    setUid(userUid)
+    const userInfoMes = JSON.parse(localStorage.getItem('userInfoMes') || '{}')
+    setInfoMes(userInfoMes)
+    if (userUid && userUid !== '') {
+      getCarMes(userUid)
+      getHomeMes(userUid)
+    }
+  }, [])
+
+  const getCarMes = (uid) => {
+    login({cmd: 'cartList', uid})
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          // todo
+          // 购物车数据展示 
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
+  const getHomeMes = (uid) => {
+    login({cmd: 'getHomepage', uid})
+      .then(res => {
+        if (`${res.result}` === '0') {
+          // 接口错误了
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
   const tabMes = [
     {
       name: '定期推广1',
@@ -258,12 +303,12 @@ const LayoutHeader = (props) => {
               <img src={homeGWC} />
               <span>购物车 <i className='car-num'>{2}</i></span>
             </div>
-            {name ?
+            {infoMes.nickname ?
             <div className="dropdown-wrap">
               <Dropdown overlay={menu}>
                 <div>
-                  <Avatar shape="square" size="medium" src={avatar} />
-                  <span className='name'>{name}</span>
+                  <Avatar shape="square" size="medium" src={infoMes.nickname} />
+                  <span className='name'>{infoMes.nickname}</span>
                   <Icon style={{ color: "rgba(0,0,0,.3)" }} type="caret-down" />
                 </div>
               </Dropdown>
@@ -293,4 +338,4 @@ const mapStateToProps = (state) => {
     ...state.settings,
   };
 };
-export default withRouter(connect(mapStateToProps, { logout, getUserInfo })(LayoutHeader));
+export default withRouter(connect(mapStateToProps, { login, logout, getUserInfo })(LayoutHeader));
