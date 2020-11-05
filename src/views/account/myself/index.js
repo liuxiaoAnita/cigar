@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Icon, Modal, Form, Input, message, DatePicker } from 'antd'
+import { login } from "@/store/actions";
 import UserImg from '@/assets/images/user_img.png'
 import CascaderCity from '../components/CascaderCity'
 import Menu from './../components/menu'
@@ -10,20 +11,61 @@ const dateFormat = 'YYYY/MM/DD';
 const { TextArea } = Input;
 class User extends Component {
   state = {
+    uid: '',
     userInfo: {
-      name: '刘晓美女',
-      gender:'女',
-      email: '999999999@qq.com',
-      birthday:'',
+      nickname: '',
+      sex:'',
+      email: '',
+      birth:'',
     },
     receiveMes:{},
     visibleUserInfo: false,
     visibleAddress: false,
+    modalUserInfo: {},
+    modalAddress: {},
   };
 
   componentDidMount() {
-    // this.getUsers()
-    
+    this.init();
+    this.initAddressGet();
+  }
+
+  init = () =>{
+    const {userInfo} = this.state
+    const uid = JSON.parse(localStorage.getItem('userUid'))
+    if (uid && uid !== '') {
+      const userInfoNew = JSON.parse(localStorage.getItem('userInfoMes'))
+      this.setState({
+        uid,
+        userInfo: {
+          ...userInfo,
+          ...userInfoNew,
+        }
+      })
+    } else {
+      message.error('登录时效，请重新登录')
+      setTimeout(() => {
+        this.props.history.push("/login");
+      }, 1500);
+    }
+  }
+
+  initAddressGet = () => {
+    const uid = JSON.parse(localStorage.getItem('userUid'))
+    console.log(uid)
+    login({cmd: 'getAddressList', uid})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          // message.success('修改成功')
+
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
   }
 
   renderAddress = () => {
@@ -37,7 +79,9 @@ class User extends Component {
           </i>
         </span>
         <div className='btn-box'>
-          <Icon className='btn-item' type="edit" onClick={() => {this.setState({visibleAddress: true})}} />
+          <Icon className='btn-item' type="edit" onClick={() => {
+            this.setState({visibleAddress: true}
+          )}} />
           <Icon className='btn-item' type="delete" />
         </div>
       </div>
@@ -46,37 +90,75 @@ class User extends Component {
 
   // 用户信息弹窗js
   changeModalInfo = (value, key) => {
-    const {userInfo} = this.state;
-    userInfo[key] = value;
+    const {modalUserInfo} = this.state;
+    modalUserInfo[key] = value;
     this.setState({
-      userInfo,
+      modalUserInfo,
     })
   }
 
   handleOkInfo = () => {
-    const {userInfo} = this.state;
-    const {name = '', gender = '', birthday = ''} = userInfo
-    if (name === ''){
+    const {modalUserInfo} = this.state;
+    const {nickname = '', sex = '', birth = ''} = modalUserInfo
+    if (nickname === ''){
       message.error('填写姓名')
       return;
-    } else if (gender === ''){
+    } else if (sex === ''){
       message.error('选择性别')
       return;
-    } else if (birthday === ''){
+    } else if (birth === ''){
       message.error('选择生日')
       return;
     }
+    console.log(modalUserInfo)
+    this.changeUserMes();
     this.setState({
       visibleUserInfo: false,
     });
   }
 
+  changeUserMes = () => {
+    const {modalUserInfo, uid} = this.state;
+    login({cmd: 'editUserInfo', uid, ...modalUserInfo})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success('修改成功')
+          this.initAddressGet()
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+  reGetUserInfo = () =>{
+    const {uid} = this.state;
+    const params = {cmd: 'userInfo', uid}
+    login(params)()
+      .then((res) => {
+        if (`${res.result}` === '0') {
+          localStorage.setItem('userInfoMes', JSON.stringify(res.body))
+          this.setState({
+            userInfo: res.body
+          })
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+       
+      })
+      .catch((error) => {
+        message.error(error);
+      });    
+  }
+
   renderUserInfo = () => {
-    const {userInfo, visibleUserInfo} = this.state;
-    const {name = '', gender = '', email = '', birthday = ''} = userInfo
+    const {modalUserInfo, visibleUserInfo} = this.state;
+    const {nickname = '', sex = '', email = '', birth = ''} = modalUserInfo
     const defaltData = {}
-    if (birthday !== ''){
-      defaltData.defaultValue = moment(birthday, dateFormat)
+    if (birth !== ''){
+      defaltData.defaultValue = moment(birth, dateFormat)
     }
     return (
       <Modal
@@ -88,18 +170,18 @@ class User extends Component {
         <div className='modal-user-info'>
           <div className='info-item'>
             <span className='item-left-title'>姓名：</span>
-            <Input className='item-detail' value={name} onChange={e => this.changeModalInfo(e.target.value, 'name')} />
+            <Input className='item-detail' value={nickname} onChange={e => this.changeModalInfo(e.target.value, 'nickname')} />
           </div>
           <div className='info-item'>
             <span className='item-left-title'>性别：</span>
             <div className='item-detail gender-box'>
-              <span className={`gender-item ${gender === '男' ? 'active' : ''}`} onClick={() => this.changeModalInfo('男', 'gender')}>男</span>
-              <span className={`gender-item ${gender === '女' ? 'active' : ''}`}  onClick={() => this.changeModalInfo('女', 'gender')}>女</span>
+              <span className={`gender-item ${sex === '男' ? 'active' : ''}`} onClick={() => this.changeModalInfo('男', 'sex')}>男</span>
+              <span className={`gender-item ${sex === '女' ? 'active' : ''}`}  onClick={() => this.changeModalInfo('女', 'sex')}>女</span>
             </div>
           </div>
           <div className='info-item'>
             <span className='item-left-title'>生日：</span>
-            <DatePicker className='item-detail' onChange={(mom,val) => this.changeModalInfo(val, 'birthday')}  {...defaltData} format={dateFormat} />
+            <DatePicker className='item-detail' onChange={(mom,val) => this.changeModalInfo(val, 'birth')}  {...defaltData} format={dateFormat} />
           </div>
         </div>
       </Modal>
@@ -108,21 +190,37 @@ class User extends Component {
 
   // 地址弹窗中的js
   handleOkAdd = e => {
-    const {receiveMes} = this.state;
-    const {name = '', phone = '', proviceCity = [], detailAddress = ''} = receiveMes
+    const {modalAddress} = this.state;
+    const {name = '', phone = '', province_city_town = [], address = ''} = modalAddress
     if (name === ''){
       message.error('填写姓名')
       return;
     } else if (phone === ''){
       message.error('填写电话')
       return;
-    } else if (proviceCity === ''){
+    } else if (province_city_town === []){
       message.error('填写省市区')
       return;
-    } else if (detailAddress === ''){
+    } else if (address === ''){
       message.error('填写详细地址')
       return;
     }
+    const {uid} = this.state;
+    const params = {cmd: 'addAddress', uid, ...modalAddress}
+    login(params)()
+      .then((res) => {
+        if (`${res.result}` === '0') {
+          message.success('地址添加成功！')
+          console.log(res)
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+       
+      })
+      .catch((error) => {
+        message.error(error);
+      }); 
+
     this.setState({
       visibleAddress: false,
     });
@@ -137,16 +235,25 @@ class User extends Component {
   };
 
   changeModalMes = (value, key) => {
-    const {receiveMes} = this.state;
-    receiveMes[key] = value
+    const {modalAddress} = this.state;
+    modalAddress[key] = value
     this.setState({
-      receiveMes,
+      modalAddress,
+    })
+  }
+
+  changeModalMesCity = (value, key) => {
+    const {modalAddress} = this.state;
+    modalAddress[key] = value.messageZH || ''
+    modalAddress['cityCode'] = value.message || ''
+    this.setState({
+      modalAddress,
     })
   }
 
   renderAddressNewEdit = () => {
-    const {visibleAddress, receiveMes} = this.state;
-    const {name = '', phone = '', proviceCity = [], detailAddress = ''} = receiveMes
+    const {visibleAddress, modalAddress} = this.state;
+    const {name = '', phone = '', proviceCity = [], address = ''} = modalAddress
     const {form} = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -163,19 +270,23 @@ class User extends Component {
         </div>
           <div className='address_item provice_city'>
               {/* <CascaderCity defaultValue={["11", "1101", "110101"]} /> */}
-              <CascaderCity defaultValue={proviceCity} onChange={value => this.changeModalMes(value, 'proviceCity')} />
+              <CascaderCity defaultValue={proviceCity} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
           </div>
           <div className='address_item detail_address'>
-              <TextArea placeholder='详细地址' rows={4} value={detailAddress}  onChange={e => this.changeModalMes(e.target.value, 'detailAddress')}/>
+              <TextArea placeholder='详细地址' rows={4} value={address}  onChange={e => this.changeModalMes(e.target.value, 'address')}/>
           </div>
         </div>
       </Modal>
     )
   }
 
+  goChangePassword = () => {
+    this.props.history.push("/forget");
+  }
+
   render() {
     const { userInfo } = this.state
-    const { name = '', gender = '', email = '', birthday = '' } = userInfo;
+    const { nickname = '', sex = '', email = '', birth = '' } = userInfo;
     return (
       <div className="myself-container">
         <Menu/>
@@ -185,14 +296,20 @@ class User extends Component {
             <img src={UserImg} className='user-img' />
             <div className='detail-mes'>
               <div className='detail-item'>
-                <span className='item-message'>{name}&nbsp;&nbsp;&nbsp;&nbsp;{gender}</span>
+                <span className='item-message'>{nickname}&nbsp;&nbsp;&nbsp;&nbsp;{sex}</span>
               </div>
               <div className='detail-item'>
                 <span className='item-message'>{email}</span>
-                <span className='item-message'>生日：{birthday}</span>
+                <span className='item-message'>生日：{birth}</span>
                 <span className='item-message'>
-                  <i className='item-btn' onClick={() => this.setState({visibleUserInfo: true})}>编辑</i>
-                  <i className='item-btn'>修改密码</i>
+                  <i className='item-btn' onClick={() => {
+                    const {userInfo} = this.state;
+                    this.setState({
+                      visibleUserInfo: true,
+                      modalUserInfo: {...userInfo}
+                    })
+                  }}>编辑</i>
+                  <i className='item-btn' onClick={this.goChangePassword}>修改密码</i>
                 </span>
               </div>
             </div>
@@ -200,7 +317,7 @@ class User extends Component {
 
           <div className='right-title'>收货地址</div>
           <div className='my-address'>
-            <div className='address address-empty'>
+            <div onClick={() => { this.setState({visibleAddress: true})}} className='address address-empty'>
               <Icon className='icon-add' type="plus-circle" />
               <span>添加新地址</span>
             </div>
@@ -217,5 +334,5 @@ class User extends Component {
 }
 
 User = Form.create({})(User);
-
 export default User;
+// export default withRouter(connect({ login })(User));

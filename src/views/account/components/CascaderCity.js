@@ -44,13 +44,28 @@ const CascaderCity = (props) => {
   // const onChange = (value) => {
   //   console.log(value);
   // }
+
+  const getChinaMes = (val, arrMes, index) => {
+    let message = ''
+    const [mesFilter = {}] = arrMes.filter(item => item.value === val[index])
+    if (mesFilter['children']) message = `/${getChinaMes(val,mesFilter['children'], index + 1)}`
+    return `${mesFilter['label']}${message}`
+  }
+
+  const changeMes = (e) => {
+    onChange({
+      message: e,
+      messageZH: getChinaMes(e, options, 0)
+    })
+  }
+
   return (
     <Cascader
       defaultValue={defaultValue}
       options={options}
       showSearch
       placeholder="选择 省/市/区"
-      onChange={onChange}
+      onChange={e => changeMes(e)}
       style={{ width: '100%' }}
     />
   );
