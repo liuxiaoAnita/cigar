@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { Form, Icon, Input, Button, message, Spin, Divider } from "antd";
 import { connect } from "react-redux";
@@ -15,29 +15,28 @@ const ForgetPage = (props) => {
   const isShow = getQueryString('resetKey')
   console.log(isShow)
   const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState('')
+  const [iconUrl, setIconUrl] = useState('')
 
-  const handleLogin = (username, password) => {
-    // 登录完成后 发送请求 调用接口获取用户信息
-    setLoading(true);
-    login(username, password)
-      .then((data) => {
-        message.success("登录成功");
-        handleUserInfo(data.token);
-      })
-      .catch((error) => {
+  useEffect(() => {
+    initCode();
+  }, []);
+
+  const initCode = () => {
+    login({cmd: 'sendSms'})
+    .then(res => {
+      console.log(res)
+      if(`${res.result}` === '0'){
+        console.log(res.body)
+        const {body} = res
+        setCode(body.code)
+        setIconUrl(body.icon)
+      } else {
+        message.error(`${res.resultNote}`);
         setLoading(false);
-        message.error(error);
-      });
-  };
-
-  // 获取用户信息
-  const handleUserInfo = (token) => {
-    getUserInfo(token)
-      .then((data) => {})
-      .catch((error) => {
-        message.error(error);
-      });
-  };
+      }
+    })
+  }
 
   const handleSubmit = (event) => {
     // 阻止事件的默认行为
@@ -47,8 +46,25 @@ const ForgetPage = (props) => {
     form.validateFields((err, values) => {
       // 检验成功
       if (!err) {
-        const { username, password,yzm } = values;
-        handleLogin(username, password, yzm);
+        // const { username, password,yzm } = values;
+        // handleLogin(username, password, yzm);
+        console.log(values)
+        if (values.yzm) {
+          if (values.yzm === code) {
+            login({cmd: 'sendEmail', email: values.email})
+              .then(res => {
+                console.log(res)
+                if(`${res.result}` === '0'){
+                  
+                } else {
+                  message.error(`${res.resultNote}`);
+                  setLoading(false);
+                }
+              })
+          } else {
+            message.error("验证码错误!");
+          }
+        }
       } else {
         console.log("检验失败!");
       }
@@ -129,7 +145,7 @@ const ForgetPage = (props) => {
               {renderTitle('', '请输入您的电子邮件地址来接收密码重置链接')}
               <Spin spinning={loading} tip="登录中...">
                 <Form.Item>
-                  {getFieldDecorator("username", {
+                  {getFieldDecorator("email", {
                     rules: [
                       {
                         required: true,
@@ -148,7 +164,7 @@ const ForgetPage = (props) => {
                   )}
                 </Form.Item>
                 <Form.Item>
-                <img width='60' className='yzmImage' src={homeGWC} alt='验证码' />
+                <img width='60' className='yzmImage' onClick={initCode} src={`${iconUrl}?random=${Math.random()}`} alt='验证码' />
 
                   {getFieldDecorator("yzm", {
                     rules: [
@@ -160,13 +176,7 @@ const ForgetPage = (props) => {
                     ],
                     initialValue: "", // 初始值
                   })(
-                    <Input
-                      // prefix={
-                      //   <Icon type="lock" style={{ color: "#B78E74" }} />
-                      // }
-                      // type="password"
-                      placeholder="验证码"
-                    />
+                    <Input placeholder="验证码" />
                   )}
                 </Form.Item>
                 <Form.Item>

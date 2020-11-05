@@ -17,14 +17,13 @@ const Login = (props) => {
     // 登录完成后 发送请求 调用接口获取用户信息
     setLoading(true);
     const params = {"cmd":"userLogin", param, password}
-    console.log(login(params))
+
     login(params)
       .then((res) => {
         console.log(res)
         if (`${res.result}` === '0') {
           setLoading(false);
           message.success("登录成功");
-
           props.history.push("/home");
         } else {
           message.error(`${res.resultNote}`);
