@@ -1,0 +1,102 @@
+.CigarDetailPage{
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 25px;
+  display: flex;
+  .left-content{
+    width: 300px;
+    margin-right: 36px;
+    border: 1px solid #B78E74;
+  }
+  .right-content{
+    flex: 1;
+
+    .tool-box{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 20px;
+      padding: 8px;
+      background: #E7E7E7;
+      .pinzige, .tiaozhuang{
+        padding: 0 10px;
+        cursor: pointer;
+      }
+      .select-action{
+        margin-left: 10px;
+      }
+    }
+
+
+    // 单个的cigar
+    .cigar-item-content{
+      display: flex;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      border: 1px solid #B78E74;
+      .left-image{
+        width: 140px;
+        height: 140px;
+      }
+      // middle
+      .item-cigar-box{
+        padding-left: 12px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .top-mes{
+          display: flex;
+          flex-direction: column;
+          width: 326px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #000000;
+        }
+        .bottom-star{
+          display: flex;
+          align-items: center;
+          .fen{
+            font-size: 36px;
+            color: #73523C;
+          }
+          .rate{
+            margin: 0 20px;
+          }
+          .user-content{
+            .user-icon{
+              font-size: 20px;
+            }
+            font-size: 16px;
+          }
+        }
+      }
+      // right
+      .right-price{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        .cigar-price{
+          font-size: 32px;
+          color: #B78E74;
+        }
+        .action-content{
+          display: flex;
+          .myheart{
+            width: 32px;
+            height: 32px;
+            border: 1px solid #B78E74;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

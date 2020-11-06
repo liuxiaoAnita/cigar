@@ -67,7 +67,6 @@ const LayoutHeader = (props) => {
         if (`${res.result}` === '0') {
           console.log(res.body)
           setCategoryList(res.body.categoryList || [])
-          // 接口错误了
         } else {
           message.error(`${res.resultNote}`);
         }
@@ -196,14 +195,33 @@ const LayoutHeader = (props) => {
                 {item.zh_name}<Icon style={{ color: "#fff" }} type="caret-down" />
                 </div>
           }
-          { item.category2List && item.category2List.length === 0 &&  <div className='tab-name'>{item.zh_name}</div> }
+          { item.category2List && item.category2List.length === 0 &&  
+            <div
+              className='tab-name'
+              onClick={() => {
+                console.log(item.id);
+                localStorage.setItem('categoryId', item.id)
+                props.history.push('/cigardetail')
+              }}
+            >
+              {item.zh_name}
+            </div> 
+          }
         </div>
         ))}
       </div>
       <div onMouseEnter={() => setShowChild(true)} onMouseLeave={handleOut} className={`tab-children ${isShowChild ? 'show-child' : 'not-show-child'}`}>
         {
           tabChild.length > 0 && tabChild.map((item, index) => (
-            <div key={`tab-child-${index}`} className='child-item'>
+            <div
+              key={`tab-child-${index}`}
+              className='child-item'
+              onClick={() => {
+                console.log(item.id);
+                localStorage.setItem('categoryId', item.id)
+                props.history.push('/cigardetail')
+              }}
+            >
               {item.zh_name}
             </div>
           ))
