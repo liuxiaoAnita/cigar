@@ -51,17 +51,15 @@
     // 收货地址
     .my-address{
       display: flex;
+      flex-wrap: wrap;
       margin: 16px 0;
       .address{
-        width: 310px;
+        width: calc(33.33% - 20px);
         min-height: 170px;
-        // padding: 50px;
         border: 1px solid #B88E74;
         color: #B88E74;
-        &+.address{
-          margin-left: 20px;
-
-        }
+        margin-bottom: 20px;
+        margin: 0 10px 20px;
       }
       .address-empty{
         display: flex;

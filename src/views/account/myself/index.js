@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Icon, Modal, Form, Input, message, DatePicker } from 'antd'
+import {Icon, Modal, Form, Input, message, DatePicker, Popconfirm } from 'antd'
 import { login } from "@/store/actions";
 import UserImg from '@/assets/images/user_img.png'
 import CascaderCity from '../components/CascaderCity'
@@ -12,6 +12,7 @@ const { TextArea } = Input;
 class User extends Component {
   state = {
     uid: '',
+    addressData: [],
     userInfo: {
       nickname: '',
       sex:'',
@@ -58,7 +59,9 @@ class User extends Component {
         console.log(res)
         if(`${res.result}` === '0'){
           // message.success('修改成功')
-
+          this.setState({
+            addressData: res.body.dataList || []
+          })
         } else {
           message.error(`${res.resultNote}`);
         }
@@ -68,24 +71,51 @@ class User extends Component {
       });
   }
 
-  renderAddress = () => {
+  renderAddress = (itemData = {}) => {
+    const {address, id, name, phone, province_city_town } = itemData
     return  (
       <div className='address address-item'>
-        <span className='shou-huo-name'>炒鸡小梅西</span>
+        <span className='shou-huo-name'>{name}</span>
         <span className='detail-mes'>
-          <i className='phone'>13588889999</i>
-          <i className='detail-address'>
-          辽宁沈阳市和平区南湖街道文艺路11号华润大厦B座23楼
-          </i>
+          <i className='phone'>{phone}</i>
+          <i className='detail-address'> {province_city_town}{address} </i>
         </span>
         <div className='btn-box'>
           <Icon className='btn-item' type="edit" onClick={() => {
-            this.setState({visibleAddress: true}
+            this.setState({
+              visibleAddress: true,
+              modalAddress: {...itemData},
+            }
           )}} />
-          <Icon className='btn-item' type="delete" />
+
+        <Popconfirm
+            title="Are you sure delete this task?"
+            onConfirm={() =>this.handelDeleAddress(id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Icon className='btn-item' type="delete" />
+          </Popconfirm>
+          
         </div>
       </div>
     )
+  }
+
+  handelDeleAddress = id => {
+    login({cmd: 'deleteAddress', id})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success('删除成功！');
+          this.initAddressGet()
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
   }
 
   // 用户信息弹窗js
@@ -206,16 +236,16 @@ class User extends Component {
       return;
     }
     const {uid} = this.state;
-    const params = {cmd: 'addAddress', uid, ...modalAddress}
+    const params = {cmd: `${modalAddress.id ? 'editAddress' : 'addAddress'}`, uid, ...modalAddress}
     login(params)()
       .then((res) => {
         if (`${res.result}` === '0') {
           message.success('地址添加成功！')
+          this.initAddressGet()
           console.log(res)
         } else {
           message.error(`${res.resultNote}`);
         }
-       
       })
       .catch((error) => {
         message.error(error);
@@ -267,10 +297,9 @@ class User extends Component {
           <div className='address_item name_phone'>
             <Input className='receive-name' placeholder="姓名" value={name} onChange={e => this.changeModalMes(e.target.value, 'name')} />
             <Input placeholder="电话" className='receive-phone' value={phone} onChange={e => this.changeModalMes(e.target.value, 'phone')}/>
-        </div>
+          </div>
           <div className='address_item provice_city'>
-              {/* <CascaderCity defaultValue={["11", "1101", "110101"]} /> */}
-              <CascaderCity defaultValue={proviceCity} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
+            <CascaderCity defaultValue={proviceCity} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
           </div>
           <div className='address_item detail_address'>
               <TextArea placeholder='详细地址' rows={4} value={address}  onChange={e => this.changeModalMes(e.target.value, 'address')}/>
@@ -285,7 +314,7 @@ class User extends Component {
   }
 
   render() {
-    const { userInfo } = this.state
+    const { userInfo, addressData } = this.state
     const { nickname = '', sex = '', email = '', birth = '' } = userInfo;
     return (
       <div className="myself-container">
@@ -317,13 +346,16 @@ class User extends Component {
 
           <div className='right-title'>收货地址</div>
           <div className='my-address'>
-            <div onClick={() => { this.setState({visibleAddress: true})}} className='address address-empty'>
+            <div onClick={() => { this.setState({visibleAddress: true, modalAddress: {}})}} className='address address-empty'>
               <Icon className='icon-add' type="plus-circle" />
               <span>添加新地址</span>
             </div>
             {/* 收货地址进行循环展示 todo */}
-            {this.renderAddress()}
-            {this.renderAddress()}
+            {addressData && addressData.map((item, index) => (
+              <React.Fragment key={`address-item-${index}`}>
+                {this.renderAddress(item)}
+              </React.Fragment>
+            ))}
           </div>
         </div>
         {this.renderAddressNewEdit()}

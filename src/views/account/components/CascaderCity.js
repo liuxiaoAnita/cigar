@@ -48,7 +48,7 @@ const CascaderCity = (props) => {
   const getChinaMes = (val, arrMes, index) => {
     let message = ''
     const [mesFilter = {}] = arrMes.filter(item => item.value === val[index])
-    if (mesFilter['children']) message = `/${getChinaMes(val,mesFilter['children'], index + 1)}`
+    if (mesFilter['children']) message = `${getChinaMes(val,mesFilter['children'], index + 1)}`
     return `${mesFilter['label']}${message}`
   }
 
