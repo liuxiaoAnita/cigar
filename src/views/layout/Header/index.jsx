@@ -30,6 +30,7 @@ const LayoutHeader = (props) => {
   const [tabChild, setTabChild] = useState([]);
   const [isShowChild, setShowChild] = useState(false);
   const [isShowShopCar, setShowShopCar] = useState(false);
+  const [categoryList, setCategoryList] = useState([]); // 
   const [uid, setUid] = useState('')
   const [infoMes, setInfoMes] = useState({})
   
@@ -64,6 +65,8 @@ const LayoutHeader = (props) => {
     login({cmd: 'getHomepage', uid})
       .then(res => {
         if (`${res.result}` === '0') {
+          console.log(res.body)
+          setCategoryList(res.body.categoryList || [])
           // 接口错误了
         } else {
           message.error(`${res.resultNote}`);
@@ -73,58 +76,15 @@ const LayoutHeader = (props) => {
         message.error(error);
       });
   }
-
-  const tabMes = [
-    {
-      name: '定期推广1',
-      children:[
-        {name: '定期推广1',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广1',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广1',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广1',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广1',srcUrl: 'http://www.baidu.com'},
-      ]
-    },
-    {
-      name: '定期推广2',
-      children:[
-        {name: '定期推广2',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广2',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广2',srcUrl: 'http://www.baidu.com'},
-      ]
-    },
-    {
-      name: '定期推广3',
-      children:[
-        {name: '定期推广3',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广3',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广3',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广3',srcUrl: 'http://www.baidu.com'},
-      ]
-    },
-    {
-      name: '定期推广4',
-      srcUrl: 'http://www.baidu.com',
-    },
-    {
-      name: '定期推广5',
-      children:[
-        {name: '定期推广4',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广4',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广4',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广4',srcUrl: 'http://www.baidu.com'},
-        {name: '定期推广4',srcUrl: 'http://www.baidu.com'},
-      ]
-    },
-  ]
-  const handleLogout = (token) => {
+  const handleLogout = () => {
     Modal.confirm({
       title: "注销",
       content: "确定要退出系统吗?",
       okText: "确定",
       cancelText: "取消",
       onOk: () => {
-        logout(token);
+        localStorage.clear();
+        window.location.reload();
       },
     });
   };
@@ -224,31 +184,27 @@ const LayoutHeader = (props) => {
   const renderTabs = () => (
     <div className='tabs_content'>
       <div className='tab-father-content'>
-        {
-          tabMes.map((item, index) => {
-            return (
-              <div key={`dropdown_${index}`} className='tab-item'>
-                {
-                  item.children && 
-                      <div
-                        className='tab-name'
-                        onMouseEnter={() => handleEnter(item.children)} 
-                        onMouseLeave={handleOut}
-                      >
-                      {item.name}<Icon style={{ color: "#fff" }} type="caret-down" />
-                      </div>
-                }
-                { !item.children &&  <div className='tab-name'>{item.name}</div> }
-              </div>
-            )
-          })
-        }
+        {categoryList && categoryList.map((item, index) => (
+          <div key={`dropdown_item_${index}`} className='tab-item'>
+          {
+            item.category2List.length > 0 && 
+                <div
+                  className='tab-name'
+                  onMouseEnter={() => handleEnter(item.category2List)} 
+                  onMouseLeave={handleOut}
+                >
+                {item.zh_name}<Icon style={{ color: "#fff" }} type="caret-down" />
+                </div>
+          }
+          { item.category2List && item.category2List.length === 0 &&  <div className='tab-name'>{item.zh_name}</div> }
+        </div>
+        ))}
       </div>
       <div onMouseEnter={() => setShowChild(true)} onMouseLeave={handleOut} className={`tab-children ${isShowChild ? 'show-child' : 'not-show-child'}`}>
         {
           tabChild.length > 0 && tabChild.map((item, index) => (
             <div key={`tab-child-${index}`} className='child-item'>
-              {item.name}
+              {item.zh_name}
             </div>
           ))
         }

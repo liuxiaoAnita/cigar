@@ -33,7 +33,7 @@ class User extends Component {
 
   init = () =>{
     const {userInfo} = this.state
-    const uid = JSON.parse(localStorage.getItem('userUid'))
+    const uid = localStorage.getItem('userUid') || ''
     if (uid && uid !== '') {
       const userInfoNew = JSON.parse(localStorage.getItem('userInfoMes'))
       this.setState({
@@ -52,8 +52,7 @@ class User extends Component {
   }
 
   initAddressGet = () => {
-    const uid = JSON.parse(localStorage.getItem('userUid'))
-    console.log(uid)
+    const uid = localStorage.getItem('userUid') || ''
     login({cmd: 'getAddressList', uid})()
       .then(res => {
         console.log(res)
@@ -283,7 +282,7 @@ class User extends Component {
 
   renderAddressNewEdit = () => {
     const {visibleAddress, modalAddress} = this.state;
-    const {name = '', phone = '', proviceCity = [], address = ''} = modalAddress
+    const {name = '', phone = '', cityCode = [], address = ''} = modalAddress
     const {form} = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -299,7 +298,7 @@ class User extends Component {
             <Input placeholder="电话" className='receive-phone' value={phone} onChange={e => this.changeModalMes(e.target.value, 'phone')}/>
           </div>
           <div className='address_item provice_city'>
-            <CascaderCity defaultValue={proviceCity} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
+            <CascaderCity defaultValue={cityCode} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
           </div>
           <div className='address_item detail_address'>
               <TextArea placeholder='详细地址' rows={4} value={address}  onChange={e => this.changeModalMes(e.target.value, 'address')}/>
@@ -346,10 +345,12 @@ class User extends Component {
 
           <div className='right-title'>收货地址</div>
           <div className='my-address'>
-            <div onClick={() => { this.setState({visibleAddress: true, modalAddress: {}})}} className='address address-empty'>
-              <Icon className='icon-add' type="plus-circle" />
-              <span>添加新地址</span>
-            </div>
+            {addressData && addressData.length < 6 && (
+              <div onClick={() => { this.setState({visibleAddress: true, modalAddress: {}})}} className='address address-empty'>
+                <Icon className='icon-add' type="plus-circle" />
+                <span>添加新地址</span>
+              </div>
+            )}
             {/* 收货地址进行循环展示 todo */}
             {addressData && addressData.map((item, index) => (
               <React.Fragment key={`address-item-${index}`}>
