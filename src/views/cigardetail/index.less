@@ -2,6 +2,7 @@
   width: 1200px;
   margin: 0 auto;
   margin-top: 25px;
+  margin-bottom: 60px;
   display: flex;
   .left-content{
     width: 300px;
@@ -10,6 +11,16 @@
   }
   .right-content{
     flex: 1;
+    .title-mes{
+      font-size: 50px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .descrip-mes{
+      font-size: 18px;
+      color: #767676;
+      padding: 30px 0 10px;
+    }
 
     .tool-box{
       display: flex;
@@ -18,22 +29,108 @@
       font-size: 20px;
       padding: 8px;
       background: #E7E7E7;
+      margin-bottom: 16px;
       .pinzige, .tiaozhuang{
-        padding: 0 10px;
+        padding: 10px;
         cursor: pointer;
+        &.active{
+          background: #B78E74;
+          color: #fff;
+        }
       }
       .select-action{
         margin-left: 10px;
       }
     }
 
+    .right-cigar-box{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    // 单个cigar 田字格
+    .pinzige-content{
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: 10px;
+      border: 1px solid #B78E74;
+      margin-bottom: 10px;
+      .top-fen-content{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        .left-fen{
+          font-size: 36px;
+          color: #73523C;
+        }
+        .right-mes{
+          text-align: right;
+          .user-content{
+            font-size: 18px;
+            color: #73523C;
+            .user-icon{
+              color: #73523C;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+      .cigar-img{
+        width: 260px;
+        height: 260px;
+        background-color: #fabb91;
+      }
+      .bottom-content{
+        .cigar-price{
+          font-size: 32px;
+          color: #B78E74;
+        }
+        .top-mes{
+          display: flex;
+          flex-direction: column;
+          font-size: 14px;
+          font-weight: 400;
+          color: #000000;
+        }
+        .action-content{
+          display: flex;
+          margin-top: 16px;
+          .myheart{
+            width: 32px;
+            height: 32px;
+            color: #B78E74;
+            border: 1px solid #B78E74;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+          .add-bus{
+            flex: 1;
+          }
+        }
 
-    // 单个的cigar
+      }
+    }
+
+
+    // 单个的cigar 条形
     .cigar-item-content{
+      flex: 1;
       display: flex;
       padding: 6px 10px;
       margin-bottom: 8px;
       border: 1px solid #B78E74;
+      margin-bottom: 8px;
       .left-image{
         width: 140px;
         height: 140px;
@@ -64,10 +161,11 @@
             margin: 0 20px;
           }
           .user-content{
+            font-size: 18px;
+            color: #73523C;
             .user-icon{
               font-size: 20px;
             }
-            font-size: 16px;
           }
         }
       }
@@ -86,6 +184,7 @@
           .myheart{
             width: 32px;
             height: 32px;
+            color: #B78E74;
             border: 1px solid #B78E74;
             font-size: 20px;
             display: flex;

@@ -199,9 +199,19 @@ const LayoutHeader = (props) => {
             <div
               className='tab-name'
               onClick={() => {
-                console.log(item.id);
                 localStorage.setItem('categoryId', item.id)
-                props.history.push('/cigardetail')
+                localStorage.setItem('categoryType', item.type)
+                if (`${item.type}` === '1') {
+                  props.history.push('/cigardetail')
+                  window.location.reload()
+                } else if (`${item.type}` === '2') {
+                  props.history.push('/myplatter')
+                  window.location.reload()
+                } else if (`${item.type}` === '3') {
+                  props.history.push('/cigardetail')
+                  window.location.reload()
+                }
+                
               }}
             >
               {item.zh_name}
