@@ -24,62 +24,11 @@
         color: #74523C;
         .image{width: 120px;}
         .name{flex: 1;}
-        .price{width: 140px;}
-        .number{width: 100px;}
-        .totle{width: 140px;}
+        .price{width: 140px; text-align: left;}
+        .number{width: 100px; margin: 0 20px; text-align: left;}
+        .totle{width: 140px; text-align: right;}
       }
-      .detail-box{
-        display: flex;
-        border: 1px solid #CEA48A;
-        min-height: 160px;
-        _height: 160px;
-        align-items: center;
-        padding-right: 20px;
-        position: relative;
-        &+.detail-box{
-          margin-top: 20px;
-        }
-        .thing-image{
-          width: 120px;
-          height: 100%;
-        }
-        .item-name-show{
-          display: flex;
-          flex-direction: column;
-          color: #74523C;
-          padding: 0 24px;
-          flex: 1;
-        }
-        .item-price-content{
-          width: 140px;
-          .price-del{
-            font-size: 14px;
-            color: #949494;
-          }
-          .price-now{
-            
-            font-size: 20px;
-            font-weight: 600;
-            color: #442613;
-          }
-        }
-        .item-num-input{
-          margin: 0 20px;
-          width: 100px;
-        }
-        .item-price-totle{
-          font-size: 20px;
-          font-weight: 400;
-          color: #442613;
-          width: 140px;
-          text-align: right;
-        }
-        .btn-delete{
-         position: absolute;
-         right: 20px;
-         bottom: 10px;
-        }
-      }
+      
     }
 
     // 右侧总结css
@@ -154,5 +103,68 @@
         }
       }
     }
+  }
+}
+
+
+
+
+
+.detail-box{
+  display: flex;
+  border: 1px solid #CEA48A;
+  min-height: 160px;
+  _height: 160px;
+  align-items: center;
+  padding-right: 20px;
+  position: relative;
+  &+.detail-box{
+    margin-top: 20px;
+  }
+  .thing-image{
+    width: 120px;
+    max-height: 160px;
+  }
+  .item-name-show{
+    display: flex;
+    flex-direction: column;
+    color: #74523C;
+    padding: 0 24px;
+    flex: 1;
+    line-height: 24px;
+  }
+  .item-price-content{
+    width: 140px;
+    .price-del{
+      font-size: 14px;
+      color: #949494;
+    }
+    .price-now{
+      
+      font-size: 20px;
+      font-weight: 600;
+      color: #442613;
+    }
+  }
+  .item-num-input{
+    margin: 0 20px;
+    width: 100px;
+  }
+  .item-price-totle{
+    font-size: 20px;
+    font-weight: 400;
+    color: #442613;
+    width: 140px;
+    text-align: right;
+  }
+  .btn-delete{
+   position: absolute;
+   right: 20px;
+   bottom: 10px;
+  }
+  .btn-edit{
+    position: absolute;
+    right: 64px;
+    bottom: 10px;
   }
 }

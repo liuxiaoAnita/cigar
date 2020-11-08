@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Icon, Input, Button, message, Spin, Divider,DatePicker ,Select } from "antd";
 import { connect } from "react-redux";
 import DocumentTitle from "react-document-title";
+import debounce from '@/utils/debounce'
 import homeGWC from "@/assets/images/home_gwc.png";
 import { login, getUserInfo } from "@/store/actions";
 import {getQueryString} from '@/utils/index';
@@ -17,20 +18,24 @@ const RegisterPage = (props) => {
   const [iconUrl, setIconUrl] = useState('')
 
   useEffect(() => {
-    login({cmd: 'sendSms'})
-      .then(res => {
-        console.log(res)
-        if(`${res.result}` === '0'){
-          console.log(res.body)
-          const {body} = res
-          setCode(body.code)
-          setIconUrl(body.icon)
-        } else {
-          message.error(`${res.resultNote}`);
-          setLoading(false);
-        }
-      })
+    getSmsUrl()
   }, []);
+
+  const getSmsUrl = () => {
+    login({cmd: 'sendSms'})
+    .then(res => {
+      console.log(res)
+      if(`${res.result}` === '0'){
+        console.log(res.body)
+        const {body} = res
+        setCode(body.code)
+        setIconUrl(body.icon)
+      } else {
+        message.error(`${res.resultNote}`);
+        setLoading(false);
+      }
+    })
+  }
 
   const handleLogin = (params) => {
     // 登录完成后 发送请求 调用接口获取用户信息
@@ -213,7 +218,7 @@ const RegisterPage = (props) => {
                         )}
                       </Form.Item>
                       <Form.Item>
-                        <img width='60' className='yzmImage' src={iconUrl} alt='验证码' />
+                        <img width='60' className='yzmImage' onClick={debounce(getSmsUrl, 1000)} src={`${iconUrl}?random=${Math.random()}`} alt='验证码' />
                         {getFieldDecorator("yzm", {
                           rules: [
                             {
