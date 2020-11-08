@@ -44,7 +44,19 @@
   margin: auto;
   .boke-picture{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    padding-top: 20px;
+    overflow: hidden;
+    flex-wrap: wrap;
+    .boke-item-image{
+      width: calc(33.3333% - 11px);
+      height: 240px;
+      border: 1px solid #B78E74;
+      padding: 10px;
+      border-radius: 4px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
   }
   .boke-descrpt{
     padding: 30px;

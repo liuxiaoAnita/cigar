@@ -2,6 +2,7 @@
   width:100%;
   padding: 0 calc((100% - 1200px) / 2);
   background: #fff;
+  padding-bottom: 32px;
   .swiper-container {
     padding: 0 30px;
     width: 100%;
@@ -86,12 +87,15 @@
         text-align: right;
       }
     }
+    .item-image{
+      max-width: 100%;
+    }
     .thing-name{
-      font-size: 14px;
+      font-size: 18px;
     }
     .thing-danwei{
       padding: 8px 0;
-      font-size: 14px;
+      font-size: 18px;
     }
     .unit-price{
       display: flex;
@@ -121,3 +125,23 @@
     }
   }
 }
+
+.thing-banner-box{
+  .swiper-pagination{
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .swiper-pagination-bullet{
+    width: 10px;
+    height: 10px;
+    background: #B78E74;
+    border-radius: 5px;
+    margin: 0 10px;
+    opacity: 1;
+  }
+  .swiper-pagination-bullet-active{
+    width: 60px;
+    background: #B78E74;
+  }
+}
+

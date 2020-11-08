@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React , { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import Swiper from "swiper/dist/js/swiper.min.js";
 import Banner from "@/assets/images/home_banner.png";
@@ -7,21 +7,33 @@ import Banner from "@/assets/images/home_banner.png";
 
 import "./advert.less";
 
-const AdvertBanner = () => {
+const AdvertBanner = (props) => {
+  const { data } = props
   const [swiperId, setSwiperId] = useState('');
+  const [bannerList, setBannerList] = useState([]);
+
+  useEffect(() => {
+    setBannerList([...data])
+  }, [data])
+
+  console.log('====')
+  console.log(bannerList)
   new Swiper(swiperId, {
     pagination: '.swiper-pagination',
     paginationClickable: true,
     // nextButton: '.swiper-button-next',
     // prevButton: '.swiper-button-prev',
+    autoplay:3000,
     spaceBetween: 30,
     freeMode: true
   });
   return (
     <div className='advert-banner-box'>
-      <div className="new-swiper swiper-container" ref={self => setSwiperId(self)}>
+      <div className="new-swiper swiper-container swiper-no-swiping" ref={self => setSwiperId(self)}>
         <div className="swiper-wrapper">
-            <div className="swiper-slide"><img src={Banner} /></div>
+          {bannerList.map((item, index) => (
+            <div key={`advert-swiper-item-${index}`} className="swiper-slide"><img height={240} src={item.image} /></div>
+          ))}
         </div>
       </div>
     </div>

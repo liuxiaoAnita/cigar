@@ -35,7 +35,7 @@ const LayoutHeader = (props) => {
   const [infoMes, setInfoMes] = useState({})
   
   useEffect(() => {
-    const userUid = localStorage.getItem('userUid')
+    const userUid = localStorage.getItem('userUid') || ''
     setUid(userUid)
     const userInfoMes = JSON.parse(localStorage.getItem('userInfoMes') || '{}')
     setInfoMes(userInfoMes)

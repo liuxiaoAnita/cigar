@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { getUsers } from "@/api/user";
+import {message} from 'antd';
+import {login} from "@/store/actions";
 import BannerHome from "@/components/Banner/home.js";
 import BannerAdvert from "@/components/Banner/advert.js";
 import BannerThings from "@/components/Banner/things.js";
@@ -13,10 +15,39 @@ import "./index.less";
 class User extends Component {
   state = {
     users: [],
+    bannerList: [],
+    adList: [],
+    productList: [],
+    bokeList: [],
   };
   componentDidMount() {
-    // this.getUsers()
+    this.getHomeMes()
   }
+
+  getHomeMes = () => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'getHomepage', uid})()
+      .then(res => {
+        if (`${res.result}` === '0') {
+          console.log(res.body)
+          const {body = {}} = res;
+          const {bannerList = [], adList = [], productList = [], bokeList = []} = body;
+
+          this.setState({
+            bannerList,
+            adList,
+            productList,
+            bokeList,
+          })
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
   getUsers = async () => {
     const result = await getUsers()
     const { users, status } = result.data
@@ -61,12 +92,13 @@ class User extends Component {
         imageUrl: Icon01
       },
     ]
+    const {bokeList} = this.state
     return (
       <div className='boke-content'>
         <div className='boke-picture'>
-          <img src={BoKe01} />
-          <img src={BoKe01} />
-          <img src={BoKe01} />
+          {bokeList.map((item, index) => (
+            <img className='boke-item-image' src={item} key={`boke-item-${index}`} />
+          ))}
         </div>
         <div className='boke-descrpt'>
           {iconData.map((item, index) => (
@@ -82,12 +114,13 @@ class User extends Component {
   }
 
   render() {
+    const {bannerList, adList, productList} = this.state;
     return (
       <div className="app-container">
-       <BannerHome />
-       <BannerAdvert />
+       <BannerHome data={bannerList} />
+       <BannerAdvert data={adList} />
        {this.renderTitle('推荐产品', 'RECOMMENDED PRODUCTS')}
-       <BannerThings />
+       <BannerThings data={productList} />
        {this.renderTitle('雪茄博客', 'ENJOY YOUR CIGAR MOMENT!')}
         {this.renderBoKe()}
       </div>
