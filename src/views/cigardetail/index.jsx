@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import intl from 'react-intl-universal';
+import {getQueryVariable} from '@/utils'
 import { Form, Icon, Input, Button, message, Rate, Select  } from "antd";
 import { connect } from "react-redux";
-import DocumentTitle from "react-document-title";
 import "./index.less";
 import { login, getUserInfo } from "@/store/actions";
+import ColorContent from './Color'
+import OtherItem from './OtherItem'
+
+const categoryType = localStorage.getItem('categoryType')
 
 const { Option } = Select;
 const CigarDetailPage = (props) => {
@@ -13,20 +17,37 @@ const CigarDetailPage = (props) => {
   const [loading, setLoading] = useState(false);
   const [catename, setCatename] = useState('')
   const [cateContent, setCateContent] = useState('')
+  const [leftContent, setLeftContent] = useState({})
+  const [flag, setFlag] = useState('0'); // 0：升序1：降序
+  const [orderBy, setOrderBy] = useState('0'); // 0：默认1：价格2：产品3：评分4：星级
+  const [leftChose, setLeftChose] = useState({})
   
   const [ cigarStatus, setCigarStatus] = useState(true); // 
   const [ cigarList, setCigarList] = useState([]); // 列表数据
 
+
+
   useEffect(() => {
-    const categoryId = localStorage.getItem('categoryId')
-    initGetCigarInfo({categoryId})
-    getCategoryList()
-    
+    initGetCigarInfo();
+    getCategoryList();
   }, []);
 
+  useEffect(() => {
+    initGetCigarInfo();
+  }, [orderBy, flag, leftChose]);
+
   // 获取列表接口信息获取
-  const initGetCigarInfo = (data) => {
-    const params = {cmd: 'getProductList', ...data}
+  const initGetCigarInfo = () => {
+    const data = {
+      ...leftChose,
+      flag,
+      orderBy,
+    }
+    console.log('props.history.location.search')
+    const categoryId = getQueryVariable('categoryId')
+    console.log(categoryId)
+
+    const params = {categoryId, cmd: 'getProductList', ...data}
     login(params)
       .then((res) => {
         if (`${res.result}` === '0') {
@@ -52,15 +73,16 @@ const CigarDetailPage = (props) => {
       .then((res) => {
         if (`${res.result}` === '0') {
           console.log(res.body)
+          setLeftContent(res.body)
         } else {
           message.error(`${res.resultNote}`);
         }
         setLoading(false);
       })
-      // .catch((error) => {
-      //   setLoading(false);
-      //   message.error(error);
-      // });
+      .catch((error) => {
+        setLoading(false);
+        message.error(error);
+      });
   }
 
   // 添加购物车
@@ -91,6 +113,7 @@ const CigarDetailPage = (props) => {
 
   // 操作栏，下拉框
   const handleChange = (value) => {
+    // orderBy
     console.log(`selected ${value}`);
   }
 
@@ -167,7 +190,64 @@ const CigarDetailPage = (props) => {
   return (
     loading ? <div>loading</div> :
     <div className='CigarDetailPage'>
-      <div className='left-content'>left</div>
+      <div className='left-content'>
+        <div className='left-mess-title'>筛选条件</div>
+        <div className='detail-mess-box'>
+          {`${categoryType}` === '2' && 
+            <ColorContent yanseList={leftContent.yanseList}
+              onChose={(data) => setLeftChose({
+                ...leftChose,
+                yanse_id: data
+              })}
+            />
+          }
+          {`${categoryType}` === '2' && (
+            <OtherItem
+              dataList={leftContent.brandList}
+              titleName='品牌'
+              onChose={(data) => setLeftChose({
+                ...leftChose,
+                brand_id: data
+              })}
+            />
+          )}
+          {`${categoryType}` === '2' && (
+            <OtherItem
+              dataList={leftContent.baozhuangList}
+              titleName='包装'
+              idName='baozhuang_id'
+              onChose={(data) => setLeftChose({
+                ...leftChose,
+                baozhuang_id: data
+              })}
+            />
+          )}
+          {`${categoryType}` === '2' && (
+            <OtherItem
+              dataList={leftContent.jiageList}
+              titleName='价格'
+              idName='jiage_id'
+              onChose={(data) => setLeftChose({
+                ...leftChose,
+                jiage_id: data
+              })}
+            />
+          )}
+          {`${categoryType}` === '2' && (
+            <OtherItem
+              dataList={leftContent.xiangxingList}
+              titleName='香型'
+              idName='xiangxing_id'
+              onChose={(data) => setLeftChose({
+                ...leftChose,
+                xiangxing_id: data
+              })}
+            />
+          )}
+        </div>
+
+       
+        </div>
       <div className='right-content'>
         <div className='title-mes'>{catename}</div>
         <div className='descrip-mes'>{cateContent}</div>
@@ -175,11 +255,19 @@ const CigarDetailPage = (props) => {
         <div className='tool-box'>
           <Icon className={`pinzige ${cigarStatus && 'active'}`} onClick={() => setCigarStatus(true)} theme="filled" type="appstore" />
           <Icon className={`tiaozhuang ${!cigarStatus && 'active'}`} onClick={() => setCigarStatus(false)} type="menu" />
-          <Select className='select-action' defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="Yiminghe">yiminghe</Option>
+          <Select className='select-action' defaultValue="0" style={{ width: 120 }} onChange={e => setOrderBy(e)}>
+            <Option value="0">默认</Option>
+            <Option value="1">价格</Option>
+            <Option value="2">产品</Option>
+            <Option value="3">评分</Option>
+            <Option value="4">星级</Option>
+            {/* 0：默认1：价格2：产品3：评分4：星级 */}
           </Select>
+          <Icon
+            style={{color: '#B78E74', marginLeft: '16px', cursor: 'pointer'}}
+            type={flag === '0' ? 'arrow-up' : 'arrow-down'}
+            onClick={() => setFlag(flag === '0' ? '1' : '0')}
+          />
         </div>
         <div className='right-cigar-box'>
           {cigarList && cigarList.map((item, index) => (

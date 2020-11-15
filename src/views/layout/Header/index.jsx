@@ -202,13 +202,13 @@ const LayoutHeader = (props) => {
                 localStorage.setItem('categoryId', item.id)
                 localStorage.setItem('categoryType', item.type)
                 if (`${item.type}` === '1') {
-                  props.history.push('/cigardetail')
+                  props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
                   window.location.reload()
                 } else if (`${item.type}` === '2') {
-                  props.history.push('/myplatter')
+                  props.history.push(`/myplatter?type=${item.type}&categoryId=${item.id}`)
                   window.location.reload()
                 } else if (`${item.type}` === '3') {
-                  props.history.push('/cigardetail')
+                  props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
                   window.location.reload()
                 }
                 
@@ -229,7 +229,7 @@ const LayoutHeader = (props) => {
               onClick={() => {
                 console.log(item.id);
                 localStorage.setItem('categoryId', item.id)
-                props.history.push('/cigardetail')
+                props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
               }}
             >
               {item.zh_name}
