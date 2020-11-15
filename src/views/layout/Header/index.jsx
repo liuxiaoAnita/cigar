@@ -99,13 +99,16 @@ const LayoutHeader = (props) => {
   const menu = (
     <Menu onClick={handelkMySetting}>
       <Menu.Item key="dashboard">
-        <Link to="/dashboard?type=1">账户信息</Link>
+        <Link to="/myself">账户信息</Link>
       </Menu.Item>
       <Menu.Item key="meau">
-        <Link to="/dashboard?type=2">我的订单</Link>
+        <Link to="/myorder">我的订单</Link>
       </Menu.Item>
       <Menu.Item key="heart">
-        <Link to="/dashboard?type=3">心愿单</Link>
+        <Link to="/heart">心愿单</Link>
+      </Menu.Item>
+      <Menu.Item key="heart">
+        <Link to="/myrate">我的评价</Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout">注销</Menu.Item>
@@ -230,6 +233,7 @@ const LayoutHeader = (props) => {
                 console.log(item.id);
                 localStorage.setItem('categoryId', item.id)
                 props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
+                window.location.reload()
               }}
             >
               {item.zh_name}

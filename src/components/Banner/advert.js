@@ -8,7 +8,7 @@ import Banner from "@/assets/images/home_banner.png";
 import "./advert.less";
 
 const AdvertBanner = (props) => {
-  const { data } = props
+  const { data = [] } = props
   const [swiperId, setSwiperId] = useState('');
   const [bannerList, setBannerList] = useState([]);
 

@@ -4,6 +4,7 @@ import { login } from "@/store/actions";
 import UserImg from '@/assets/images/user_img.png'
 import CascaderCity from '../components/CascaderCity'
 import Menu from './../components/menu'
+import ModalAddAress from './ModalAddAress'
 
 import "./index.less";
 import moment from 'moment';
@@ -29,6 +30,7 @@ class User extends Component {
   componentDidMount() {
     this.init();
     this.initAddressGet();
+    this.reGetUserInfo();
   }
 
   init = () =>{
@@ -153,7 +155,7 @@ class User extends Component {
         console.log(res)
         if(`${res.result}` === '0'){
           message.success('修改成功')
-          this.initAddressGet()
+          this.reGetUserInfo()
         } else {
           message.error(`${res.resultNote}`);
         }
@@ -163,7 +165,7 @@ class User extends Component {
       });
   }
   reGetUserInfo = () =>{
-    const {uid} = this.state;
+    const uid = localStorage.getItem('userUid') || ''
     const params = {cmd: 'userInfo', uid}
     login(params)()
       .then((res) => {
@@ -218,28 +220,13 @@ class User extends Component {
   }
 
   // 地址弹窗中的js
-  handleOkAdd = e => {
-    const {modalAddress} = this.state;
-    const {name = '', phone = '', province_city_town = [], address = ''} = modalAddress
-    if (name === ''){
-      message.error('填写姓名')
-      return;
-    } else if (phone === ''){
-      message.error('填写电话')
-      return;
-    } else if (province_city_town === []){
-      message.error('填写省市区')
-      return;
-    } else if (address === ''){
-      message.error('填写详细地址')
-      return;
-    }
+  handleOkAdd = modalAddress => {
     const {uid} = this.state;
     const params = {cmd: `${modalAddress.id ? 'editAddress' : 'addAddress'}`, uid, ...modalAddress}
     login(params)()
       .then((res) => {
         if (`${res.result}` === '0') {
-          message.success('地址添加成功！')
+          message.success(res.resultNote)
           this.initAddressGet()
           console.log(res)
         } else {
@@ -260,6 +247,7 @@ class User extends Component {
     this.setState({
       visibleAddress: false,
       visibleUserInfo: false,
+      modalAddress: {},
     });
   };
 
@@ -280,40 +268,13 @@ class User extends Component {
     })
   }
 
-  renderAddressNewEdit = () => {
-    const {visibleAddress, modalAddress} = this.state;
-    const {name = '', phone = '', cityCode = [], address = ''} = modalAddress
-    const {form} = this.props;
-    const { getFieldDecorator } = form;
-    return (
-      <Modal
-        title="收货地址"
-        visible={visibleAddress}
-        onOk={this.handleOkAdd}
-        onCancel={this.handleCancelAdd}
-      >
-        <div className='add_edit_address'>
-          <div className='address_item name_phone'>
-            <Input className='receive-name' placeholder="姓名" value={name} onChange={e => this.changeModalMes(e.target.value, 'name')} />
-            <Input placeholder="电话" className='receive-phone' value={phone} onChange={e => this.changeModalMes(e.target.value, 'phone')}/>
-          </div>
-          <div className='address_item provice_city'>
-            <CascaderCity defaultValue={cityCode} onChange={value => this.changeModalMesCity(value, 'province_city_town')} />
-          </div>
-          <div className='address_item detail_address'>
-              <TextArea placeholder='详细地址' rows={4} value={address}  onChange={e => this.changeModalMes(e.target.value, 'address')}/>
-          </div>
-        </div>
-      </Modal>
-    )
-  }
 
   goChangePassword = () => {
     this.props.history.push("/forget");
   }
 
   render() {
-    const { userInfo, addressData } = this.state
+    const { userInfo, addressData, modalAddress, visibleAddress } = this.state
     const { nickname = '', sex = '', email = '', birth = '' } = userInfo;
     return (
       <div className="myself-container">
@@ -359,8 +320,8 @@ class User extends Component {
             ))}
           </div>
         </div>
-        {this.renderAddressNewEdit()}
         {this.renderUserInfo()}
+        {visibleAddress && <ModalAddAress data={modalAddress} onChange={res => {this.setState({visibleAddress: false,}); if (res) this.handleOkAdd(res.newData)}} />}
       </div>
     );
   }

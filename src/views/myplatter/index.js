@@ -12,13 +12,15 @@ class MyPlatterPage extends Component {
     users: [],
     myOrder: [],
     totleCount: 0,
+    adList: [],
     dataList: []
   };
   componentDidMount() {
-    // this.getUsers()
+    this.getHomeMes()
     this.getZxppList()
   }
 
+  // 
   getZxppList = () => {
     const categoryId = localStorage.getItem('categoryId')
     const params = {cmd: 'getZxppList', categoryId}
@@ -36,6 +38,26 @@ class MyPlatterPage extends Component {
       })
       .catch((error) => {
         this.setState({loading: false})
+        message.error(error);
+      });
+  }
+
+  getHomeMes = () => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'getHomepage', uid})()
+      .then(res => {
+        if (`${res.result}` === '0') {
+          console.log(res.body)
+          const {body = {}} = res;
+          const { adList = []} = body;
+          this.setState({
+            adList,
+          })
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
         message.error(error);
       });
   }
@@ -68,6 +90,7 @@ class MyPlatterPage extends Component {
     })
   }
 
+  // 
   renderPlatter = () => {
     const {dataList} = this.state
     return (
@@ -96,6 +119,7 @@ class MyPlatterPage extends Component {
     )
   }
 
+  // 空拼盘
   renderEmpty = () => (
     <div className='empty-content'>
       <Icon className='icon-image' type="account-book" />
@@ -104,6 +128,7 @@ class MyPlatterPage extends Component {
     </div>
   )
 
+  // 右侧购物总结清单
   renderRightMenu = () => {
     const {myOrder, totleCount} = this.state;
     return(
@@ -133,6 +158,7 @@ class MyPlatterPage extends Component {
     )
   }
 
+  // 添加购物车
   handelAddShop = (type) => {
     const uid = localStorage.getItem('userUid') || ''
     if (uid === '') {
@@ -168,14 +194,16 @@ class MyPlatterPage extends Component {
     }
   }
 
+  // 添加心愿单
   handelAddHeart = () => {
     console.log(this.state.myOrder)
   }
 
   render() {
+    const {dataList, adList} = this.state
     return (
       <div className="MyPlatterPage-container">
-        <BannerAdvert />
+        <BannerAdvert data={adList} />
         <div className='platter-box'>
           <TitleSplit
             title='自选拼盘'
@@ -189,9 +217,7 @@ class MyPlatterPage extends Component {
           </div>
           <div className='platter-content'>
             <div className='platter-left-detail'>
-              
-              {this.renderPlatter()}
-              {/* {this.renderEmpty()} */}
+              {dataList.length > 0 ? this.renderPlatter() : this.renderEmpty()}
             </div>
             <div className='platter-right'>
               {this.renderRightMenu()}

@@ -187,6 +187,15 @@ const CigarDetailPage = (props) => {
     )
   }
 
+  // 空列表
+  const renderEmpty = () => (
+    <div className='empty-content'>
+      <Icon className='icon-image' type="account-book" />
+      <span className='detail-mes'>无上架产品</span>
+      <span className='link-content'><i className='link-url' onClick={() => props.history.push('/home')}>点击这里</i>去购物</span>
+    </div>
+  )
+
   return (
     loading ? <div>loading</div> :
     <div className='CigarDetailPage'>
@@ -273,6 +282,7 @@ const CigarDetailPage = (props) => {
           {cigarList && cigarList.map((item, index) => (
             cigarStatus ? renderItemPin(item, index) : renderItemTiao(item, index)
           ))}
+          {cigarList.length === 0 && renderEmpty()}
         </div>
       </div>
     </div>

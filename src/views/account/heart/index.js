@@ -1,15 +1,36 @@
 import React, { Component } from "react";
 import Menu from '../components/menu';
-import { Button, Icon, InputNumber } from "antd";
+import { login } from "@/store/actions";
+import { Button, Icon, InputNumber, message, Popconfirm} from "antd";
 
 import "./index.less";
 class User extends Component {
   state = {
     users: [],
+    dataList: [],
   };
 
   componentDidMount() {
-    // this.getUsers()
+    this.init()
+  }
+
+  init = () =>{
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'xinyuandanList', uid})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          // message.success('修改成功')
+          this.setState({
+            dataList: res.body.dataList
+          })
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
   }
 
   renderEmpty = () => (
@@ -24,34 +45,40 @@ class User extends Component {
     console.log(e)
   }
 
+  handelDelete = (ids) => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'delXinyuandan', uid, ids: [ids]})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success('删除成功')
+          this.init()
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
   renderHeart = () => {
-    const heartData = {
-      id:"", 
-      "baozhuang_en_name": '111',
-      "baozhuang_zh_name": '222',
-      "zh_name": '333',
-      "en_name": '444',
-      "number": '555',
-      "point": '666',
-      "fen": '777',
-      "price": '888',
-      "old_price": '999',
-      "image": 'rrr',
-    }
-    const dataList = [heartData,heartData,heartData,heartData,heartData]
+    const {dataList} = this.state
     return (
       <div className='heart-content'>
         {dataList.map((item, index) => (
           <div key={`heart-item-${index}`} className='heart-item'>
             <img src={item.image} />
-
+            <Popconfirm placement="bottom" title='确认删除？' onConfirm={() => this.handelDelete(item.id)} okText="Yes" cancelText="No">
+              <Icon className='heart-item-delete-btn' type="delete" />
+            </Popconfirm>
             <div className='item-detail-mes'>
               <span className='name'>{item.zh_name}</span>
               <span className='danwei'>{item.baozhuang_zh_name}</span>
               <span className='price'>{item.price}</span>
-              <span className='btn-detail'>查看详细信息</span>
+              {/* <span className='btn-detail'>查看详细信息</span> */}
               <div className='action-btns'>
-                <InputNumber className='num-input' size="large" min={1} max={100000} defaultValue={1} onChange={e => this.onChangeNumber(e)} />
+                <InputNumber className='num-input' size="large" min={0} max={100000} defaultValue={item.number} onChange={e => this.onChangeNumber(e)} />
                 <Button className='add-shop' type='primary'>添加到购物车</Button>
               </div>
             </div>
@@ -62,15 +89,14 @@ class User extends Component {
   }
 
   render() {
-    const { users } = this.state
+    const {dataList} = this.state
     
     return (
       <div className="heart-container">
         <Menu/>
         <div className='right-user-info'>
           <div className='right-title'><span>心愿单</span><Button type="primary">全部添加到购物车</Button></div>
-          {/* {this.renderEmpty()} */}
-          {this.renderHeart()}
+          {dataList.length > 0 ? this.renderHeart() : this.renderEmpty()}
         </div>
       </div>
     );
