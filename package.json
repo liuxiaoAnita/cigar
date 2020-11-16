@@ -4,6 +4,7 @@
   "author": "liu Anita",
   "license": "MIT",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@testing-library/jest-dom": "^4.2.4",
@@ -84,7 +85,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "proxy": "http://47.99.170.159/api/",
+  "proxy": "http://47.99.170.159/",
   "engines": {
     "node": ">=8.0.0",
     "npm": ">= 3.0.0"

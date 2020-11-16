@@ -62,6 +62,22 @@ class User extends Component {
       });
   }
 
+  addCar = (ids) => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'addCart', uid, productList: [...ids]})()
+      .then(res => {
+        if(`${res.result}` === '0'){
+          message.success('添加购物车成功')
+          this.init()
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
   renderHeart = () => {
     const {dataList} = this.state
     return (
@@ -79,7 +95,7 @@ class User extends Component {
               {/* <span className='btn-detail'>查看详细信息</span> */}
               <div className='action-btns'>
                 <InputNumber className='num-input' size="large" min={0} max={100000} defaultValue={item.number} onChange={e => this.onChangeNumber(e)} />
-                <Button className='add-shop' type='primary'>添加到购物车</Button>
+                <Button className='add-shop' type='primary' onClick={() => this.addCar([{id: item.id, count: `${item.number + 1}`}])}>添加到购物车</Button>
               </div>
             </div>
           </div>
@@ -95,7 +111,10 @@ class User extends Component {
       <div className="heart-container">
         <Menu/>
         <div className='right-user-info'>
-          <div className='right-title'><span>心愿单</span><Button type="primary">全部添加到购物车</Button></div>
+          <div className='right-title'>
+            <span>心愿单</span>
+            <Button type="primary">全部添加到购物车</Button>
+          </div>
           {dataList.length > 0 ? this.renderHeart() : this.renderEmpty()}
         </div>
       </div>
