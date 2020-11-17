@@ -250,7 +250,7 @@ const LayoutHeader = (props) => {
   }
   const renderLogo = () => (
     <div className='header-logo'>
-      <img src={homeLogo} />
+      <a href='/#/home'><img src={homeLogo} /></a>
       <div className='search-box'>
         <Search
           placeholder="搜寻"
