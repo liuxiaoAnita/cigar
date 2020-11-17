@@ -21,6 +21,7 @@
     "driver.js": "^0.9.8",
     "echarts": "^4.7.0",
     "file-saver": "^2.0.2",
+    "http-proxy-middleware": "^1.0.6",
     "js-cookie": "^2.2.1",
     "jszip": "^3.4.0",
     "less": "^3.9.0",
@@ -85,7 +86,6 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "proxy": "http://47.99.170.159/",
   "engines": {
     "node": ">=8.0.0",
     "npm": ">= 3.0.0"

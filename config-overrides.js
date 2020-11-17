@@ -13,7 +13,7 @@ const addCustomize = () => (config) => {
   if (config.output.publicPath) {
     config.output.publicPath =
       process.env.NODE_ENV === "production"
-        ? "/cigar/"
+        ? "/"
         : "/";
   }
   if (config.resolve) {
