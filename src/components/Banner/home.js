@@ -1,4 +1,5 @@
 import React , { useEffect, useState } from 'react';
+import {withRouter} from "react-router-dom";
 import { connect } from "react-redux";
 import Swiper from "swiper/dist/js/swiper.min.js";
 
@@ -29,7 +30,7 @@ const HomeBanner = (props) => {
         <div className="swiper-wrapper" style={{height: '500px'}}>
           {bannerList.map((item, index) => (
             <div key={`banner-${index}-${Math.random()}`} className="swiper-slide">
-              <img src={`${item}?random=${Math.random()}`} style={{width: '100%', height: '500px'}} />
+              <img onClick={() => window.location.href = item.url} src={`${item.image}?random=${Math.random()}`} style={{width: '100%', height: '500px', cursor: 'pointer'}} />
             </div>
           ))}
         </div>
@@ -41,4 +42,4 @@ const HomeBanner = (props) => {
   );
 };
 
-export default connect(null, { })(HomeBanner);
+export default withRouter(HomeBanner);

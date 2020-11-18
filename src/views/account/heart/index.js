@@ -116,7 +116,7 @@ class User extends Component {
         <div className='right-user-info'>
           <div className='right-title'>
             <span>心愿单</span>
-            <Button type="primary" onClick={() =>this.addCar(allId)}>全部添加到购物车</Button>
+            <Button type="primary" disabled={dataList.length === 0} onClick={() =>this.addCar(allId)}>全部添加到购物车</Button>
           </div>
           {dataList.length > 0 ? this.renderHeart() : this.renderEmpty()}
         </div>

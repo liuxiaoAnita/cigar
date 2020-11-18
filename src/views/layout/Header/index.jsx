@@ -257,11 +257,11 @@ const LayoutHeader = (props) => {
           onSearch={value => console.log(value)}
           style={{ width: 200 }}
         />
-        <span className='changeLanuge'>
+        {/* <span className='changeLanuge'>
           <i onClick={() => handleClick('zh')} className='itemBtn'>中文</i>
           /
           <i onClick={() => handleClick('en')} className='itemBtn'>英文</i>
-        </span>
+        </span> */}
       </div>
     </div>
   );
