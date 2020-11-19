@@ -1,0 +1,66 @@
+.thing-item{
+  // 每个商品的css
+    border: 1px solid #CEA489;
+    margin: 4px;
+    background: #FFFFFF;
+    display: flex;
+    padding:10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: #432512;
+    position: relative;
+    .item-top{
+      position: absolute;
+      top: 0;
+      left: 10px;
+      right: 10px;
+      .item-grade{
+        float: left;
+        font-size: 36px;
+        color: #73523C;
+      }
+      .item-star{
+        display: flex;
+        flex-direction: column;
+        float: right;
+        text-align: right;
+      }
+    }
+    .item-image{
+      max-width: 100%;
+    }
+    .thing-name{
+      font-size: 18px;
+    }
+    .thing-danwei{
+      padding: 8px 0;
+      font-size: 18px;
+    }
+    .unit-price{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      text-align: left;
+      .del-price{
+        font-size: 14px;
+        color: #949494;
+      }
+      .now-price{
+        font-size: 24px;
+        color: #432512;
+      }
+    }
+    .add-bus{
+      border: 2px solid #B78E74;
+      width: 100%;
+      padding: 8px;
+      color: #B78E74;
+      margin-top: 10px;
+      cursor: pointer;
+      &.before{
+        background: #B78E74;
+        color: #432512;
+      }
+    }
+}

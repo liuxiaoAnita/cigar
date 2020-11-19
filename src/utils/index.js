@@ -78,11 +78,12 @@ export const getQueryString = name => {
 
 export function getQueryVariable(variable){
   const [, query2] = window.location.href.split('?')
-  var vars = query2.split("&");
-  for (var i=0;i<vars.length;i++) {
-          var pair = vars[i].split("=");
-          if(pair[0] == variable){return pair[1];}
-  }
+  var vars = query2 ?.split("&");
+  if (vars)
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){return pair[1];}
+    }
   return(null);
 }
 
@@ -105,3 +106,6 @@ export const setCookie = (key, value, t) => {
   oDate.setDate(oDate.getDate() + t); // 设置过期时间
   document.cookie = `${key}=${value};expires=${oDate.toGMTString()}`; // 设置cookie的名称，数值，过期时间
 };
+
+// cookie存储
+export const colorItem = ['#F19149', '#79562F', '#B78E74', '#B78E74', '#2F4979']

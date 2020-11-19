@@ -1,4 +1,6 @@
 import React , { useState, useEffect } from 'react';
+import {withRouter} from "react-router-dom";
+import ItemBox from "@/components/Banner/ItemBox.js";
 import { connect } from "react-redux";
 import Swiper from "swiper/dist/js/swiper.min.js";
 import cppic01 from "@/assets/images/home_cppic01.png";
@@ -30,29 +32,13 @@ const ThingsContent = (props) => {
       <div className="swiper-container" ref={self => setSwiperId(self)}>
         <div className="swiper-wrapper">
           {bannerList.map((item, index) => (
-          <div className="swiper-slide thing-item" key={`things-swiper-item-${index}`}>
-            <div className='item-top'>
-              <div className='item-grade'>{item.fen}</div>
-              <div className='item-star'>
-                <Rate allowHalf disabled defaultValue={item.point} />
-                <span className='star-num'>
-                  <Avatar icon="user" style={{background: 'transparent', color:'#73523C'}} />
-                  {item.number}
-                </span>
-              </div>
-            </div>
-            <img
-              className='item-image'
-              height={250}
-              src={item.image}
-            />
-            <div className='thing-name'>{item.zh_name}</div>
-            <div className='thing-danwei'>{item.baozhuang_zh_name}</div>
-            <div className='unit-price'>
-              <del className='del-price'>US$ {item.old_price}</del>
-              <span className='now-price'>US$ {item.price}</span>
-            </div>
-            <div className='add-bus before'>加入购物车</div>
+          <div onClick={() => {
+            console.log(item.id)
+            props.history.push(`/detail?id=${item.id}`)
+            window.location.reload();
+          }} className="swiper-slide" key={`things-swiper-item-${index}`}>
+            <ItemBox item={item} />
+            
           </div>
           ))}
         
@@ -65,4 +51,4 @@ const ThingsContent = (props) => {
   );
 };
 
-export default connect(null, { })(ThingsContent);
+export default withRouter(ThingsContent);

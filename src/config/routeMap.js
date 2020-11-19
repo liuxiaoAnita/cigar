@@ -40,6 +40,7 @@ const Paying = Loadable({loader: () => import(/*webpackChunkName:'Paying'*/'@/vi
 const MyRate = Loadable({loader: () => import(/*webpackChunkName:'MyRate'*/'@/views/account/myrate'),loading: Loading});
 const WriteRate = Loadable({loader: () => import(/*webpackChunkName:'WriteRate'*/'@/views/account/writerate'),loading: Loading});
 const CigarDetail = Loadable({loader: () => import(/*webpackChunkName:'CigarDetail'*/'@/views/cigardetail'),loading: Loading});
+const Detail = Loadable({loader: () => import(/*webpackChunkName:'CigarDetail'*/'@/views/detail'),loading: Loading});
 
 export default [
   { path: "/dashboard", component: Dashboard, roles: ["admin","editor","guest"] },
@@ -82,7 +83,7 @@ export default [
   { path: "/myrate", component: MyRate },
   { path: "/writerate", component: WriteRate },
   { path: "/cigardetail", component: CigarDetail },
-
+  { path: "/detail", component: Detail },
 
   
 ];

@@ -1,0 +1,39 @@
+.title-box{
+  width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  .title-name{
+    font-size: 58px;
+    font-family: Alibaba PuHuiTi;
+    font-weight: 800;
+    color: #73523C;
+    .name-icon{
+      font-style: normal;
+      +.name-icon{
+        padding-left: 13px;
+        position: relative;
+        &::before{
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: 10px;
+          bottom: 8px;
+          left: 6px;
+          background: #73523C;
+          width: 1px;
+        }
+      }
+    }
+  }
+  .title-descr{
+    font-size: 16px;
+    background: #73523C;
+    padding: 6px 20px;
+    font-weight: bold;
+    color: #FFFFFF;
+  }
+}

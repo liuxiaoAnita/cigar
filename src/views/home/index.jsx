@@ -3,6 +3,7 @@ import { getUsers } from "@/api/user";
 import {message} from 'antd';
 import {login} from "@/store/actions";
 import BannerHome from "@/components/Banner/home.js";
+import BannerTop from "@/components/Banner/bannerTop.js";
 import BannerAdvert from "@/components/Banner/advert.js";
 import BannerThings from "@/components/Banner/things.js";
 import BoKe01 from "@/assets/images/home_tjpic03.png";
@@ -67,7 +68,7 @@ class User extends Component {
             <em key={`name-icon-${index}`} className='name-icon'>{item}</em>
           ))}
         </span>
-        <span className='title-descr'>{descr}</span>
+        {descr && <span className='title-descr'>{descr}</span>}
       </div>
     )
   }
@@ -119,9 +120,9 @@ class User extends Component {
       <div className="app-container">
        <BannerHome data={bannerList} />
        <BannerAdvert data={adList} />
-       {this.renderTitle('推荐产品', 'RECOMMENDED PRODUCTS')}
+       <BannerTop title='推荐产品' descr='RECOMMENDED PRODUCTS' />
        <BannerThings data={productList} />
-       {this.renderTitle('雪茄博客', 'ENJOY YOUR CIGAR MOMENT!')}
+       <BannerTop title='雪茄博客' descr='ENJOY YOUR CIGAR MOMENT!' />
         {this.renderBoKe()}
       </div>
     );

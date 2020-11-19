@@ -1,0 +1,109 @@
+.thing-detail-container{
+  .detail-item-message{
+    .top-mess{
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      padding: 16px 0;
+      .left-content{
+        flex: 1;
+        display: flex;
+
+        .message-detail-content{
+          font-size: 24px;
+          padding-left: 40px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          span{
+            line-height: 40px;
+            i{
+              display: inline-block;
+              width: 160px;
+              font-style: normal;
+            }
+          }
+          // 香型
+          .xiangxing-content{
+            display: flex;
+            padding-top: 20px;
+            .xiangxing-item{
+              display: inline-block;
+              padding: 8px 32px;
+              border:1px solid #000;
+              border-radius: 4px;
+            }
+          }
+          .price-num{
+            padding: 50px 0;
+            font-size: 60px;
+          }
+          // 数量的css
+          .count-box{
+            display: flex;
+            align-items: center;
+            .count-title{
+              font-size: 24px;
+              display: inline-block;
+              width: 120px;
+            }
+            .count-button{
+              width: 48px;
+              height: 48px;
+              text-align: center;
+              border: 1px solid #A8A8A8;
+              display: inline-block;
+              cursor: pointer;
+            }
+            .count-input{
+              height: 48px;
+              width: 100px;
+              margin: 0 5px;
+              text-align: center;
+              font-size: 20px;
+            }
+          }
+          // button-box
+          .button-box{
+            display: flex;
+            width: 100%;
+            margin: 40px 0;
+            .buy-button,
+            .car-button
+            {
+              flex: 1;
+              margin-right: 8px;
+              line-height: 64px;
+              height: 64px;
+              font-size: 24px;
+            }
+            .myheart{
+              width: 64px;
+              height: 64px;
+              color: #B78E74;
+              border: 1px solid #B78E74;
+              font-size: 48px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+          }
+
+        }
+      }
+      .right-content{
+        width: 220px;
+        margin-left: 16px;
+        .top-message{
+          display: inline-block;
+          font-size: 18px;
+        }
+        .right-item{
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+}
