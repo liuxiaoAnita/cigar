@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { login } from "@/store/actions";
-import {colorItem} from '@/utils/index'
+import {colorItem} from '@/utils/index';
+import { Spin } from 'antd';
 import BannerThings from "@/components/Banner/things.js";
 import BannerTop from "@/components/Banner/bannerTop.js";
 import ItemBox from "@/components/Banner/ItemBox.js";
@@ -12,6 +13,7 @@ import "./index.less";
 class User extends Component {
   state = {
     users: [],
+    isLoading: true,
     isHasDetail: false,
     dataList: {},
     count: 0,
@@ -41,17 +43,28 @@ class User extends Component {
             productList: res.body.productList|| [],
             topList: res.body.topList|| [],
             isHasDetail: true,
+            isLoading: false,
           })
         } else {
           message.error(`${res.resultNote}`);
+          this.setState({
+            isLoading: false,
+          })
         }
       })
       .catch((error) => {
         message.error(error);
+        this.setState({
+          isLoading: false,
+        })
       });
     } else {
       message.info('没有这个产品详情~')
     }
+  }
+
+  changeCount = e => {
+    console.log(e)
   }
 
   renderTop = () => {
@@ -90,7 +103,7 @@ class User extends Component {
               <div className='count-box'>
                 <span className='count-title'>数量</span>
                 <span className='count-button jian-btn' onClick={() =>{ if (count > 0) this.setState({count: count - 1})}}>-</span>
-                <Input className='count-input' value={count} onChange={e => this.setState({count: e.target.value})} />
+                <Input className='count-input' value={count} onChange={e => this.changeCount(e)} />
                 <span className='count-button jia-btn' onClick={() => this.setState({count: count + 1})}>+</span>
               </div>
               <div className='button-box'>
@@ -126,11 +139,15 @@ class User extends Component {
   }
 
   render() {
-    const {isHasDetail} = this.state
+    const {isHasDetail, isLoading} = this.state
     return (
-      <div className="thing-detail-container">
-        {isHasDetail ? this.renderTop() : '暂无信息'}
-      </div>
+        <Spin spinning={isLoading} >
+          <div className="thing-detail-container">
+          {
+            !isLoading && (isHasDetail ? this.renderTop() : <div>暂无详情</div>)
+          }
+          </div>
+        </Spin>
     );
   }
 }

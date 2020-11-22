@@ -6,8 +6,6 @@ import { connect } from "react-redux";
 import "./index.less";
 import { login, getUserInfo } from "@/store/actions";
 
-const categoryType = localStorage.getItem('categoryType')
-
 const { Option } = Select;
 const ColorItemContent = (props) => {
   const { dataList = [], onChose, titleName = '', idName = ''} = props;
@@ -23,7 +21,7 @@ const ColorItemContent = (props) => {
             <span>{titleName}</span>
             <i className='jian-tou'></i>
           </div>
-          <Radio.Group  className='bottom-child' onChange={e => onChose(e.target.value)}>
+          <Radio.Group  className='bottom-child' onChange={e => onChose([e.target.value])}>
             {dataList.map((item, index) => (
               <Radio className='child-item-key' key={`left-other-item-${index}`} value={item.id}>
                 {idName === 'jiage_id' ? `${item.min}-${item.max === '' ? '以上' : item.max}` : item.zh_name}

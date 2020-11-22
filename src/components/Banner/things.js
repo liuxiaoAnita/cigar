@@ -32,11 +32,7 @@ const ThingsContent = (props) => {
       <div className="swiper-container" ref={self => setSwiperId(self)}>
         <div className="swiper-wrapper">
           {bannerList.map((item, index) => (
-          <div onClick={() => {
-            console.log(item.id)
-            props.history.push(`/detail?id=${item.id}`)
-            window.location.reload();
-          }} className="swiper-slide" key={`things-swiper-item-${index}`}>
+          <div className="swiper-slide" key={`things-swiper-item-${index}`}>
             <ItemBox item={item} />
             
           </div>

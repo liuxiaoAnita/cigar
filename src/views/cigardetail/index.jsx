@@ -122,9 +122,15 @@ const CigarDetailPage = (props) => {
     return(
       <div className='cigar-item-content' key={`kkkk-${index}`}>
         {/* left */}
-        <img className='left-image' src={dataing.image} />
+        <img className='left-image' src={dataing.image}onClick={() =>{
+          props.history.push(`/detail?id=${dataing.id}`)
+          window.location.reload();
+        }} />
         {/* middle */}
-        <div className='item-cigar-box'>
+        <div className='item-cigar-box' onClick={() =>{
+          props.history.push(`/detail?id=${dataing.id}`)
+          window.location.reload();
+        }}> 
           <div className='top-mes'>
             <span className='title-name'>{dataing.zh_name}</span>
             <span className='title-descript'>{dataing.baozhuang_zh_name}</span>
@@ -157,6 +163,10 @@ const CigarDetailPage = (props) => {
     return(
       <div className='pinzige-content' key={`pin-item-${index}`}>
         {/* top */}
+        <div onClick={() =>{
+          props.history.push(`/detail?id=${dataing.id}`)
+          window.location.reload();
+        }}>
         <div className='top-fen-content'>
           <div className='left-fen'>{dataing.fen}</div>
           <div className='right-mes'>
@@ -169,6 +179,7 @@ const CigarDetailPage = (props) => {
         </div>
         {/* middle */}
         <img className='cigar-img' src={dataing.image} alt='cigar' />
+        </div>
         {/* bottom */}
         <div className='bottom-content'>
           <div className='cigar-price'>{dataing.price}</div>

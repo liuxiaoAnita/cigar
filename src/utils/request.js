@@ -6,7 +6,7 @@ import { logout } from "@/store/actions";
 
 //创建一个axios示例
 const service = axios.create({
-  baseURL: 'api/', // api 的 base_url
+  baseURL: 'cigar/api/', // api 的 base_url
    dataType:"json",
    header:{
     "Content-Type":"application/json",
