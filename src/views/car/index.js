@@ -6,6 +6,8 @@ import CigarItem from './CigarItem'
 import { login } from "@/store/actions";
 import { getUsers } from "@/api/user";
 
+import Paying from '@/views/account/paying'
+
 import "./index.less";
 
 class CarPage extends Component {
@@ -16,7 +18,9 @@ class CarPage extends Component {
     old_money: 0,
     order_money: 0,
     coupon_money: 0,
+    sum_money: 0,
     dataList: [],
+    isPayig: false,
   };
   getUsers = async () => {
     const result = await getUsers()
@@ -55,12 +59,13 @@ class CarPage extends Component {
         if (`${res.result}` === '0') {
           console.log(res.body)
           const {body = {}} = res
-          const {old_money = 0, order_money = 0, coupon_money = 0, dataList = []} = body
+          const {old_money = 0, order_money = 0, coupon_money = 0, sum_money = 0, dataList = []} = body
           this.setState({
             ...this.state,
             old_money,
             order_money,
             coupon_money,
+            sum_money,
             dataList,
           })
         } else {
@@ -91,6 +96,10 @@ class CarPage extends Component {
     console.log('changed', value);
   }
 
+  handelSaveCar = () =>{
+    this.handelEditNum({cmd: 'saveCartOrder'})
+  }
+
   renderBusRight = () => {
     const {old_money, order_money, coupon_money,} = this.state
     return (
@@ -112,7 +121,7 @@ class CarPage extends Component {
           <Divider dashed style={{background: '#626262', }} />
           <div className='totle-name'>订单金额</div>
           <div className='totle-price'>¥ 940.00</div>
-          <Button className='totle-btn' type="primary">去结账</Button>
+          <Button className='totle-btn' type="primary" onClick={() => {this.setState({isPayig: true})}}>去结账</Button>
         </div>
       </div>
     </div>
@@ -156,13 +165,38 @@ class CarPage extends Component {
       <span className='link-content'>您可以<i className='link-url' onClick={() => this.props.history.push('/home')}>点击此处</i>去购物</span>
     </div>
   )
+  saveCartOrder = ({addressId = ''}) => {
+    const { dataList } = this.state
+    const cartList = [];
+    dataList.forEach(item => {
+      cartList.push(item.id)
+    })
+    this.handelEditNum({
+      cmd: 'saveCartOrder',
+      addressId,
+      cartList,
+    }).then(res => {
+      if(res.result === '0') {
+        this.props.history.push('/myorder')
+      } else {
+        message.error(res.resultNote)
+      }
+    })
+  }
 
   render() {
     const { users } = this.state
-    const {dataList} = this.state
+    const {dataList,  isPayig, sum_money, } = this.state
     return (
       <div className='car-page'>
         {/* 未登录 */}
+        {isPayig ? (
+          <Paying
+            goodsList={dataList} 
+            sumMoney={sum_money}
+            onGoCar={() => this.setState({isPayig: false})}
+            saveCartOrder={this.saveCartOrder}
+          />) : (
         <div className="car-shop-content">
           <div className='car-title'>购物车</div>
           <div className='car-detail'>
@@ -170,6 +204,9 @@ class CarPage extends Component {
             {}
           </div>
         </div>
+        )}
+       
+        
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import intl from 'react-intl-universal';
 import {getQueryVariable} from '@/utils'
-import { Form, Icon, Input, Button, message, Rate, Select  } from "antd";
+import { Form, Icon, Input, Button, message, Rate, Select, Spin  } from "antd";
 import { connect } from "react-redux";
 import "./index.less";
 import { login, getUserInfo } from "@/store/actions";
@@ -14,7 +14,8 @@ const categoryType = localStorage.getItem('categoryType')
 const { Option } = Select;
 const CigarDetailPage = (props) => {
   const { login } = props;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadThing, setLoadThing] = useState(true);
   const [catename, setCatename] = useState('')
   const [cateContent, setCateContent] = useState('')
   const [leftContent, setLeftContent] = useState({})
@@ -38,15 +39,13 @@ const CigarDetailPage = (props) => {
 
   // 获取列表接口信息获取
   const initGetCigarInfo = () => {
+    setLoadThing(true);
     const data = {
       ...leftChose,
       flag,
       orderBy,
     }
-    console.log('props.history.location.search')
     const categoryId = getQueryVariable('categoryId')
-    console.log(categoryId)
-
     const params = {categoryId, cmd: 'getProductList', ...data}
     login(params)
       .then((res) => {
@@ -58,9 +57,11 @@ const CigarDetailPage = (props) => {
           message.error(`${res.resultNote}`);
         }
         setLoading(false);
+        setLoadThing(false);
       })
       .catch((error) => {
         setLoading(false);
+        setLoadThing(false);
         message.error(error);
       });
   }
@@ -289,12 +290,14 @@ const CigarDetailPage = (props) => {
             onClick={() => setFlag(flag === '0' ? '1' : '0')}
           />
         </div>
-        <div className='right-cigar-box'>
-          {cigarList && cigarList.map((item, index) => (
-            cigarStatus ? renderItemPin(item, index) : renderItemTiao(item, index)
-          ))}
-          {cigarList.length === 0 && renderEmpty()}
-        </div>
+        <Spin spinning={loadThing}  className='right-cigar-box' tip="Loading...">
+          <div className='right-cigar-box'>
+              {cigarList && cigarList.map((item, index) => (
+                cigarStatus ? renderItemPin(item, index) : renderItemTiao(item, index)
+              ))}
+            {cigarList.length === 0 && renderEmpty()}
+          </div>
+        </Spin>
       </div>
     </div>
   );
