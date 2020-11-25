@@ -1,18 +1,49 @@
 import React, { Component } from "react";
 import Menu from './../components/menu'
-import { Tooltip, Icon, Popover, Button, Pagination, Statistic  } from "antd";
+import { Tooltip, Icon, Popover, Button, Pagination, Statistic, message  } from "antd";
+import { login } from "@/store/actions";
 
 
 import "./index.less";
 class MyOrderPage extends Component {
   state = {
+    loading: true,
     users: [],
     isPayStatus: false,
     payData: [],
+    totalPage: 1,
+    currentPage: 1,
+    payDataDetail: {},
     payType: 'alipay'
   };
   componentDidMount() {
-    // this.getUsers()
+    this.getOrderList()
+  }
+
+  getOrderList = () => {
+    const { currentPage } = this.state
+    this.setState({loading: true})
+    const uid = localStorage.getItem('userUid') || ''
+    login({
+      uid,
+      cmd: 'orderList',
+      nowPage: currentPage,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        console.log(res.body.dataList)
+        this.setState({
+          payData: res.body.dataList || [],
+          totalPage: res.body.totalPage || 1,
+        })
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
   }
 
   renderEmpty = () => (
@@ -68,48 +99,11 @@ class MyOrderPage extends Component {
   }
 
   renderList = () => {
-    const order = {
-      "orderId": "sfhkskdjkfjslfjsljl",// 订单号
-      "qty": "1",// 订单商品数量
-      "amount": "122",// 订单金额
-      "createDate": "2020-02-02",// 下单时间
-      "expCode": '快递公司编码',
-      "companyName": "快递公司",
-      "expNo": "快递单号",
-      "status":"", //订单状态（1：待付款2：待发货3：待收货：4：已收货5：已评价）',
-      "productList":[
-        {
-           "id":"",// 商品id
-           "zh_name":"中文名",//中文名
-           "en_name":"英文名",//英文名
-           "baozhuang_en_name":"包装英文名",//包装英文名
-           "baozhuang_zh_name":"包装中文名",//包装中文名
-           "number":"111",//数量
-           "price":"222",//价格
-           "image":"",//图片
-        },{
-          "id":"",// 商品id
-          "zh_name":"中文名",//中文名
-          "en_name":"英文名",//英文名
-          "baozhuang_en_name":"包装英文名",//包装英文名
-          "baozhuang_zh_name":"包装中文名",//包装中文名
-          "number":"111",//数量
-          "price":"222",//价格
-          "image":"",//图片
-       },
-      ]
-    }
-    const orderList = [
-      {...order, orderId: '1',status : '1'},
-      {...order, orderId: '2',status : '2'},
-      {...order, orderId: '3',status : '3'},
-      {...order, orderId: '4',status : '4'},
-      {...order, orderId: '5',status : '5'},
-    ]
+    const { payData, currentPage, totalPage } = this.state;
     return (
       <div className='my-order-content'>
         <div className='order-box'>
-          {orderList.map((item, index) => (
+          {payData && payData.map((item, index) => (
             <div className='order-item' key={`order-item-${index}-${item.orderId}`}>
               <div className={`title ${(Number(item.status) === 4 || Number(item.status) === 5) && 'get-cigar'}`}>
                 <div className='left-data'>
@@ -168,15 +162,20 @@ class MyOrderPage extends Component {
           ))}
         </div>
         <div className='page-box'>
-          <Pagination showQuickJumper defaultCurrent={1} total={500} onChange={this.onChangePage} />
+          <Pagination showQuickJumper defaultCurrent={currentPage} total={totalPage} onChange={this.onChangePage} />
         </div>
       </div>
     )
   }
 
   // 页面跳转
-  onChangePage = page => {
-    console.log(page)
+  onChangePage = currentPage => {
+    console.log(currentPage)
+    this.setState({
+      currentPage,
+    }, () => {
+      this.getOrderList()
+    })
   }
 
   // 删除订单
@@ -185,15 +184,34 @@ class MyOrderPage extends Component {
   }
 
   // 付款
-  handelPayMoney = payData => {
+  handelPayMoney = payDataDetail => {
+    console.log(payDataDetail)
     this.setState({
       isPayStatus: true,
-      payData,
+      payDataDetail,
     })
   }
 
   // 确认收货
   handelGet = val => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({
+      uid,
+      cmd: 'getOrder',
+      id: val.orderId,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        message.success('收货成功！');
+        this.getOrderList();
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
     console.log(val)
   }
 
@@ -226,15 +244,15 @@ class MyOrderPage extends Component {
 
   // 支付弹窗的页面
   renderPay = () => {
-    const {payData, payType} = this.state
+    const {payDataDetail, payType} = this.state
     return (
       <>
         <div className='pay-background' />
         <div className='pay-box-alert'>
           <div className='pay-left-message'>
             <div className='title'>支付订单</div>
-            <div className='NO-detail'>订单号：{payData.orderId}</div>
-            <div className='total-money'><Statistic prefix={<span>￥</span>} value={payData.amount} precision={2} /></div>
+            <div className='NO-detail'>订单号：{payDataDetail.orderId}</div>
+            <div className='total-money'><Statistic prefix={<span>￥</span>} value={payDataDetail.amount} precision={2} /></div>
             <div className='check-title'>选择支付方式</div>
             <Button
               onClick={() => this.setState({payType: 'alipay'})}
@@ -270,15 +288,14 @@ class MyOrderPage extends Component {
   }
 
   render() {
-    const {isPayStatus} = this.state
+    const {payData, isPayStatus, loading} = this.state
     return (
       <div className="my-order-content-page">
         <Menu/>
-        <div className='right-order-info'>
+        {loading ? '' : <div className='right-order-info'>
             <div className='right-title'>订单记录</div>
-            {/* {this.renderEmpty()} */}
-            {this.renderList()}
-        </div>
+            {(payData && payData.length > 0) ? this.renderList() : this.renderEmpty()}
+        </div>}
         {isPayStatus && this.renderPay()}
       </div>
     );

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Tooltip, Icon, Popover, Button, Pagination, Statistic  } from "antd";
+import { Tooltip, Icon, Popover, Button, message, Statistic  } from "antd";
+import { login } from "@/store/actions";
+import {getQueryVariable} from '@/utils'
 
 
 import "./index.less";
@@ -11,60 +13,28 @@ class OrderDetailPage extends Component {
     }
   };
   componentDidMount() {
-    // this.getUsers()
-    const orderData = {// 
-      "orderId":"订单号",// 订单号
-      "userName":"收货名字",// 收货名字
-      "userPhone":"收货电话",// 收货电话
-       "expCode": '快递公司编码',//快递公司编码
-       "expNo": '快递单号',//快递单号
-      "address":"地址地址地址地址地址地址",// 地址
-      "companyName": '快递公司',//快递公司
-      "payTime":"付款时间付款时间",// 付款时间
-      "evaluate_time":"评价时间",// 评价时间
-      "pay_type": '2',//支付类型（1：微信2：支付宝）
-      "sendTime":"发货时间",// 发货时间
-      "reciveOrderTime":"收货时间",// 收货时间
-      "cancleReason":" 取消原因",// 取消原因
-      "amount":"订单金额",// 订单金额
-       "sendMoney":"配送费配送费",// 配送费
-       "goodsmoney":"商品金额",// 商品金额
-      "createDate":"下单时间",// 下单时间
-      "coupon_money":" 优惠金额",// 优惠金额
-      "status": 3,// 订单状态（1：待付款2：待发货3：待收货：4：已收货5：已评价）
-      dataList:[{
-        "productId":"111",// 商品id
-         "zh_name":'中文名中文名中文名',///中文名
-         "en_name":'english',////英文名
-         "baozhuang_en_name":'包装英文名english',////包装英文名
-         "baozhuang_zh_name":'包装中文名',////包装中文名
-         "number":'10',////数量
-         "price":'999.99',////价格
-         "image":'src',////图片
-    },{
-      "productId":"111",// 商品id
-       "zh_name":'中文名中文名中文名',///中文名
-       "en_name":'english',////英文名
-       "baozhuang_en_name":'包装英文名english',////包装英文名
-       "baozhuang_zh_name":'包装中文名',////包装中文名
-       "number":'10',////数量
-       "price":'999.99',////价格
-       "image":'src',////图片
-  },{
-    "productId":"111",// 商品id
-     "zh_name":'中文名中文名中文名',///中文名
-     "en_name":'english',////英文名
-     "baozhuang_en_name":'包装英文名english',////包装英文名
-     "baozhuang_zh_name":'包装中文名',////包装中文名
-     "number":'10',////数量
-     "price":'999.99',////价格
-     "image":'src',////图片
-}]
+    this.getOrderData()
   }
 
-  this.setState({
-    orderData
-  })
+  getOrderData = () => {
+    const orderId = getQueryVariable('orderId')
+    login({
+      cmd: 'getOrderById',
+      orderId,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        this.setState({
+          orderData: res.body
+        })
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
   }
 
   renderOrderStatus = () => {

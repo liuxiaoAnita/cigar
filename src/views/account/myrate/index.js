@@ -1,35 +1,67 @@
 import React, { Component } from "react";
-import {Rate, Pagination } from 'antd'
+import {Rate, Pagination, message, Icon, Spin } from 'antd'
 import Menu from './../components/menu'
-
+import { login } from "@/store/actions";
 import "./index.less";
 class MyRatePage extends Component {
   state = {
-    rateData: [
-      {
-        "icon":"",//头像
-        "nickname": '比雅达 蜜饯 Jos',//昵称
-        "create_date": '2020-08-16',//时间
-        "conent": '质量很好 口感好 香味很足，味道很棒！好评',//内容
-        "commentId":"23653254132323563236",// 评价ID
-        "point": '2.1',//评星
-        "fen": '9'//分数
-      },
-    ]
-    
+    loading: true,
+    currentPage: 1,  
+    totalPage: 1, 
+    rateData: []
   };
   componentDidMount() {
-    // this.getUsers()
+    this.getRateData()
   }
-  onChange = (pageNumber) => {
-    console.log('Page: ', pageNumber);
+
+  getRateData = () => {
+    const { currentPage } = this.state;
+    const uid = localStorage.getItem('userUid') || '';
+    login({
+      uid,
+      cmd: 'mycommentList',
+      nowPage: currentPage,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        console.log(res.body.dataList)
+        this.setState({
+          rateData: res.body.dataList || [],
+          totalPage: res.body.totalPage || 1,
+        })
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
   }
+
+  onChange = (currentPage) => {
+    this.setState({
+      currentPage
+    }, () => {
+      this.getRateData()
+    })
+  }
+
+  renderEmpty = () => (
+    <div className='empty-content'>
+      <Icon className='icon-image' type="profile" />
+      <span className='detail-mes'>您还没有评价哦</span>
+      <span className='link-content'><i className='link-url' onClick={() => this.props.history.push('/home')}>点击这里</i>去购物</span>
+    </div>
+  )
+
   render() {
-    const {rateData} = this.state
+    const {rateData, currentPage, totalPage, loading} = this.state
     
     return (
       <div className="my-rate-content-page">
         <Menu/>
+        {loading ? <Spin spinning={loading} className='right-my-rate' /> : (
         <div className='right-my-rate'>
           <div className='title-name'>我的评价</div>
           <div className='rate-box'>
@@ -60,9 +92,10 @@ class MyRatePage extends Component {
             })}
           </div>
           <div className='page-box'>
-            <Pagination showQuickJumper defaultCurrent={1} total={500} onChange={this.onChange} />
+            <Pagination showQuickJumper defaultCurrent={currentPage} total={totalPage} onChange={this.onChange} />
           </div>
-        </div>
+          </div>
+          )}
       </div>
     );
   }
