@@ -101,7 +101,7 @@ class CarPage extends Component {
   }
 
   renderBusRight = () => {
-    const {old_money, order_money, coupon_money,} = this.state
+    const {old_money, order_money, coupon_money, sum_money} = this.state
     return (
       <div className='car-right'>
       <div className='right-title'>订单详情</div>
@@ -120,7 +120,7 @@ class CarPage extends Component {
         <div className='totle-price-content'>
           <Divider dashed style={{background: '#626262', }} />
           <div className='totle-name'>订单金额</div>
-          <div className='totle-price'>¥ 940.00</div>
+          <div className='totle-price'>¥ {sum_money}</div>
           <Button className='totle-btn' type="primary" onClick={() => {this.setState({isPayig: true})}}>去结账</Button>
         </div>
       </div>
