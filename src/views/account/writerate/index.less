@@ -1,3 +1,162 @@
 .write-rate-content-page{
-  background: #f44;
+  width: 1200px;
+  margin: 20px auto;
+  .write-item{
+    padding-bottom: 100px;
+    .menu-detail-message{
+      display: flex;
+      .detail-image{
+        width: 406px;
+        height: 406px;
+        padding-right: 20px;
+      }
+      .message-detail-content{
+        font-size: 24px;
+        padding-left: 40px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        span{
+          line-height: 40px;
+          i{
+            display: inline-block;
+            width: 160px;
+            font-style: normal;
+          }
+        }
+        .price-num{
+          padding: 50px 0;
+          font-size: 60px;
+        }
+      }
+    }
+    .write-content{
+      padding: 24px 40px;
+      background: #F5F5F5;
+      border: 1px solid #B78E74; 
+      .title-name{
+        padding: 10px 0;
+        display: inline-block;
+      }
+      .action-rate{
+        display: flex;
+        .TextArea{
+          width: 640px;
+          font-size: 24px;
+        }
+        .ActionBox{
+          flex: 1;
+          display: flex;
+          justify-content: space-around;
+          flex-direction: column;
+          padding-left: 40px;
+          .title-name{
+            font-size: 24px;
+            text-align: center;
+          }
+          .sub-title{
+            display: flex;
+            justify-content: space-between;
+            .item-sub{
+              display: inline-block;
+              padding: 8px 16px; 
+              font-size: 16px;
+              color: #8A8A8A;
+              border: 1px solid #BFBFBF;
+              border-radius: 5px;
+            }
+          }
+          .Rate{
+            font-size: 60px;
+            text-align: center;
+          }
+        }
+      }
+      .fenshu-box{
+        .title-name{
+          font-size: 24px;
+        }
+        .fenshu-detail{
+          display: flex;
+          .count-button{
+            width: 42px;
+            padding: 0 12px;
+            height: 42px;
+            text-align: center;
+            border: 1px solid #A8A8A8;
+            display: inline-block;
+            cursor: pointer;
+            line-height: 42px;
+            font-size: 28px;
+          }
+          .input{
+            width: 100px;
+            text-align: center;
+            height: 42px;
+            line-height: 42px;
+            margin: 0 8px;
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+      }
+      .tags-content{
+        .title-name{
+          padding-top: 40px;
+          font-size: 24px;
+        }
+        
+        .tag-item{
+          display: inline-block;
+          padding: 8px 20px;
+          margin: 10px 4px;
+          border: 1px solid #F19149;
+          border-radius: 5px;
+          cursor: pointer;
+          position: relative;
+          &::before{
+            position: absolute;
+            right: 6px;
+            line-height: 0;
+            top: 9px;
+            font-size: 12px;
+            color: #73523C;
+          }
+        }
+        .selected-tag-box{
+          background-color: #fff;
+          min-height: 140px;
+          padding: 0 20px;
+          margin-bottom: 40px;
+          .tag-item{
+            &::before{
+              content: '-';
+            }
+          }
+        }
+        .tag-box{
+          background-color: #fff;
+          min-height: 140px;
+          padding: 0 20px;
+          margin-bottom: 40px;
+          .tag-item{
+            &::before{
+              content: '+';
+            }
+          }
+        }
+      }
+    }
+  }
+  .submit-box{
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    .submit-button{
+      margin: 0 auto;
+      width: 220px;
+      height: 64px;
+      font-size: 24px;
+    }
+  }
 }

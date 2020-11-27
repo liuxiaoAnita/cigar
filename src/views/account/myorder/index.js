@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from './../components/menu'
-import { Tooltip, Icon, Popover, Button, Pagination, Statistic, message  } from "antd";
+import { Tooltip, Icon, Popover, Button, Pagination, Statistic, message, Popconfirm  } from "antd";
 import { login } from "@/store/actions";
 
 
@@ -8,6 +8,7 @@ import "./index.less";
 class MyOrderPage extends Component {
   state = {
     loading: true,
+    visibleWuLiu: false,
     users: [],
     isPayStatus: false,
     payData: [],
@@ -98,6 +99,26 @@ class MyOrderPage extends Component {
     return switchVal[key]
   }
 
+  getWuLiuData = val => {
+    console.log(val.orderId)
+    login({
+      cmd: 'getLogisticsInfo',
+      id: val.orderId,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        console.log(res.body.dataList)
+       
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
+  }
+
   renderList = () => {
     const { payData, currentPage, totalPage } = this.state;
     return (
@@ -112,13 +133,20 @@ class MyOrderPage extends Component {
                 </div>
                 <div className='right-totle-price'>{item.amount}</div>
                 {(Number(item.status) === 4 || Number(item.status) === 5) && (
-                    <Icon type="delete" className='delete-button' onClick={() => this.handelDelete(item)} />
+                  <Popconfirm
+                    title="确认删除该订单？"
+                    onConfirm={() => this.handelDelete(item)}
+                    okText="删除"
+                    cancelText="取消"
+                  >
+                    <Icon type="delete" className='delete-button' />
+                  </Popconfirm>
                 )}
               </div>
               <div className='order-main-message'>
                 <div className='order-left'>
                   {item.productList.map((i, k) => (
-                    <div className='order-item-mes' key={`order-detail-${k}`}>
+                    <div className='order-item-mes' onClick={() => this.props.history.push(`/detail?id=${i.id}`)} key={`order-detail-${k}`}>
                       <img className='item-img' src={i.image} />
                       <div className='item-name-box'>
                         <span className='zh-name'>{i.zh_name}</span>
@@ -139,7 +167,7 @@ class MyOrderPage extends Component {
                 <div className='jiaoyi-message'>
                   <span className='jiaoyi-status'>{this.switchStatus(Number(item.status), 'jiaoyi')}</span>
                   {(Number(item.status) === 1 || Number(item.status) === 2 || Number(item.status) === 3) && (
-                    <Popover className='check-send' content={this.renderWuliu(item)} title="物流信息" trigger="click">查看物流</Popover>
+                    <Popover visible={this.state.visibleWuLiu} className='check-send' onVisibleChange={() => this.getWuLiuData(item)} content={this.renderWuliu(item)} title="物流信息" trigger="click">查看物流</Popover>
                   )}
                   <span className='order-detail-btn' onClick={() => this.handelDetail(item)}>订单详情</span>
                 </div>
@@ -181,6 +209,24 @@ class MyOrderPage extends Component {
   // 删除订单
   handelDelete = val => {
     console.log(val)
+    const uid = localStorage.getItem('userUid') || ''
+    login({
+      uid,
+      cmd: 'deleteOrder',
+      id: val.orderId,
+    })().then(res => {
+      if (`${res.result}` === '0') {
+        message.success('删除成功')
+        this.getOrderList()
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      this.setState({loading: false})
+      message.error(error);
+    });
   }
 
   // 付款
@@ -223,8 +269,9 @@ class MyOrderPage extends Component {
   }
   // 评价
   handelRate = val => {
+    const {orderId} = val
     console.log(val)
-
+    this.props.history.push(`/writerate?orderId=${orderId}`)
   }
 
   // 查看快递信息
