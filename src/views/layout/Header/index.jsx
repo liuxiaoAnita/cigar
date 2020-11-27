@@ -1,7 +1,7 @@
 import React , { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
-import { Icon, Menu, Dropdown, Modal, Layout, Avatar,Input, InputNumber, Divider, Button, message  } from "antd";
+import { Icon, Menu, Dropdown, Modal, Layout, Avatar,Input, Popconfirm, Divider, Button, message, Spin  } from "antd";
 import homeDH from "@/assets/images/home_dh.png";
 import homeGWC from "@/assets/images/home_gwc.png";
 import homeLogo from "@/assets/images/home_logo.png";
@@ -27,10 +27,12 @@ const LayoutHeader = (props) => {
   } = props;
   token && getUserInfo(token);
   
+  const [loading, setLoading] = useState(false);
   const [tabChild, setTabChild] = useState([]);
   const [isShowChild, setShowChild] = useState(false);
   const [isShowShopCar, setShowShopCar] = useState(false);
-  const [categoryList, setCategoryList] = useState([]); // 
+  const [categoryList, setCategoryList] = useState([]); //
+  const [shopaData, setShopaData] = useState([]); //
   const [uid, setUid] = useState('')
   const [infoMes, setInfoMes] = useState({})
   
@@ -45,19 +47,40 @@ const LayoutHeader = (props) => {
     }
   }, [])
 
+  const confirm = (menuData) => {
+    const uid = localStorage.getItem('userUid') || ''
+    login({
+      uid,
+      cmd: 'delCart',
+      cartIds: [menuData.id],
+    })
+      .then(res => {
+        if (`${res.result}` === '0') {
+          message.success('删除成功！')
+          getCarMes(uid)
+        } else {
+          message.error('删除失败！')
+        }
+      })
+  }
+
   const getCarMes = (uid) => {
+    setLoading(true)
     login({cmd: 'cartList', uid})
       .then(res => {
         console.log(res)
         if(`${res.result}` === '0'){
-          // todo
-          // 购物车数据展示 
+          const {body = {}} = res
+          const {dataList = []} = body
+          setShopaData(dataList)
         } else {
           message.error(`${res.resultNote}`);
         }
+        setLoading(false)
       })
       .catch((error) => {
         message.error(error);
+        setLoading(false)
       });
   }
 
@@ -75,6 +98,7 @@ const LayoutHeader = (props) => {
         message.error(error);
       });
   }
+
   const handleLogout = () => {
     Modal.confirm({
       title: "注销",
@@ -118,9 +142,6 @@ const LayoutHeader = (props) => {
     console.log('changed', value);
   }
   const carBox = () => {
-    const shopaData = [
-      {imgUrl: '', name: '比雅达 蜜饯', nameEng: 'Jose L. Piedra Conservas', guiGe: '25支/盒', priceBefore: 'US$ 87.00', price: 'US$ 73.95', number: '1', totlePrice: 'US$ 73.95'},
-    ]
     return (
       <div
         className='hover-shop-bus'
@@ -128,24 +149,32 @@ const LayoutHeader = (props) => {
         onMouseLeave={() => setShowShopCar(false)} 
       >
         <div className='shop-car-box'>
+        <Spin spinning={loading} >
           {shopaData.map((item, index) => {
             return (
               <div className='item-box'  key={`shop-header-${index}`}>
-                <img className='item-image' src={item.imgUrl} />
+                <img className='item-image' src={item.image} />
                 <div className='item-detail'>
-                  <span className='item-name'>{item.name}{item.nameEng}</span>
+                  <span className='item-name'>{item.zh_name}{item.en_name}</span>
                   <div className='item-action'>
-                    <InputNumber className='item-num-input' size="large" min={1} max={100000} defaultValue={1} onChange={onChangeNumber()} />
-                    <Button className='item-btn-delete' shape="circle" icon="delete" title="删除" />
+                    <span className='item-qty'>{item.qty} </span>
+                    {/* <InputNumber className='item-num-input' size="large" min={1} max={100000} defaultValue={item.qty} 
+                      onChange={onChangeNumber}
+                    /> */}
+                      <Button className='item-btn-delete' shape="circle" onClick={() => confirm(item)} icon="delete"  title="删除" />
                   </div>
                 </div>
               </div>
             )
           })}
+        </Spin>
         </div>
         
         <Divider />
-        <Button className='go-car-btn'  type="primary" key="logout" onClick={() => props.history.push('/car?isPay=paying')}>去结账</Button>
+        <Button className='go-car-btn'  type="primary" key="logout" onClick={() => {
+          props.history.push('/car?isPay=paying')
+          window.location.reload()
+        }}>去结账</Button>
       </div>
     )
   }
@@ -158,7 +187,7 @@ const LayoutHeader = (props) => {
         };
       } else {
         styles = {
-          padding: "0 calc((100% - 1200px) /2)",
+          // padding: "0 calc((100% - 1200px) /2)",
           left: "0",
           display: 'flex',
           flexDirection: 'column',

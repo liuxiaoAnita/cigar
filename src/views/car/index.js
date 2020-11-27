@@ -125,7 +125,7 @@ class CarPage extends Component {
           <Divider dashed style={{background: '#626262', }} />
           <div className='totle-name'>订单金额</div>
           <div className='totle-price'>¥ {sum_money}</div>
-          <Button className='totle-btn' type="primary" onClick={() => {this.setState({isPayig: true})}}>去结账</Button>
+          <Button className='totle-btn' type="primary" onClick={() => {this.props.history.push('/car?isPay=paying');window.location.reload()}}>去结账</Button>
         </div>
       </div>
     </div>
@@ -198,7 +198,9 @@ class CarPage extends Component {
           <Paying
             goodsList={dataList} 
             sumMoney={sum_money}
-            onGoCar={() => this.setState({isPayig: false})}
+            onGoCar={() => {
+              this.props.history.push('/car');window.location.reload()
+            }}
             saveCartOrder={this.saveCartOrder}
           />) : (
         <div className="car-shop-content">
