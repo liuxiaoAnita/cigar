@@ -9,7 +9,10 @@
       .left-content{
         flex: 1;
         display: flex;
-
+        flex-direction: column;
+        .left-top-message{
+          display: flex;
+        }
         .message-detail-content{
           font-size: 24px;
           padding-left: 40px;
@@ -108,5 +111,67 @@
         }
       }
     }
+  }
+}
+
+
+
+
+.tabs-content{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.detail-comment-list-page{
+  .loadingComment{
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .comment-item{
+    display: flex;
+    margin: 24px 10px;
+    margin-top: 0;
+    background: #F5F5F5;
+    padding: 16px;
+    .icon{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: peru;
+      margin-right: 24px;
+    }
+    .comment-message{
+      display: flex;
+      flex-direction: column;
+      font-size: 18px;
+      .createDate{
+        color: #878787;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .conent{
+        padding: 24px 0;
+      }
+      .fenAndRate{
+        display: flex;
+        align-items: center;
+        .fen{
+          font-size: 30px;
+          padding-right: 36px;
+          color: #73523C;
+        }
+        .rate{
+          font-size: 24px;
+        }
+      }
+    }
+  }
+  .page-box{
+    text-align: right;
+    padding: 20px 0;
   }
 }

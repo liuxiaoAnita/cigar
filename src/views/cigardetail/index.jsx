@@ -209,7 +209,7 @@ const CigarDetailPage = (props) => {
   )
 
   return (
-    loading ? <div>loading</div> :
+    loading ? <Spin spinning={loading} /> :
     <div className='CigarDetailPage'>
       <div className='left-content'>
         <div className='left-mess-title'>筛选条件</div>

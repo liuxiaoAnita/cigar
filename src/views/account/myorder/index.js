@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from './../components/menu'
-import { Tooltip, Icon, Popover, Button, Pagination, Statistic, message, Popconfirm  } from "antd";
+import { Tooltip, Icon, Popover, Button, Pagination, Statistic, message, Popconfirm, Spin  } from "antd";
 import { login } from "@/store/actions";
 
 
@@ -339,10 +339,12 @@ class MyOrderPage extends Component {
     return (
       <div className="my-order-content-page">
         <Menu/>
-        {loading ? '' : <div className='right-order-info'>
-            <div className='right-title'>订单记录</div>
-            {(payData && payData.length > 0) ? this.renderList() : this.renderEmpty()}
-        </div>}
+        <Spin spinning={loading} >
+          <div className='right-order-info'>
+              <div className='right-title'>订单记录</div>
+              {(payData && payData.length > 0) ? this.renderList() : this.renderEmpty()}
+          </div>
+        </Spin>
         {isPayStatus && this.renderPay()}
       </div>
     );

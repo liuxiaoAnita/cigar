@@ -145,7 +145,7 @@ const LayoutHeader = (props) => {
         </div>
         
         <Divider />
-        <Button className='go-car-btn'  type="primary" key="logout" onClick={() => props.history.push('/car')}>去结账</Button>
+        <Button className='go-car-btn'  type="primary" key="logout" onClick={() => props.history.push('/car?isPay=paying')}>去结账</Button>
       </div>
     )
   }

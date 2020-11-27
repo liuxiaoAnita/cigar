@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom'
+import {getQueryVariable} from '@/utils'
+
 import NotLogin from '../error/nologin/index'
 import { Divider, Button, InputNumber, Icon, message } from 'antd'
 import CigarItem from './CigarItem'
@@ -35,9 +37,11 @@ class CarPage extends Component {
   }
 
   componentDidMount() {
+    const isPayig = (getQueryVariable('isPay') || '') === 'paying'
     const uid = localStorage.getItem('userUid') || ''
     this.setState({
       uid,
+      isPayig,
     })
     if(uid === '') {
       message.error('未登录，跳转登录页！')
