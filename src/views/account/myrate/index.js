@@ -80,10 +80,12 @@ class MyRatePage extends Component {
                         <Rate className='rate-star' allowHalf defaultValue={Number(item.point)} />
                       </div>
                     </div>
-                    <div className='right-mess'>
-                      <img className='goods-img' src={item.icon} />
+                    <div className='right-mess' onClick={() => {this.props.history.push(`/detail?id=${item.id}`)}}>
+                      <img className='goods-img' src={item.image} />
                       <div className='detail-name-box'>
-                        {item.nickname}
+                        <span>{item.zh_name}</span>
+                        <span>{item.en_name}</span>
+                        <span>{item.baozhuang_zh_name}</span>
                       </div>
                     </div>
                   </div>
