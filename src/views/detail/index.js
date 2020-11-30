@@ -82,7 +82,7 @@ class User extends Component {
           <div className='left-content'>
             <div className='left-top-message'>
               <div className='image-content'>
-                <div><img src='' width={400} height={400} /></div>
+                <div><img src={dataList.image} width={400} height={400} /></div>
                 <div>
 
                 </div>
