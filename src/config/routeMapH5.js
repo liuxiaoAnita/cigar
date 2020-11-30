@@ -1,5 +1,7 @@
 import Loadable from 'react-loadable';
 import Loading from '@/components/Loading'
+
+
 const Error404 = Loadable({loader: () => import(/*webpackChunkName:'Error404'*/'@/views/error/404'),loading: Loading});
 
 // 新增的页面
@@ -24,20 +26,20 @@ export default [
   
   // 新增
   { path: "/home", component: Home },
-  { path: "/login", component: Login },
-  { path: "/forget", component: Forget },
-  { path: "/register", component: Register },
-  { path: "/car", component: Car, needLogin: true  },
-  { path: "/myself", component: Myself },
-  { path: "/heart", component: Heart },
-  { path: "/myplatter", component: MyPlatter },
-  { path: "/myorder", component: MyOrder },
-  { path: "/orderdetail", component: OrderDetail },
-  { path: "/paying", component: Paying },
-  { path: "/myrate", component: MyRate },
-  { path: "/writerate", component: WriteRate },
-  { path: "/cigardetail", component: CigarDetail },
-  { path: "/detail", component: Detail },
+  { path: "/login", component: Home },
+  { path: "/forget", component: Home },
+  { path: "/register", component: Home },
+  { path: "/car", component: Home, needLogin: true  },
+  { path: "/myself", component: Home },
+  { path: "/heart", component: Home },
+  { path: "/myplatter", component: Home },
+  { path: "/myorder", component: Home },
+  { path: "/orderdetail", component: Home },
+  { path: "/paying", component: Home },
+  { path: "/myrate", component: Home },
+  { path: "/writerate", component: Home },
+  { path: "/cigardetail", component: Home },
+  { path: "/detail", component: Home },
 
   
 ];
