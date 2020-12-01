@@ -20,7 +20,13 @@ class Router extends React.Component {
     window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
-  handleClientW = (width, num = 1000)=>{
+  handleClientW = (width, num = 1000) => {
+    const originWidth = 375;
+    const fontValue = ((62.5 * width) /originWidth).toFixed(2);
+    document.documentElement.style.fontSize = (width / 375) + 'px';
+    if (width < 375) {
+      document.documentElement.style.fontSize = (width / 375) + 'px';
+    }
     if(width >= num){
       this.setState({
         isPC: true,

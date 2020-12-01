@@ -20,7 +20,7 @@ const ThingsContent = (props) => {
 
   new Swiper(swiperId, {
     pagination: '.swiper-pagination',
-    slidesPerView: 4,
+    slidesPerView: 2,
     paginationClickable: true,
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',

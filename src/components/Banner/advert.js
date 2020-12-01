@@ -33,7 +33,7 @@ const AdvertBanner = (props) => {
         <div className="swiper-wrapper">
           {bannerList.map((item, index) => (
             <div key={`advert-swiper-item-${index}`} className="swiper-slide">
-              <img onClick={() => window.location.href = item.url} height={240}  style={{cursor: 'pointer'}} src={item.image} />
+              <img onClick={() => window.location.href = item.url} style={{cursor: 'pointer', height: '70rem'}} src={item.image} />
             </div>
           ))}
         </div>

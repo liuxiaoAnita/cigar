@@ -23,6 +23,7 @@ const LayoutContent = (props) => {
   const { role, location, windowWidth } = props;
   const { pathname } = location;
   const [routeArr, setRouteArr] = useState(routeList)
+  const [isPC, setPCStatus] = useState(true)
   const handleFilter = (route) => {
     // 过滤没有权限的页面
     return role === "admin" || !route.roles || route.roles.includes(role);
@@ -30,14 +31,16 @@ const LayoutContent = (props) => {
 
   useEffect(() => {
     if (windowWidth < 1000) {
-      setRouteArr(routeListH5)
+      setRouteArr(routeListH5);
+      setPCStatus(false)
     } else {
       setRouteArr(routeList)
+      setPCStatus(true)
     }
   }, [windowWidth])
   return (
     <DocumentTitle title={getPageTitle(menuList, pathname)}>
-      <Content style={{ minHeight: "max-content" }}>
+      <Content className={isPC ? 'PC-content' : 'H5-content'} style={{ minHeight: "max-content" }}>
         <TransitionGroup>
           <CSSTransition
             key={location.pathname}
