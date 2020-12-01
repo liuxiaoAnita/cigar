@@ -88,3 +88,37 @@
 .swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled{
   pointer-events: auto;
 }
+
+.ant-drawer-title{
+  font-size: 22px;
+  color: #73523C;
+}
+.ant-drawer-body{
+  margin: 0 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid #9B9B9B;
+  font-size: 12px;
+  position: relative;
+  &::before{
+    position: absolute;
+    right: 13px;
+    top: 18px;
+    width: 0;
+    height: 0;
+    content: "";
+    border-width: 8px 0 8px 8px;
+    border-style: solid;
+    border-color: transparent #000;
+  }
+  &::after{
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    width: 0;
+    height: 0;
+    content: "";
+    border-width: 8px 0 8px 8px;
+    border-style: solid;
+    border-color: transparent #fff;
+  }
+}

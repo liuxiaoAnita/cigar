@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {message, Carousel} from 'antd';
+import {message, Carousel, Drawer} from 'antd';
 import {login} from "@/store/actions";
 import Icon01 from "@/assets/images/home_icon_01.png";
 import BannerAdvert from "@/components/Banner/advert.js";
@@ -70,18 +70,19 @@ class H5Home extends Component {
             key={`category-h5-item-${index}`}
             onClick={() => {
               if (item.category2List.length > 0) {
+              console.log(item)
+
                 this.setState({
                   categoryChild: item,
                   showCategoryChild: true,
                 })
               } else {
-                this.props.history.push('/detail')
+                this.props.history.push(`/detail?id=${item.id}`);
+                window.location.reload()
               }
-              
-              console.log(item)
             }}
           >
-            <img className='img' src={Icon01} />
+            <img className='img' src={item.icon} />
             <span className='name'>{item.zh_name}</span>
           </div>
         ))}
@@ -141,10 +142,14 @@ class H5Home extends Component {
     )
   }
 
-
+  onClose = () => {
+    this.setState({
+      showCategoryChild: false,
+    })
+  }
 
   render() {
-    const { bannerList, adList, categoryList, productList, bokeList } = this.state;
+    const { bannerList, adList, categoryList, productList, bokeList, showCategoryChild, categoryChild } = this.state;
     return (
       <div className="h5-app-container">
         {/* 首页的banner */}
@@ -157,6 +162,25 @@ class H5Home extends Component {
         <BannerThings slidesPerView={2} data={productList} />
         {bokeList.length > 0 && <BannerTop title='雪茄博客' descr='RECOMMENDED PRODUCTS' />}
         {bokeList.length > 0 && this.renderBoKe()}
+        <Drawer
+          title={categoryChild.zh_name || ''}
+          placement='bottom'
+          closable={false}
+          onClose={this.onClose}
+          visible={showCategoryChild}
+        >
+          {categoryChild.category2List && categoryChild.category2List.map((item, index) => (
+            <div
+              key={`cattegory-item-${index}`}
+              onClick={() => {
+                this.props.history.push(`/detail?id=${item.id}`);
+                window.location.reload()
+              }}
+            >
+              {item.zh_name}
+            </div>
+          ))}
+        </Drawer>
       </div>
     );
   }
