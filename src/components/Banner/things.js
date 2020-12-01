@@ -10,7 +10,7 @@ import "./things.less";
 
               
 const ThingsContent = (props) => {
-  const { data } = props
+  const { data, slidesPerView = 4 } = props
   const [swiperId, setSwiperId] = useState('');
   const [bannerList, setBannerList] = useState([]);
 
@@ -20,11 +20,11 @@ const ThingsContent = (props) => {
 
   new Swiper(swiperId, {
     pagination: '.swiper-pagination',
-    slidesPerView: 2,
+    slidesPerView,
     paginationClickable: true,
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
-    spaceBetween: 30,
+    spaceBetween: 20,
     freeMode: true
   });
   return (

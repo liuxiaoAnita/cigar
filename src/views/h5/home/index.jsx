@@ -15,6 +15,8 @@ class H5Home extends Component {
     productList: [],
     bokeList: [],
     categoryList: [],
+    categoryChild: [],
+    showCategoryChild: false,
   };
   componentDidMount() {
     this.getHomeMes()
@@ -67,6 +69,15 @@ class H5Home extends Component {
             className='category-h5-item'
             key={`category-h5-item-${index}`}
             onClick={() => {
+              if (item.category2List.length > 0) {
+                this.setState({
+                  categoryChild: item,
+                  showCategoryChild: true,
+                })
+              } else {
+                this.props.history.push('/detail')
+              }
+              
               console.log(item)
             }}
           >
@@ -74,6 +85,17 @@ class H5Home extends Component {
             <span className='name'>{item.zh_name}</span>
           </div>
         ))}
+      </div>
+    )
+  }
+
+  renderChild = () => {
+    return(
+      <div className='h5-category-child-content'>
+        <div className='h5-category-back' />
+        <div className='h5-category-detail'>
+          <div></div>
+        </div>
       </div>
     )
   }
@@ -123,7 +145,6 @@ class H5Home extends Component {
 
   render() {
     const { bannerList, adList, categoryList, productList, bokeList } = this.state;
-    console.log(categoryList)
     return (
       <div className="h5-app-container">
         {/* 首页的banner */}
@@ -132,10 +153,10 @@ class H5Home extends Component {
         {categoryList && this.renderCategory()}
         {/* 首页广告位 */}
         <BannerAdvert data={adList} />
-        {productList.length && <BannerTop title='推荐产品' descr='RECOMMENDED PRODUCTS' />}
-        <BannerThings data={productList} />
-        {bokeList.length && <BannerTop title='雪茄博客' descr='RECOMMENDED PRODUCTS' />}
-        {bokeList && this.renderBoKe()}
+        {productList.length > 0 && <BannerTop title='推荐产品' descr='RECOMMENDED PRODUCTS' />}
+        <BannerThings slidesPerView={2} data={productList} />
+        {bokeList.length > 0 && <BannerTop title='雪茄博客' descr='RECOMMENDED PRODUCTS' />}
+        {bokeList.length > 0 && this.renderBoKe()}
       </div>
     );
   }

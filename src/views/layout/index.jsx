@@ -34,7 +34,7 @@ const Main = (props) => {
         <Content style={{alignItem: 'auto'}}  isPC={isPC} windowWidth={ windowWidth } />
         <RightPanel />
         {isPC ? <Footer /> : <FooterH5 />}
-        <BackTop />
+        <BackTop isPC={isPC} />
       </Layout>
     </Layout>
   );
