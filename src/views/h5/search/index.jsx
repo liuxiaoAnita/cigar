@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ItemBox from "@/components/Banner/ItemBox.js";
 import {message, Input, Drawer} from 'antd';
 import {login} from "@/store/actions";
 
@@ -7,18 +8,17 @@ import "./index.less";
 const { Search } = Input;
 class SearchPage extends Component {
   state = {
-    bannerList: [],
-    adList: [],
-    productList: [],
-    bokeList: [],
+    searchVal: '2',
     categoryList: [],
     categoryChild: [],
     showCategoryChild: false,
     activeArr: [],
+    searchList: [],
   };
   componentDidMount() {
     this.getHomeMes()
   }
+  // getProductList
 
   getHomeMes = () => {
     const uid = localStorage.getItem('userUid') || ''
@@ -27,14 +27,29 @@ class SearchPage extends Component {
         if (`${res.result}` === '0') {
           console.log(res.body)
           const {body = {}} = res;
-          const {bannerList = [], adList = [], productList = [], bokeList = [], categoryList = []} = body;
+          const { categoryList = [] } = body;
 
           this.setState({
-            bannerList,
-            adList,
-            productList,
-            bokeList,
             categoryList,
+          })
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
+  getSearchMes = () => {
+    const { searchVal } = this.state
+    login({cmd: 'getProductList', name: searchVal})()
+      .then(res => {
+        if (`${res.result}` === '0') {
+          console.log(res.body)
+          const {dataList = []} = res.body
+          this.setState({
+            searchList: [...dataList,...dataList,...dataList],
           })
         } else {
           message.error(`${res.resultNote}`);
@@ -91,11 +106,41 @@ class SearchPage extends Component {
     }
   }
 
+  onSearchFun = val => {
+    this.setState({
+      searchVal: val,
+    }, () => {
+      this.getSearchMes()
+    })
+  }
+
   render() {
+    const { searchVal, searchList } = this.state
     return (
       <div className="h5-search-container">
-        <Search className='search-input' placeholder="品牌/名称" onSearch={value => console.log(value)} enterButton />
-        {this.renderCategory()}
+        <div className='search-background' />
+        <Search className='search-input' placeholder="品牌/名称" onSearch={value => this.onSearchFun(value)} enterButton />
+        {searchVal.length === 0 && this.renderCategory()}
+        {searchVal.length > 0 && (
+          <div className='search-content'>
+            <div className='search-val'>搜索结果：'{searchVal}'</div>
+            {searchList.length === 0 ? (
+              <div className='search-empty'>
+                <span>没有搜索到<i>'{searchVal}'</i>相关信息</span>
+                <span>请重新搜索</span>
+              </div>
+            ) : (
+              <div className='search-box'>
+                {searchList.map((item, index) => (
+                  <div className="search-item" key={`searcch-item-${index}`}>
+                    <ItemBox item={item} />
+                  </div>
+                ))}
+              </div>
+            )}
+            
+          </div>
+        )}
       </div>
     );
   }

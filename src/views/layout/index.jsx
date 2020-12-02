@@ -23,6 +23,8 @@ const Main = (props) => {
 
   useEffect(() => {
     setPC(windowWidth >= 1000)
+    console.log('windowWidth')
+    console.log(windowWidth)
   }, [windowWidth])
 
   return (
