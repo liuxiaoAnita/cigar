@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { connect } from "react-redux";
 import { Icon } from 'antd';
 import { withRouter } from 'react-router-dom'
+import KeFu from '@/components/KeFu'
 import homeLogo from "@/assets/images/home_logo.png";
 import Icon01 from "@/assets/images/home_icon_01.png";
 import tub2 from "@/assets/images/tub2.png";
@@ -43,23 +44,6 @@ const Footer = (props) => {
     },
   ]
 
-  const renderKeFu = () => {
-    return(
-      <>
-        <div className='kefu-h5-back' onClick={() => setShowKeFu(false)} />
-        <div className='kefu-h5-content'>
-          <div className='kefu-h5-message'>
-            <Icon className='icon-phone' type="phone" />
-            <span className='phone-number'>400-842-4625</span>
-            <span className='kefu-time'>周一至周五   9:30-23:00</span>
-            <span className='kefu-other'>如有疑问，请电话咨询客服<br />客服将会为您解决您的问题</span>
-          </div>
-          <Icon onClick={() => setShowKeFu(false)} className='close-btn' type="close" />
-        </div>
-      </>
-    )
-  }
-
   return (
     <>
     <div className='h5-footer-content'>
@@ -87,7 +71,7 @@ const Footer = (props) => {
         </div>
       ))}
     </div>
-    {isShowKeFu && renderKeFu()}
+    {isShowKeFu && <KeFu onChange={() => setShowKeFu(false)} />}
     <div style={{minHeight: '70rem', width: '100%'}}></div>
     </>
   );

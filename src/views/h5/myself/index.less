@@ -1,0 +1,86 @@
+.H5-content.ant-layout-content{
+    background-color: #ECECEC;
+    align-items: baseline;
+}
+.h5-myself-container{
+  width: 375rem;
+  // 未登录
+  .h5-no-login-box{
+    .top-show-mes{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffffff;
+      margin-bottom: 16rem;
+      .user-icon{
+        font-size: 70rem;
+        color: #B78E74;
+        padding: 8rem;
+        border: 2px solid #B78E74;
+        border-radius: 50%;
+        margin: 18rem 0;
+      }
+      .top-button-box{
+        padding-bottom: 24rem;
+        .btn{
+          width: 100rem;
+          &+.btn{
+            margin-left: 8rem;
+          }
+        }
+      }
+    }
+
+  }
+
+  // 已登录
+  .user-detail-mes{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .user-icon{
+      width: 72rem;
+      height: 72rem;
+      border-radius: 50%;
+      background: #fff;
+      overflow: hidden;
+      margin: 18rem 0;
+    }
+    .user-mes{
+      font-size: 14px;
+      margin-bottom: 10rem;
+      padding-left: 36rem;
+      .nickname{
+
+      }
+      .sex-user{
+        padding-left: 10rem;
+      }
+    }
+    .user-id{
+      font-size: 10rem;
+      color: #B78E74;
+    }
+  }
+
+  // 公共部分
+    .other-item{
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16rem;
+      .item{
+        padding: 18rem 25rem;
+        display: flex;
+        justify-content: space-between;
+        background: #FFFFFF;
+        color: #886753;
+        >i{
+          font-style: normal;
+          color: #000000;
+        }
+        &+.item{
+          border-top: 1px solid #ECECEC;
+        }
+      }
+    }
+}

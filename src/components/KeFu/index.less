@@ -1,0 +1,70 @@
+
+.kefu-h5-back{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 999999;
+  background-color: #000;
+  opacity: 0.7;
+}
+.kefu-h5-content{
+  position: fixed;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 9999999;
+  width: 272rem;
+  height: 181rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .kefu-h5-message{
+    display: flex;
+    width: 270rem;
+    flex-direction: column;
+    background: #FFFFFF;
+    align-items: center;
+    .icon-phone{
+      color: #fff;
+      font-size: 30rem;
+      background-color: #B78E74;
+      border-radius: 50%;
+      padding: 4rem;
+      margin: 16rem 0;
+    }
+    .phone-number{
+      font-size: 22px;
+      color: #73523C;
+      display: inline-block;
+      padding-bottom: 10rem;
+    }
+    .kefu-time{
+      font-size: 14px;
+      color: #888888;
+      display: inline-block;
+      padding-bottom: 24rem;
+    }
+    .kefu-other{
+      font-size: 12px;
+      display: inline-block;
+      padding-bottom: 24rem;
+      color: #A9A9A9;    
+      line-height: 20rem;
+    }
+  }
+
+  .close-btn{
+    font-size: 24rem;
+    padding: 8rem;
+    background: #FFFFFF;
+    border-radius: 50%;
+    margin: 24rem;
+    cursor: pointer;
+  }
+  
+}

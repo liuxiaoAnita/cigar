@@ -8,7 +8,7 @@ import "./index.less";
 const { Search } = Input;
 class SearchPage extends Component {
   state = {
-    searchVal: '2',
+    searchVal: '',
     categoryList: [],
     categoryChild: [],
     showCategoryChild: false,
