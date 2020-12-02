@@ -5,6 +5,7 @@ import Loading from '@/components/Loading'
 const Error404 = Loadable({loader: () => import(/*webpackChunkName:'Error404'*/'@/views/error/404'),loading: Loading});
 
 // 新增的页面
+const Search = Loadable({loader: () => import(/*webpackChunkName:'Home'*/'@/views/h5/search'),loading: Loading});
 const Home = Loadable({loader: () => import(/*webpackChunkName:'Home'*/'@/views/h5/home'),loading: Loading});
 const Login = Loadable({loader: () => import(/*webpackChunkName:'Login'*/'@/views/login'),loading: Loading});
 const Register = Loadable({loader: () => import(/*webpackChunkName:'Register'*/'@/views/register'),loading: Loading});
@@ -26,6 +27,7 @@ export default [
   
   // 新增
   { path: "/home", component: Home },
+  { path: "/search", component: Search },
   { path: "/login", component: Home },
   { path: "/forget", component: Home },
   { path: "/register", component: Home },

@@ -24,6 +24,7 @@ export default [
   
   // 新增
   { path: "/home", component: Home },
+  { path: "/search", component: Home },
   { path: "/login", component: Login },
   { path: "/forget", component: Forget },
   { path: "/register", component: Register },

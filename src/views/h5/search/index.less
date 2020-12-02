@@ -1,0 +1,107 @@
+.H5-content.ant-layout-content{
+  align-items: baseline;
+  .h5-search-container{
+    width: 375rem;
+    padding: 12rem 14rem;
+    .search-input{
+      margin: 10rem 0;
+    }
+    .search-category-content{
+      display: flex;
+      flex-direction: column;
+      .category-item-content{
+        max-height: 54rem;
+        transition: max-height ease-in-out 0.4s;
+        overflow: hidden;
+        &.active{
+          max-height: 1000rem;
+          // height:500px;
+        }
+        .category-child-box{
+          margin-top: 4rem;
+          background: #FFFFFF;
+          border: 1px solid #9B9B9B;
+          display: flex;
+          flex-direction: column;
+          .category-child{
+            margin: 0 8rem;
+            padding: 12rem 0;
+            &+.category-child{
+              border-top: 1px solid #9B9B9B;
+            }
+          }
+          
+        }
+      }
+      .category-item {
+        cursor: pointer;
+        width: 100%;
+        height: 44rem;
+        background: #EFE2D9;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        padding-left: 10rem;
+        margin-top: 8rem;
+      }
+    }
+  }
+}
+
+
+
+.hasChild {
+  position: relative;
+  width: 120px;
+  height: 40px;
+  border: 1px solid #d2d2d2;
+  border-radius: 3px;
+}
+.hasChild:after {
+  position: absolute;
+  right: 15px;
+  top: 17px;
+  width: 0;
+  height: 0;
+  content: "";
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #EFE2D9 transparent;
+  -webkit-transition: all .25s;
+     -moz-transition: all .25s;
+      -ms-transition: all .25s;
+       -o-transition: all .25s;
+          transition: all .25s;
+}
+
+.hasChild:before {
+  position: absolute;
+  right: 13px;
+  top: 18px;
+  width: 0;
+  height: 0;
+  content: "";
+  border-width: 8px 8px 0 8px;
+  border-style: solid;
+  border-color: #73523C transparent;
+  -webkit-transition: transform .25s;
+     -moz-transition: transform .25s;
+      -ms-transition: transform .25s;
+       -o-transition: transform .25s;
+          transition: transform .25s;
+}
+.hasChild.active:after{       
+  top: 21px;
+  -webkit-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+       -o-transform: rotate(180deg);
+          transform: rotate(180deg); 
+}
+.hasChild.active:before{
+  -webkit-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+       -o-transform: rotate(180deg);
+          transform: rotate(180deg);        
+}
