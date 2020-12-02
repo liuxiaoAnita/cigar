@@ -8,7 +8,7 @@ const NotFound = (props) => {
   const goHome = () => history.replace("/");
   return (
     <Row className="not-found">
-      <Col span={12}>
+      <Col span={12} className='error-image-background'>
         <img src={errImg} alt="404" />
       </Col>
       <Col span={12} className="right">
