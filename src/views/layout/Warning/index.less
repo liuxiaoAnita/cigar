@@ -1,25 +1,36 @@
 .WarnPage-content{
   position: fixed;
-  width: 300rem;
   top: 50%;
   left: 50%;
   z-index: 999999999999;
   background: #FFFFFF;
   transform: translateX(-50%) translateY(-50%);
+  &.h5Page{
+    width: 300rem;
+    .title{
+      font-size: 18rem;
+    }
+    .message{
+      font-size: 12rem;
+    }
+    .warn-title{
+      font-size: 18rem;
+    }
+  }
   .warn-detail{
     padding: 30px;
     .title{
       color: #73523C;
-      font-size: 18rem;
+      font-size: 18px;
     }
     .message{
       display: block;
-      font-size: 12rem;
+      font-size: 12px;
       font-weight: 400;
       color: #432512;
     }
     .warn-title{
-      font-size: 18rem;
+      font-size: 18px;
       font-weight: 800;
       color: #73523C;
       margin: 20px;
@@ -32,22 +43,25 @@
     background: #E0E0E0;
     padding: 20px;
     .ask-age{
-      font-size: 18rem;
+      font-size: 18px;
       font-weight: 400;
       color: #73523C;
     }
     .ask-buttons{
-      margin-top: 18rem;
+      margin-top: 18px;
       display: flex;
+      justify-content: center;
       .ant-btn{
-        width: 130rem;
+        width: 130px;
         &+.ant-btn{
-          margin-left: 12rem;
+          margin-left: 12px;
         }
       }
     }
   }
 }
+
+
 .warn-background{
   position: fixed;
   left: 0;

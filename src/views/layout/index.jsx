@@ -30,7 +30,7 @@ const Main = (props) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout>
-        { isRead !== 'already' && <Warning handelBtn={handelBtn}/> }
+        { isRead !== 'already' && <Warning isPC={isPC} handelBtn={handelBtn}/> }
         {isPC ? <Header /> : <HeaderH5 />}
         {tagsView ? <TagsView /> : null}
         <Content style={{alignItem: 'auto'}}  isPC={isPC} windowWidth={ windowWidth } />

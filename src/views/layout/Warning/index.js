@@ -9,12 +9,12 @@ const WarnPage = (props) => {
   // const handelBtn = (data) => {
   //   setCookie('isRead', data)
   // }
-  const {handelBtn} = props
+  const {handelBtn, isPC} = props
 
   return (
     <>
     <div className='warn-background' />
-    <div className='WarnPage-content'>
+    <div className={`WarnPage-content ${isPC ? '': 'h5Page'}`}>
       <div className='warn-detail'>
         <h3 className='title'>郑重声明</h3>
         <span className='message'>
