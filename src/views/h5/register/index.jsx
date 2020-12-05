@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Form, Icon, Input, Button, DatePicker, message, Select} from 'antd';
+import debounce from '@/utils/debounce'
 import { connect } from "react-redux";
 import {login} from "@/store/actions";
 
@@ -11,31 +12,83 @@ class LoginPage extends Component {
   state = {
     loginPhone: '',
     confirmDirty: false,
+    yzmIcon: '',
+    yzmImage: '',
   }
 
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    // 阻止事件的默认行为
+    event.preventDefault();
+
+    // 对所有表单字段进行检验
     this.props.form.validateFields((err, values) => {
+      // 检验成功
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.handleLogin(values.username, values.password)
+        let birth = '';
+        if (values['birth']) {
+          birth = values['birth'].format('YYYY-MM-DD')
+        }
+        console.log('注册function')
+        const params = {"cmd":"userRegist", ...values, birth}
+        console.log(params)
+        this.handleLogin(params);
+      } else {
+        console.log("检验失败!");
       }
     });
   };
+
+  handleLogin = (params) => {
+    // 登录完成后 发送请求 调用接口获取用户信息
+    this.setState({
+      loading: true
+    })
+    login(params)()
+      .then((res) => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success("注册成功，即将跳转登录页");
+          setTimeout(() => {
+            this.props.history.push("/login");
+          }, 1000);
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+        this.setState({
+          loading: false
+        })
+      })
+      .catch((error) => {
+        message.error(error);
+        this.setState({
+          loading: false
+        })
+      });
+  }; 
 
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
+  compareToyzmCode = (rule, value, callback) => {
+    const { form } = this.props;
+    const { yzmIcon } = this.state
+    if (value && value !== yzmIcon.toLowerCase()) {
+      callback('验证码不正确');
+    } else {
+      callback();
+    }
+  }
+
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('两次密码不一样');
     } else {
       callback();
     }
@@ -49,30 +102,56 @@ class LoginPage extends Component {
     callback();
   };
 
-  handleLogin = (param, password) => {
-    // 登录完成后 发送请求 调用接口获取用户信息
-    const params = {"cmd":"userLogin", param, password}
+  componentDidMount() {
+    this.getSmsUrl(true)
+  }
 
-    login(params)()
-      .then((res) => {
-        console.log(res)
-        if (`${res.result}` === '0') {
-          message.success("登录成功");
-          localStorage.setItem('userUid', res.body.uid)
-          this.props.history.push("/myself");
-        } else {
-          message.error(`${res.resultNote}`);
-        }
-      })
-      .catch((error) => {
-        message.error(error);
-      });
-  };
-  // componentDidMount() {
+  getSmsUrl = (status = false) => {
+    
+    login({cmd: 'sendSms'})()
+    .then(res => {
+      console.log(res)
+      if(`${res.result}` === '0'){
+        console.log(res.body)
+        const {body} = res
+        // setCode(body.code)
+        // setIconUrl(body.icon)
+        
+        this.setState({
+          yzmIcon: body.code,
+          yzmImage: body.icon,
+        }, () => {
+          if (!status) {
+            setTimeout(() => {
+              this.props.form.setFieldsValue({yzm: ''})
+        }, 1000);
+          }
+        })
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+    })
+  }
 
-  // }
+  checkPassword =  (rule, value, callback) => {//必须为字母加数字且长度不小于8位
+    var str = value;
+     if (str == null || str.length <8) {
+      callback('字母加数字且长度不小于8位');
+     }
+     var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+     if (!reg1.test(str)) {
+      callback('字母加数字且长度不小于8位');
+     }
+     var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+     if (reg.test(str)) {
+      callback()
+     } else {
+      callback('字母加数字且长度不小于8位');
+     }
+ }
 
   render() {
+    const { yzmImage, yzmIcon } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="h5-login-Page" >
@@ -81,7 +160,7 @@ class LoginPage extends Component {
         <Form className="" onSubmit={this.handleSubmit} className="h5-login-container login-form">
          
         <Form.Item >
-            {getFieldDecorator('email', {
+            {getFieldDecorator('eamil', {
               rules: [
                 {
                   type: 'email',
@@ -107,9 +186,7 @@ class LoginPage extends Component {
                   required: true,
                   message: '输入密码',
                 },
-                {
-                  validator: this.validateToNextPassword,
-                },
+                { validator: this.checkPassword }
               ],
             })(
               <Input
@@ -139,11 +216,11 @@ class LoginPage extends Component {
           </Form.Item>
          
           <Form.Item>
-            {getFieldDecorator('checkVal', {
+            {getFieldDecorator('yzm', {
               rules: [
                 { required: true, message: '输入验证码' },
                 {
-                  validator: this.compareToFirstPassword,
+                  validator: this.compareToyzmCode,
                 },
               ],
               
@@ -153,6 +230,7 @@ class LoginPage extends Component {
                 placeholder="验证码"
               />,
             )}
+              <img width='60' className='yzmImage' onClick={debounce(this.getSmsUrl, 1000)} src={`${yzmImage}?random=${Math.random()}`} alt='验证码' />
           </Form.Item>
           <div className='sub-title-mes'>个人信息</div>
 
@@ -186,7 +264,7 @@ class LoginPage extends Component {
             <div>
               <Form.Item>
                 {getFieldDecorator('sex', {})(
-                  <Select placeholder='性别' style={{ width: 120 }} onChange={this.handleChange}>
+                  <Select placeholder='性别' style={{ width: '140rem' }} onChange={this.handleChange}>
                     <Option value="man">男</Option>
                     <Option value="woman">女</Option>
                   </Select>
@@ -195,7 +273,7 @@ class LoginPage extends Component {
             </div>
           </div>
           <Form.Item>
-            {getFieldDecorator('wxId', {})(
+            {getFieldDecorator('wx', {})(
             <Input
               prefix={<Icon type="wechat" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="微信ID"

@@ -18,10 +18,10 @@ const RegisterPage = (props) => {
   const [iconUrl, setIconUrl] = useState('')
 
   useEffect(() => {
-    getSmsUrl()
+    getSmsUrl(true)
   }, []);
 
-  const getSmsUrl = () => {
+  const getSmsUrl = (status = false) => {
     login({cmd: 'sendSms'})
     .then(res => {
       console.log(res)
@@ -30,6 +30,11 @@ const RegisterPage = (props) => {
         const {body} = res
         setCode(body.code)
         setIconUrl(body.icon)
+        if (!status) {
+          setTimeout(() => {
+            this.props.form.setFieldsValue({yzm: ''})
+          }, 1000);
+        }
       } else {
         message.error(`${res.resultNote}`);
         setLoading(false);
