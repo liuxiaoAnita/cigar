@@ -295,6 +295,11 @@ const LayoutHeader = (props) => {
     </div>
   );
 
+  let shopTotalNum = 0
+  shopaData.forEach(item => {
+    shopTotalNum += item.qty
+  })
+
   return (
     <>
       {/* {fixedHeader ? <Header style={{height: '270px'}} /> : null} */}
@@ -313,12 +318,12 @@ const LayoutHeader = (props) => {
             {showSettings ? <Settings /> : null}
             <div
               className='car-top'
-              onMouseEnter={() => setShowShopCar(true)} 
+              onMouseEnter={() => {if (uid !== ''){setShowShopCar(true)}}} 
               onMouseLeave={() => setShowShopCar(false)} 
               onClick={() =>{ props.history.push("/car")}}
             >
               <img src={homeGWC} />
-              <span>购物车 <i className='car-num'>{2}</i></span>
+              <span>购物车 <i className='car-num'>{ shopTotalNum }</i></span>
             </div>
             {infoMes.nickname ?
             <div className="dropdown-wrap">
