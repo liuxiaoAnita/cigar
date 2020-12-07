@@ -105,3 +105,51 @@
     border-top: 1px solid #ECECEC;
   }
 }
+
+
+// 个人信息更改 ---- 弹窗
+.modal-user-info{
+  .editUserBtn{
+    margin: 20px auto;
+    display: block;
+  }
+
+  .info-item{
+    display: flex;
+    align-items: center;
+    &+.info-item{
+      margin-top: 20px;
+    }
+    .item-left-title{
+      display: block;
+      width: 80px;
+    }
+    .item-right-title{
+      height: 32px;
+      line-height: 32px;
+    }
+    .item-detail{
+      flex:1;
+    }
+    .gender-box{
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      .gender-item{
+        width: 45%;
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        border: 1px solid #8E8E8E;
+        cursor: pointer;
+        &.active{
+          border: 1px solid #B78E74;
+          background-color: #B88E74;
+          color: #fff;
+        }
+      }
+
+    }
+  }
+}

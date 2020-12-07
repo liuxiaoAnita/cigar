@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-import {message, Icon, Drawer, Button, Modal} from 'antd';
+import {message, Icon, Drawer, Button, Modal, DatePicker, Input} from 'antd';
 import KeFu from '@/components/KeFu'
 import {login} from "@/store/actions";
+import moment from 'moment';
 
 import "./index.less";
 
+const dateFormat = 'YYYY/MM/DD';
 class MyselfPage extends Component {
   state = {
     isLogin: false,
     isShowKeFu: false,
     userMes: {},
-    visibleDrawer: false,
+    visibleSettingDrawer: false,
+    visibleMesDrawer: false,
+    editUserStatus: false,
   };
   componentDidMount() {
     const uid = localStorage.getItem('userUid') || '';
@@ -69,7 +73,7 @@ class MyselfPage extends Component {
       <div className='user-message-box'>
         <Icon type="setting" className='setting-btn' onClick={() => {
           this.setState({
-            visibleDrawer: true,
+            visibleSettingDrawer: true,
           })
         }} />
         <div className='user-detail-mes'>
@@ -81,7 +85,7 @@ class MyselfPage extends Component {
           <div className='user-id'>id:</div>
         </div>
         <div className='other-item'>
-          <span className='item'>账户信息 <i>{email}</i></span>
+          <span className='item' onClick={() => this.setState({visibleMesDrawer: true})}>账户信息 <i>{email}</i></span>
           <span className='item'>收货地址</span>
           <span className='item'>我的订单</span>
           <span className='item'>心愿单</span>
@@ -93,7 +97,8 @@ class MyselfPage extends Component {
 
   onClose = () => {
     this.setState({
-      visibleDrawer: false,
+      visibleSettingDrawer: false,
+      visibleMesDrawer: false,
     });
   }
 
@@ -110,8 +115,67 @@ class MyselfPage extends Component {
     });
   };
 
+    // 用户信息弹窗js
+    changeModalInfo = (value, key) => {
+      const { userMes } = this.state;
+      userMes[key] = value;
+      this.setState({
+        userMes,
+      })
+    }
+
+    handelSaveUser = () => {
+      const {userMes} = this.state;
+      const {nickname = '', sex = '', birth = ''} = userMes
+      if (nickname === ''){
+        message.error('填写姓名')
+        return;
+      } else if (sex === ''){
+        message.error('选择性别')
+        return;
+      } else if (birth === ''){
+        message.error('选择生日')
+        return;
+      }
+      console.log(userMes)
+      this.changeUserMes();
+    }
+
+    changeUserMes = () => {
+    const uid = localStorage.getItem('userUid') || '';
+      const {userMes} = this.state;
+      login({cmd: 'editUserInfo', uid, ...userMes})()
+        .then(res => {
+          console.log(res)
+          if(`${res.result}` === '0'){
+            message.success('修改成功')
+            this.getUserMes();
+            this.setState({
+              editUserStatus: false,
+              visibleMesDrawer: false,
+            })
+          } else {
+            message.error(`${res.resultNote}`);
+          }
+        })
+        .catch((error) => {
+          message.error(error);
+        });
+    }
+
+
   render() {
-    const { isLogin, isShowKeFu, visibleDrawer } = this.state
+    const { isLogin, isShowKeFu, visibleSettingDrawer, visibleMesDrawer, userMes, editUserStatus } = this.state
+    const { 
+      nickname = "",
+      birth = "",
+      sex = "",
+      wx = "" } = userMes
+      const defaltData = {}
+      if (birth !== ''){
+        defaltData.defaultValue = moment(birth, dateFormat)
+      }
+      console.log(userMes)
     return (
       <div className="h5-myself-container">
         {isShowKeFu && <KeFu onChange={() => this.setState({ isShowKeFu: false})} />}
@@ -121,10 +185,65 @@ class MyselfPage extends Component {
           placement='bottom'
           closable={false}
           onClose={this.onClose}
-          visible={visibleDrawer}
+          visible={visibleSettingDrawer}
         >
           <div className='drawer-btn' onClick={() =>this.props.history.push('/forget')}>修改密码</div>
           <div className='drawer-btn' onClick={() => this.handleLogout()}>退出登录</div>
+        </Drawer>
+        <Drawer
+          title={false}
+          placement='right'
+          closable={false}
+          onClose={this.onClose}
+          visible={visibleMesDrawer}
+        >
+          <div>
+            <div className='modal-user-info'>
+              <div className='info-item'>
+                <span className='item-left-title'>姓名：</span>
+                {editUserStatus ? 
+                  <Input className='item-detail' value={nickname} onChange={e => this.changeModalInfo(e.target.value, 'nickname')} />
+                : 
+                  <div className='item-right-title'>{nickname}</div>
+                }
+              </div>
+              <div className='info-item'>
+                <span className='item-left-title'>性别：</span>
+                {editUserStatus ? 
+                  <div className='item-detail gender-box'>
+                    <span className={`gender-item ${sex === '男' ? 'active' : ''}`} onClick={() => this.changeModalInfo('男', 'sex')}>男</span>
+                    <span className={`gender-item ${sex === '女' ? 'active' : ''}`}  onClick={() => this.changeModalInfo('女', 'sex')}>女</span>
+                  </div>
+                : 
+                  <div className='item-right-title'>{sex}</div>
+                }
+                
+              </div>
+              <div className='info-item'>
+                <span className='item-left-title'>生日：</span>
+                {editUserStatus ? 
+                  <DatePicker className='item-detail' onChange={(mom,val) => this.changeModalInfo(val, 'birth')}  {...defaltData} format={dateFormat} />
+                : 
+                  <div className='item-right-title'>{birth}</div>
+                }
+              </div>
+              <div className='info-item'>
+                <span className='item-left-title'>微信ID：</span>
+                {editUserStatus ? 
+                  <Input className='item-detail' value={wx} onChange={e => this.changeModalInfo(e.target.value, 'wx')} />
+                : 
+                  <div className='item-right-title'>{wx}</div>
+                }
+              </div>
+              {editUserStatus ? 
+                <Button className='editUserBtn' type='primary' onClick={this.handelSaveUser}>保存</Button>
+                :
+                <Button className='editUserBtn' onClick={() => this.setState({editUserStatus: true})}>编辑</Button>
+              }
+            </div>
+           
+          </div>
+
         </Drawer>
         {/* 公共部分 */}
         <div className='other-message-box'>
