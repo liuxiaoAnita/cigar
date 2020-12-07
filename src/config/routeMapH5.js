@@ -9,7 +9,7 @@ const Search = Loadable({loader: () => import(/*webpackChunkName:'Home'*/'@/view
 const Home = Loadable({loader: () => import(/*webpackChunkName:'Home'*/'@/views/h5/home'),loading: Loading});
 const Login = Loadable({loader: () => import(/*webpackChunkName:'Login'*/'@/views/h5/login'),loading: Loading});
 const Register = Loadable({loader: () => import(/*webpackChunkName:'Register'*/'@/views/h5/register'),loading: Loading});
-const Forget = Loadable({loader: () => import(/*webpackChunkName:'Forget'*/'@/views/forget'),loading: Loading});
+const Forget = Loadable({loader: () => import(/*webpackChunkName:'Forget'*/'@/views/h5/forget'),loading: Loading});
 const Car = Loadable({loader: () => import(/*webpackChunkName:'Car'*/'@/views/car'),loading: Loading});
 const Myself = Loadable({loader: () => import(/*webpackChunkName:'Myself'*/'@/views/h5/myself'),loading: Loading});
 const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/views/account/heart'),loading: Loading});
@@ -29,7 +29,7 @@ export default [
   { path: "/home", component: Home },
   { path: "/search", component: Search },
   { path: "/login", component: Login },
-  { path: "/forget", component: Home },
+  { path: "/forget", component: Forget },
   { path: "/register", component: Register },
   { path: "/car", component: Home, needLogin: true  },
   { path: "/myself", component: Myself },
