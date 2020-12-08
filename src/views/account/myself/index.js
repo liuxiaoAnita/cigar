@@ -193,7 +193,7 @@ class User extends Component {
     }
     return (
       <Modal
-        title="收货地址"
+        title="账户信息"
         visible={visibleUserInfo}
         onOk={this.handleOkInfo}
         onCancel={this.handleCancelAdd}

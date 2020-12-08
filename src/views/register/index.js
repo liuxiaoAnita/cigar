@@ -280,7 +280,7 @@ const RegisterPage = (props) => {
                     />
                   )}
                 </Form.Item>
-                <div>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
                       <div>
                       <Form.Item>
                         {getFieldDecorator('birth', {})(<DatePicker placeholder='生日' />)}

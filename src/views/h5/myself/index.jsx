@@ -86,7 +86,7 @@ class MyselfPage extends Component {
         </div>
         <div className='other-item'>
           <span className='item' onClick={() => this.setState({visibleMesDrawer: true})}>账户信息 <i>{email}</i></span>
-          <span className='item'>收货地址</span>
+          <span className='item' onClick={() => this.props.history.push('/myaddress')} >收货地址</span>
           <span className='item'>我的订单</span>
           <span className='item'>心愿单</span>
           <span className='item'>我的评价</span>

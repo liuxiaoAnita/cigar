@@ -30,6 +30,8 @@ export default [
   { path: "/register", component: Register },
   { path: "/car", component: Car, needLogin: true  },
   { path: "/myself", component: Myself },
+  { path: "/myaddress", component: Myself },
+  { path: "/editaddress", component: Myself },
   { path: "/heart", component: Heart },
   { path: "/myplatter", component: MyPlatter },
   { path: "/myorder", component: MyOrder },

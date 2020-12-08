@@ -41,9 +41,9 @@ const LayoutHeader = (props) => {
     setUid(userUid)
     const userInfoMes = JSON.parse(localStorage.getItem('userInfoMes') || '{}')
     setInfoMes(userInfoMes)
+    getHomeMes(userUid)
     if (userUid && userUid !== '') {
       getCarMes(userUid)
-      getHomeMes(userUid)
     }
   }, [])
 
@@ -203,14 +203,11 @@ const LayoutHeader = (props) => {
   };
 
   const handleEnter = (data) => {
-    console.log('ttt')
     setTabChild(data)
     setShowChild(true)
   }
   const handleOut = () => {
-    console.log('fff')
     setShowChild(false)
-
   }
   const renderTabs = () => (
     <div className='tabs_content'>
@@ -284,7 +281,7 @@ const LayoutHeader = (props) => {
         <Search
           placeholder="搜寻"
           onSearch={value => console.log(value)}
-          style={{ width: 200 }}
+          style={{ width: 320 }}
         />
         {/* <span className='changeLanuge'>
           <i onClick={() => handleClick('zh')} className='itemBtn'>中文</i>
