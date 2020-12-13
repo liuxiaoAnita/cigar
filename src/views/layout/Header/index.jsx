@@ -15,6 +15,7 @@ const { Search } = Input;
 
 const LayoutHeader = (props) => {
   const {
+    carList,
     token,
     avatar,
     name,
@@ -26,6 +27,7 @@ const LayoutHeader = (props) => {
     fixedHeader,
   } = props;
   token && getUserInfo(token);
+  console.log(carList)
   
   const [loading, setLoading] = useState(false);
   const [tabChild, setTabChild] = useState([]);
@@ -78,10 +80,6 @@ const LayoutHeader = (props) => {
         }
         setLoading(false)
       })
-      .catch((error) => {
-        message.error(error);
-        setLoading(false)
-      });
   }
 
   const getHomeMes = (uid) => {
@@ -94,9 +92,6 @@ const LayoutHeader = (props) => {
           message.error(`${res.resultNote}`);
         }
       })
-      .catch((error) => {
-        message.error(error);
-      });
   }
 
   const handleLogout = () => {
@@ -355,6 +350,7 @@ const mapStateToProps = (state) => {
     ...state.app,
     ...state.user,
     ...state.settings,
+    ...state.car,
   };
 };
 export default withRouter(connect(mapStateToProps, { login, logout, getUserInfo })(LayoutHeader));
