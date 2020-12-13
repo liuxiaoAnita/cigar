@@ -44,9 +44,6 @@ class User extends Component {
           message.error(`${res.resultNote}`);
         }
       })
-      .catch((error) => {
-        message.error(error);
-      });
   }
 
   getUsers = async () => {
@@ -82,15 +79,15 @@ class User extends Component {
       },{
         title: '免费运送',
         descript: '全球运送免费',
-        imageUrl: Icon01
+        imageUrl: Icon02
       },{
         title: '会员特权',
         descript: '会员特有折扣，购买更优惠',
-        imageUrl: Icon01
+        imageUrl: Icon03
       },{
         title: '精致包装',
         descript: '严格精致的包装，让雪茄持久保持在最佳状态',
-        imageUrl: Icon01
+        imageUrl: Icon04
       },
     ]
     const {bokeList} = this.state
