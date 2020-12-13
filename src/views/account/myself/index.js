@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import {Icon, Modal, Form, Input, message, DatePicker, Popconfirm } from 'antd'
 import { login } from "@/store/actions";
 import UserImg from '@/assets/images/user_img.png'
+import img01 from '@/assets/UserImg/wd_tx01.png'
+import img02 from '@/assets/UserImg/wd_tx02.png'
+import img03 from '@/assets/UserImg/wd_tx03.png'
+import img04 from '@/assets/UserImg/wd_tx04.png'
+import img05 from '@/assets/UserImg/wd_tx05.png'
+import img06 from '@/assets/UserImg/wd_tx06.png'
+import img07 from '@/assets/UserImg/wd_tx07.png'
+import img08 from '@/assets/UserImg/wd_tx08.png'
 import CascaderCity from '../components/CascaderCity'
 import Menu from './../components/menu'
 import ModalAddAress from './ModalAddAress'
@@ -10,6 +18,16 @@ import "./index.less";
 import moment from 'moment';
 const dateFormat = 'YYYY/MM/DD';
 const { TextArea } = Input;
+
+
+let imageArr = [
+  img01, img02, img03, img04, img05, img06, img07, img08
+]
+let userImageArr = []
+imageArr.forEach((item, index) => userImageArr.push({
+  imageUrl: item,
+  id: `${index}`
+}))
 class User extends Component {
   state = {
     uid: '',
@@ -23,6 +41,8 @@ class User extends Component {
     receiveMes:{},
     visibleUserInfo: false,
     visibleAddress: false,
+    visibleUserImg: false,
+    confirmLoading: false,
     modalUserInfo: {},
     modalAddress: {},
   };
@@ -273,16 +293,43 @@ class User extends Component {
     this.props.history.push("/forget");
   }
 
+  handleUserImgOk = () => {
+    console.log('handleUserImgOk')
+  }
+
   render() {
-    const { userInfo, addressData, modalAddress, visibleAddress } = this.state
-    const { nickname = '', sex = '', email = '', birth = '' } = userInfo;
+    const { userInfo, addressData, modalAddress, visibleAddress, visibleUserImg, confirmLoading } = this.state
+    const { nickname = '', sex = '', email = '', birth = '', icon = '0' } = userInfo;
+    console.log('icon')
+    console.log(userInfo)
     return (
       <div className="myself-container">
         <Menu/>
         <div className='right-user-info'>
           <div className='right-title'>账户信息</div>
           <div className='user-mes'>
-            <img src={UserImg} className='user-img' />
+            <img src={userImageArr[0]['imageUrl']} className='user-img'
+            // onClick={() => this.setState({ visibleUserImg: true, })}
+            />
+
+            <Modal
+              title="Title"
+              visible={visibleUserImg}
+              onOk={this.handleUserImgOk}
+              confirmLoading={confirmLoading}
+              onCancel={() => this.setState({ visibleUserImg: false, })}
+              okText="确认"
+              cancelText="取消"
+            >
+              <p style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+                {userImageArr.map((item, index) => (
+                  <div key={`userImage${index}`} style={{width: '23%', margin: '8px 0'}} className={(icon === item.id || (icon === '' && index === 0)) ? 'active userImgItem' : 'userImgItem'} >
+                    <img src={item.imageUrl} style={{width: '100%'}}  />
+                    <Icon className='is-active' type="check-circle" />
+                  </div>
+                ))}
+              </p>
+            </Modal>
             <div className='detail-mes'>
               <div className='detail-item'>
                 <span className='item-message'>{nickname}&nbsp;&nbsp;&nbsp;&nbsp;{sex}</span>
