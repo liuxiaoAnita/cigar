@@ -265,7 +265,10 @@ const LayoutHeader = (props) => {
       <div className='search-box'>
         <Search
           placeholder="搜寻"
-          onSearch={value => console.log(value)}
+          onSearch={value => {
+            props.history.push(`/cigardetail?searchName=${value}`);
+            window.location.reload()
+          }}
           style={{ width: 320 }}
         />
         {/* <span className='changeLanuge'>
