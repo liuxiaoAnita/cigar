@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
 import { Button, Icon, message } from "antd";
-import { login } from "@/store/actions";
+import { login, getCarMes } from "@/store/actions";
 import BannerAdvert from "@/components/Banner/advert.js";
 import TitleSplit from "@/components/TitleSplit/index.js";
 
@@ -180,6 +182,7 @@ class MyPlatterPage extends Component {
           .then((res) => {
             if (`${res.result}` === '0') {
               message.success(`添加${type === 'addCart' ? '购物城' : '心愿单'}成功！`)
+              this.props.getCarMes({uid})
              
             } else {
               message.error(`${res.resultNote}`);
@@ -229,5 +232,4 @@ class MyPlatterPage extends Component {
   }
 }
 
-export default MyPlatterPage;
-
+export default withRouter(connect(null, { getCarMes, })(MyPlatterPage));

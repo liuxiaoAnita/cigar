@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
 import Menu from '../components/menu';
-import { login } from "@/store/actions";
+import { login, getCarMes } from "@/store/actions";
 import { Button, Icon, InputNumber, message, Popconfirm} from "antd";
 
 import "./index.less";
@@ -68,7 +70,8 @@ class User extends Component {
       .then(res => {
         if(`${res.result}` === '0'){
           message.success('添加购物车成功')
-          this.init()
+          this.init();
+          this.props.getCarMes({uid})
         } else {
           message.error(`${res.resultNote}`);
         }
@@ -125,4 +128,4 @@ class User extends Component {
   }
 }
 
-export default User;
+export default withRouter(connect(null, { getCarMes, })(User));
