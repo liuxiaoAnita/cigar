@@ -1,4 +1,5 @@
 import { setUserToken, resetUser } from "./user";
+import { getCarMes } from "./car";
 import { reqLogin, reqLogout } from "@/api/login";
 import { setToken, removeToken } from "@/utils/auth";
 
@@ -8,6 +9,9 @@ export const login = (params) => (dispatch) => {
   return new Promise((resolve, reject) => {
     reqLogin(params)
       .then((response) => {
+        if (params.cmd === 'addCart') {
+          getCarMes({uid: params.uid});
+        }
         resolve(response.data) 
       })
       .catch((error) => {

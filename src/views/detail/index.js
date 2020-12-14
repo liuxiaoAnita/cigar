@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { login } from "@/store/actions";
+import { login, getCarMes } from "@/store/actions";
+import { withRouter } from 'react-router-dom'
+import { connect } from "react-redux";
 import {colorItem} from '@/utils/index';
 import { Spin, Tabs } from 'antd';
 import BannerThings from "@/components/Banner/things.js";
@@ -35,10 +37,12 @@ class User extends Component {
 
   init = (id) =>{
     const uid = localStorage.getItem('userUid') || '';
+    this.setState({
+      uid
+    })
     if (id) {
       login({cmd: 'getProductById', uid, id})()
       .then(res => {
-        console.log(res)
         if(`${res.result}` === '0'){
           // message.success('修改成功')
           this.setState({
@@ -67,15 +71,35 @@ class User extends Component {
   }
 
   changeCount = e => {
-    console.log(e)
+    const count = Number(e.target.value) || 0
+    this.setState({count})
   }
 
   callback(key) {
     console.log(key);
   }
 
+  addCarFun = () => {
+    const id = getQueryVariable('id') || ''
+    const uid = localStorage.getItem('userUid') || '';
+    const { count } = this.state;
+
+    login({cmd: 'addCart', uid, productList: [{ id, count, }]})()
+      .then(res => {
+        if (`${res.result}` === '0') {
+          this.props.getCarMes({uid})
+          message.success('添加购物车成功~')
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
   renderTop = () => {
-    const { dataList, count, productList, topList } = this.state
+    const { dataList, count, productList, topList, uid } = this.state
     return (
       <div className='detail-item-message'>
         <div className='top-mess'>
@@ -116,7 +140,7 @@ class User extends Component {
                 </div>
                 <div className='button-box'>
                   <Button className='buy-button'>立即购买</Button>
-                  <Button className='car-button' type="primary">加入购物车</Button>
+                  <Button className='car-button' type="primary" onClick={this.addCarFun}>加入购物车</Button>
                   <div className='myheart'><Icon className='icon-heart' type="heart" theme="filled"  /></div>
 
                 </div>
@@ -144,7 +168,9 @@ class User extends Component {
                   this.init(this.state.thingId)
                 })
               }} key={`detail-right-item-${index}`} className='right-item'>
-                <ItemBox item={item} />
+                <ItemBox item={item} onclick={() => {
+                  this.props.getCarMes({uid})
+                }} />
               </div>
             ))}
           </div>
@@ -152,7 +178,12 @@ class User extends Component {
 
 
         <BannerTop title='推荐产品' descr='RECOMMENDED PRODUCTS' />
-        <BannerThings data={productList} />
+        <BannerThings
+          data={productList}
+          onclick={() => {
+            this.props.getCarMes({uid})
+          }}
+        />
       </div>
     )
   }
@@ -171,4 +202,4 @@ class User extends Component {
   }
 }
 
-export default User;
+export default withRouter(connect(null, { getCarMes, })(User));

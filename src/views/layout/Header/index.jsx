@@ -6,7 +6,7 @@ import homeDH from "@/assets/images/home_dh.png";
 import homeGWC from "@/assets/images/home_gwc.png";
 import homeLogo from "@/assets/images/home_logo.png";
 import { Link } from "react-router-dom";
-import { logout, getUserInfo, login } from "@/store/actions";
+import { getCarMes, getUserInfo, login } from "@/store/actions";
 import FullScreen from "@/components/FullScreen";
 import Settings from "@/components/Settings";
 import "./index.less";
@@ -15,19 +15,21 @@ const { Search } = Input;
 
 const LayoutHeader = (props) => {
   const {
-    carList,
+    cartList,
     token,
-    avatar,
-    name,
     sidebarCollapsed,
-    logout,
     login,
     getUserInfo,
     showSettings,
     fixedHeader,
+    getCarMes,
+    coupon_money,
+    dataList,
+    old_money,
+    order_money,
+    sum_money,
   } = props;
-  token && getUserInfo(token);
-  console.log(carList)
+ 
   
   const [loading, setLoading] = useState(false);
   const [tabChild, setTabChild] = useState([]);
@@ -37,15 +39,20 @@ const LayoutHeader = (props) => {
   const [shopaData, setShopaData] = useState([]); //
   const [uid, setUid] = useState('')
   const [infoMes, setInfoMes] = useState({})
+
+  useEffect(() => {
+    setShopaData(dataList)
+  }, [dataList])
   
   useEffect(() => {
     const userUid = localStorage.getItem('userUid') || ''
     setUid(userUid)
+    getCarMes({uid: userUid});
     const userInfoMes = JSON.parse(localStorage.getItem('userInfoMes') || '{}')
     setInfoMes(userInfoMes)
     getHomeMes(userUid)
     if (userUid && userUid !== '') {
-      getCarMes(userUid)
+      getCarMes({uid: userUid})
     }
   }, [])
 
@@ -59,26 +66,9 @@ const LayoutHeader = (props) => {
       .then(res => {
         if (`${res.result}` === '0') {
           message.success('删除成功！')
-          getCarMes(uid)
         } else {
           message.error('删除失败！')
         }
-      })
-  }
-
-  const getCarMes = (uid) => {
-    setLoading(true)
-    login({cmd: 'cartList', uid})
-      .then(res => {
-        console.log(res)
-        if(`${res.result}` === '0'){
-          const {body = {}} = res
-          const {dataList = []} = body
-          setShopaData(dataList)
-        } else {
-          message.error(`${res.resultNote}`);
-        }
-        setLoading(false)
       })
   }
 
@@ -353,4 +343,4 @@ const mapStateToProps = (state) => {
     ...state.car,
   };
 };
-export default withRouter(connect(mapStateToProps, { login, logout, getUserInfo })(LayoutHeader));
+export default withRouter(connect(mapStateToProps, { login, getUserInfo, getCarMes })(LayoutHeader));

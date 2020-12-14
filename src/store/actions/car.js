@@ -2,26 +2,28 @@ import * as types from "../action-types";
 import { reqLogin } from "@/api/login";
 
 export const getCarMes = (params) => (dispatch) => {
+  params = {cmd: 'cartList', ...params}
   return new Promise((resolve, reject) => {
     reqLogin(params)
       .then((response) => {
-        console.log('response++++++++++++')
-        console.log(response)
-        dispatch(setCarMes([{
-          key: '0000'
-        }]))
-        resolve(response.data) 
+        if (response.data.result === '0') {
+          const { body } = response.data
+          dispatch(setCarMes({
+            cartList: body,
+          }));
+          resolve(response.data) 
+        }
+        reject(response.data)
       })
       .catch((err) => {
-        console.log(err)
-        reject({error: '999'});
+        reject({err});
       });
   });
 };
 
-export const setCarMes = (token) => {
+export const setCarMes = (data) => {
   return {
     type: types.CAR_SET_LIST,
-    token,
+    ...data,
   };
 };

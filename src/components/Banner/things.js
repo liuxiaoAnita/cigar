@@ -10,7 +10,7 @@ import "./things.less";
 
               
 const ThingsContent = (props) => {
-  const { data, slidesPerView = 4 } = props
+  const { data, slidesPerView = 4, onclick } = props
   const [swiperId, setSwiperId] = useState('');
   const [bannerList, setBannerList] = useState([]);
 
@@ -33,7 +33,7 @@ const ThingsContent = (props) => {
         <div className="swiper-wrapper">
           {bannerList.map((item, index) => (
           <div className="swiper-slide" key={`things-swiper-item-${index}`}>
-            <ItemBox item={item} />
+            <ItemBox item={item} onclick={onclick} />
             
           </div>
           ))}

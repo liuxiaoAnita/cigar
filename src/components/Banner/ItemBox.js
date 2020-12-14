@@ -8,7 +8,7 @@ import "./ItemBox.less";
 import { message } from 'antd';
 
 const BannerTop = (props) => {
-  const { item } = props
+  const { item, onclick } = props
 
   const addCarAction = () => {
     const uid = localStorage.getItem('userUid') || ''
@@ -21,7 +21,7 @@ const BannerTop = (props) => {
       }]})()
         .then(res => {
           if (`${res.result}` === '0') {
-            console.log(res.body)
+            onclick('addCar')
             message.success('添加购物车成功~')
           } else {
             message.error(`${res.resultNote}`);

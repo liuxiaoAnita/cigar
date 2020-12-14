@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { getUsers } from "@/api/user";
+import { withRouter } from 'react-router-dom'
+import { connect } from "react-redux";
 import {message} from 'antd';
-import {login} from "@/store/actions";
+import {login, getCarMes} from "@/store/actions";
 import BannerHome from "@/components/Banner/home.js";
 import BannerTop from "@/components/Banner/bannerTop.js";
 import BannerAdvert from "@/components/Banner/advert.js";
@@ -15,6 +17,7 @@ import Icon04 from "@/assets/images/home_icon_04.png";
 import "./index.less";
 class User extends Component {
   state = {
+    uid: '',
     users: [],
     bannerList: [],
     adList: [],
@@ -27,6 +30,7 @@ class User extends Component {
 
   getHomeMes = () => {
     const uid = localStorage.getItem('userUid') || ''
+    this.setState({uid})
     login({cmd: 'getHomepage', uid})()
       .then(res => {
         if (`${res.result}` === '0') {
@@ -112,13 +116,15 @@ class User extends Component {
   }
 
   render() {
-    const {bannerList, adList, productList} = this.state;
+    const {bannerList, adList, productList, uid} = this.state;
     return (
       <div className="app-container">
        <BannerHome data={bannerList} />
        <BannerAdvert data={adList} />
        <BannerTop title='推荐产品' descr='RECOMMENDED PRODUCTS' />
-       <BannerThings data={productList} />
+       <BannerThings data={productList} onclick={() => {
+         this.props.getCarMes({uid})
+       }} />
        <BannerTop title='雪茄博客' descr='ENJOY YOUR CIGAR MOMENT!' />
         {this.renderBoKe()}
       </div>
@@ -126,5 +132,5 @@ class User extends Component {
   }
 }
 
-export default User;
-
+// export default withRouter(connect()(User));
+export default withRouter(connect(null, { getCarMes, })(User));
