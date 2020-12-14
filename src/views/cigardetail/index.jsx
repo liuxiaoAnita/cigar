@@ -40,9 +40,12 @@ const CigarDetailPage = (props) => {
   // 获取列表接口信息获取
   const initGetCigarInfo = () => {
     setLoadThing(true);
+    const searchName = getQueryVariable('searchName') || ''
+
     const data = {
       ...leftChose,
       flag,
+      searchName,
       orderBy,
     }
     const categoryId = getQueryVariable('categoryId')
@@ -51,7 +54,7 @@ const CigarDetailPage = (props) => {
       .then((res) => {
         if (`${res.result}` === '0') {
           setCigarList(res.body.dataList)
-          setCatename(res.body.zhcatename)
+          setCatename(res.body.zhcatename || decodeURI(searchName))
           setCateContent(res.body.zhcontent)
         } else {
           message.error(`${res.resultNote}`);
