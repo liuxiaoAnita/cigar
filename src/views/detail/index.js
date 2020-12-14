@@ -98,6 +98,16 @@ class User extends Component {
       });
   }
 
+  goBuyPage = () => {
+    const { count } = this.state;
+    const id = getQueryVariable('id') || '';
+    if (count > 0) {
+      this.props.history.push(`/car?buyId=${id}&buyNum=${count}`);window.location.reload()
+    } else {
+      message.error('请先选择购买个数')
+    }
+  }
+
   renderTop = () => {
     const { dataList, count, productList, topList, uid } = this.state
     return (
@@ -139,7 +149,7 @@ class User extends Component {
                   <span className='count-button jia-btn' onClick={() => this.setState({count: count + 1})}>+</span>
                 </div>
                 <div className='button-box'>
-                  <Button className='buy-button'>立即购买</Button>
+                  <Button className='buy-button' onClick={this.goBuyPage}>立即购买</Button>
                   <Button className='car-button' type="primary" onClick={this.addCarFun}>加入购物车</Button>
                   <div className='myheart'><Icon className='icon-heart' type="heart" theme="filled"  /></div>
 

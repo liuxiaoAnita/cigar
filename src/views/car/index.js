@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom'
 import {getQueryVariable} from '@/utils'
-
+import { connect } from "react-redux";
 import NotLogin from '../error/nologin/index'
 import { Divider, Button, InputNumber, Icon, message } from 'antd'
 import CigarItem from './CigarItem'
-import { login } from "@/store/actions";
+import { login, getCarMes } from "@/store/actions";
 import { getUsers } from "@/api/user";
 
 import Paying from '@/views/account/paying'
@@ -23,6 +23,7 @@ class CarPage extends Component {
     sum_money: 0,
     dataList: [],
     isPayig: false,
+    buyNum: 0,
   };
   getUsers = async () => {
     const result = await getUsers()
@@ -38,22 +39,62 @@ class CarPage extends Component {
 
   componentDidMount() {
     const isPayig = (getQueryVariable('isPay') || '') === 'paying'
+    const isBuyNow = (getQueryVariable('buyId') || '')
+    const buyNum = (Number(getQueryVariable('buyNum')) || 0)
     const uid = localStorage.getItem('userUid') || ''
     this.setState({
       uid,
       isPayig,
+      isBuyNow,
+      buyNum,
+    },() => {
+      if(uid === '') {
+        message.error('未登录，跳转登录页！')
+        setTimeout(() => {
+          this.props.history.push('/login')
+        }, 1500);
+      } else {
+        this.getUsers()
+        if (isBuyNow !== '') {
+          this.getCigarData(isBuyNow)
+        } else {
+          this.getCartList()
+        }
+      }
     })
-    if(uid === '') {
-      message.error('未登录，跳转登录页！')
-      setTimeout(() => {
-        this.props.history.push('/login')
-      }, 1500);
-    } else {
-      this.getUsers()
-      this.getCartList()
-    }
+
     
   }
+  // login
+  getCigarData = (id) => {
+    const { buyNum  } = this.state
+    const uid = localStorage.getItem('userUid') || ''
+    login({cmd: 'getProductById', uid, id})()
+    .then(res => {
+      if(`${res.result}` === '0'){
+        const { old_price, price,  } = res.body
+        this.setState({
+          dataList: [res.body],
+          old_price,
+          order_money: price,
+          coupon_money: Number(Math.abs(old_price - price)),
+          sum_money: price * buyNum,
+        })
+      } else {
+        message.error(`${res.resultNote}`);
+        this.setState({
+          isLoading: false,
+        })
+      }
+    })
+    .catch((error) => {
+      message.error(error);
+      this.setState({
+        isLoading: false,
+      })
+    });
+  }
+
 
   // login
   getCartList = () => {
@@ -72,6 +113,7 @@ class CarPage extends Component {
             sum_money,
             dataList,
           })
+          this.props.getCarMes({uid})
         } else {
           message.error(`${res.resultNote}`);
         }
@@ -100,12 +142,8 @@ class CarPage extends Component {
     console.log('changed', value);
   }
 
-  handelSaveCar = () =>{
-    this.handelEditNum({cmd: 'saveCartOrder'})
-  }
-
   renderBusRight = () => {
-    const {old_money, order_money, coupon_money, sum_money} = this.state
+    const {old_money, order_money, coupon_money, sum_money, buyNum, isBuyNow} = this.state
     return (
       <div className='car-right'>
       <div className='right-title'>订单详情</div>
@@ -125,7 +163,18 @@ class CarPage extends Component {
           <Divider dashed style={{background: '#626262', }} />
           <div className='totle-name'>订单金额</div>
           <div className='totle-price'>¥ {sum_money}</div>
-          <Button className='totle-btn' type="primary" onClick={() => {this.props.history.push('/car?isPay=paying');window.location.reload()}}>去结账</Button>
+          <Button
+            className='totle-btn'
+            type="primary" 
+            onClick={() => {
+              console.log(this.props.history.location.search);
+              this.props.history.push(`/car?isPay=paying&buyId=${isBuyNow}&buyNum=${buyNum}`);
+              this.setState({
+                isPayig: true
+              })
+              // window.location.reload()
+            }}
+          >去结账</Button>
         </div>
       </div>
     </div>
@@ -169,6 +218,32 @@ class CarPage extends Component {
       <span className='link-content'>您可以<i className='link-url' onClick={() => this.props.history.push('/home')}>点击此处</i>去购物</span>
     </div>
   )
+  saveCart = (addressId = '') => {
+    const {isBuyNow} = this.state;
+    if (isBuyNow !== '') {
+      this.saveOrder(addressId)
+    } else {
+      this.saveCartOrder(addressId)
+    }
+  }
+  saveOrder = ({addressId = ''}) => {
+    const { dataList, uid, buyNum } = this.state;
+    const [data] = dataList;
+    const params = {
+      cmd: 'saveOrder',
+      uid,
+      number: buyNum,
+      productId: data.id,
+      addressId,
+    }
+    this.handelEditNum(params).then(res => {
+      if(res.result === '0') {
+        this.props.history.push('/myorder')
+      } else {
+        message.error(res.resultNote)
+      }
+    })
+  }
   saveCartOrder = ({addressId = ''}) => {
     const { dataList } = this.state
     const cartList = [];
@@ -201,7 +276,7 @@ class CarPage extends Component {
             onGoCar={() => {
               this.props.history.push('/car');window.location.reload()
             }}
-            saveCartOrder={this.saveCartOrder}
+            saveCartOrder={this.saveCart}
           />) : (
         <div className="car-shop-content">
           <div className='car-title'>购物车</div>
@@ -218,4 +293,11 @@ class CarPage extends Component {
   }
 }
 
-export default withRouter(CarPage);
+
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+    ...state.car,
+  };
+};
+export default withRouter(connect(mapStateToProps, { getCarMes, })(CarPage));
