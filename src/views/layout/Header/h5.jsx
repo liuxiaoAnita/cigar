@@ -7,6 +7,8 @@ import "./index.less";
 const arrHide = [
   '/search',
   '/myself',
+  '/myaddress',
+  '/car',
 ]
 
 const Footer = (props) => {

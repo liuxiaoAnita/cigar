@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import {Form, Icon, Input, Button, Popconfirm, message} from 'antd';
+import {Form, Icon, Modal, Button, Popconfirm, message} from 'antd';
+import H5Header from "@/components/H5Header";
 import { connect } from "react-redux";
 import {login} from "@/store/actions";
 
@@ -7,6 +8,9 @@ import "./index.less";
 class LoginPage extends Component {
   state = {
     loginPhone: '',
+    visible: false,
+    rightTitleStasus: false,
+    deleteId: '',
     addressData: [],
   }
 
@@ -50,40 +54,78 @@ class LoginPage extends Component {
               modalAddress: {...itemData},
             }
           )}} />
-
-        <Popconfirm
-            title="确认删除?"
-            onConfirm={() =>this.handelDeleAddress(id)}
-            okText="删除"
-            cancelText="取消"
-          >
-            <Icon className='btn-item' type="delete" />
-          </Popconfirm>
-          
+            <Icon onClick={() => {
+              this.setState({visible: true, deleteId: id})
+            }} className='btn-item' type="delete" />
         </div>
       </div>
     )
   }
+
+  handelDeleAddress = () => {
+    const {deleteId} = this.state
+    login({cmd: 'deleteAddress', id: deleteId})()
+      .then(res => {
+        console.log(res)
+        if(`${res.result}` === '0'){
+          message.success('删除成功！');
+          this.initAddressGet()
+          this.setState({visible: true})
+        } else {
+          message.error(`${res.resultNote}`);
+        }
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
  
+  handelSave = () => {
+    console.log('handelSave');
+    this.setState({
+      rightTitleStasus: false
+    })
+  }
 
   render() {
-    const { addressData } = this.state;
+    const { addressData, visible, rightTitleStasus } = this.state;
+    const rightAxure = rightTitleStasus ? (
+    <span className='rightTitleStasus'
+      onClick={() => {
+        this.setState({
+          rightTitleStasus: false
+        })
+      }}>
+        保存
+      </span>
+    ) : <span className='rightTitleStasus' onClick={() => this.setState({rightTitleStasus: true})}>编辑</span>;
     return (
       <div className="h5-my-address-Page" >
+        <H5Header titleName='收货地址' rightAxure={rightAxure} />
         <div className='my-address'>
-            {addressData && addressData.length < 6 && (
-              <div onClick={() => this.props.history.push('/editaddress')} className='address address-empty'>
-                <Icon className='icon-add' type="plus-circle" />
-                <span>添加新地址</span>
-              </div>
-            )}
             {/* 收货地址进行循环展示 todo */}
             {addressData && addressData.map((item, index) => (
               <React.Fragment key={`address-item-${index}`}>
                 {this.renderAddress(item)}
               </React.Fragment>
             ))}
+            {addressData && addressData.length < 6 && (
+              <div className='address address-empty'>
+                <Icon className='icon-add' type="plus-circle" />
+                <span>添加新地址</span>
+              </div>
+            )}
           </div>
+
+          <Modal
+            title="删除地址"
+            visible={visible}
+            onOk={this.handelDeleAddress}
+            okText="确认"
+            cancelText="取消"
+          >
+            <p>确认删除改地址？</p>
+          </Modal>
       </div>
     );
   }

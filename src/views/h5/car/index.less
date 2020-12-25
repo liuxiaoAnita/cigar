@@ -1,0 +1,152 @@
+.H5-content{
+  align-items: baseline;
+  >div{
+    width: 100%;
+  }
+}
+
+// 
+.h5-Car-Page{
+  // 顶部title
+  .top-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 10rem;
+    background: #ECECEC;
+    font-size: 22rem;
+    width: 100%;
+    span{
+      font-size: 14rem;
+      color: #73523C;
+    }
+    &.fixedTop{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .car-content{
+    padding: 24rem 0;
+    // margin-top: 88rem;
+  }
+  // 列表 item
+  .car-list-item{
+    display: flex;
+    margin: 8px;
+    padding: 0 8rem;
+    border: 1px solid #CEA489;
+    img{
+      width: 90rem;
+      height: 114rem;
+    }
+    .detail-mes{
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 8rem 18rem;
+      justify-content: space-between;
+      .thing-name{
+        color: #73523C;
+        word-break: break-all;
+        word-warp: break-word;
+      }
+      .price-mes{
+        display: flex;
+        flex-direction: column;
+        .old-price{
+          font-size: 10rem;
+          color: #949494;
+        }
+        .price{
+          font-size: 18rem;
+          color: #432512;
+        }
+
+      }
+    }
+    .hide{
+      visibility: hidden;
+    }
+    .delete-btn{
+      cursor: pointer;
+      padding: 10rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      .delete-icon{
+        font-size: 20px;
+        color: #CEA489;
+      }
+      .edit-content{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        .InputNumber{
+          text-align: center;
+          width: 48rem;
+          margin: 0 8px;
+        }
+        .edit-btn{
+          width: 38px;
+          height: 38px;
+          border: 1px solid #CEA489;
+          border-radius: 4rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+        }
+      }
+      .edit-not{
+        display: flex;
+        align-items: center;
+        height: 38px;
+        padding: 0 20px;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+    // 空状态 css
+    .empty-content{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding-bottom: 60px;
+      padding-top: 50%;
+      .shopping-car{
+        font-size: 72px;
+        color: #BA8056;
+        // background: linear-gradient(142deg, #BA8056, #F6E2A6, #CC8E5E, #A47856);
+      }
+      .detail-mes{
+        font-size: 24px;
+        font-weight: 500;
+        color: #74523C;
+        padding: 20px;
+      }
+      .link-content{
+        font-size: 14px;
+        font-weight: 500;
+        color: #74523C;
+        .link-url{
+          color: #0067FF;
+          font-style: normal;
+          display: inline-block;
+          padding: 0 12px;
+          cursor: pointer;
+        }
+      }
+    }
