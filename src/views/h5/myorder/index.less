@@ -1,0 +1,105 @@
+.H5-content > div {
+  width: 100%;
+}
+
+.my-order-h5-page{
+
+  .header-title{
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    &.fixed{
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+    }
+    .title-icon{
+      font-size: 16px;
+      padding-right: 16px;
+    }
+    .title-mes{
+      font-size: 12px;
+    }
+  }
+  .order-info{
+
+    .my-order-content{
+      background: #EFEFEF;
+
+      .order-box{
+        .order-item{
+          margin: 8px;
+          background: #fff;
+          border-radius: 6px;
+          overflow: hidden;
+          // 顶部订单号
+          .title{
+            display: flex;
+            padding: 8px;
+            background-color: #FCE7DA;
+            justify-content: space-between;
+            align-items: center;
+            &.get-cigar{
+              background: #D2D2D2;
+            }
+            .right-status{
+
+              .status-mes{
+                color: #DF5757;
+                padding-left: 8px;
+              }
+            }
+          }
+          // 订单详情
+          .order-main-message{
+
+            .order-left{
+
+              .order-item-mes{
+                display: flex;
+                border-bottom: 1px solid #B78E74;
+                padding: 8px 0;
+                margin: 0 8px;
+                .item-img{
+                  padding-right: 8px;
+                }
+                .item-name-box{
+                  flex: 1;
+                }
+                .price-box{
+                  display: flex;
+                  flex-direction: column;
+                  color: #949393;
+                  align-items: flex-end;
+                }
+              }
+            }
+            .jiaoyi-message{
+              display: flex;
+              justify-content: space-between;
+              padding: 8px;
+              .item-totle-amount{
+                padding-right: 8px;
+                i{
+                  font-size: 18px;
+                  font-style: normal;
+                }
+              }
+            }
+          }
+        }
+      }
+      .page-box{
+        display: flex;
+        justify-content: flex-end;
+        padding-bottom: 24px;
+        padding-top: 8px;
+        padding-right: 8px;
+      }
+    }
+  }
+}

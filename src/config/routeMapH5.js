@@ -17,13 +17,13 @@ const EditAddress = Loadable({loader: () => import(/*webpackChunkName:'EditAddre
 
 const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/views/account/heart'),loading: Loading});
 const MyPlatter = Loadable({loader: () => import(/*webpackChunkName:'MyPlatter'*/'@/views/myplatter'),loading: Loading});
-const MyOrder = Loadable({loader: () => import(/*webpackChunkName:'MyOrder'*/'@/views/account/myorder'),loading: Loading});
+const MyOrder = Loadable({loader: () => import(/*webpackChunkName:'MyOrder'*/'@/views/h5/myorder'),loading: Loading});
 const OrderDetail = Loadable({loader: () => import(/*webpackChunkName:'OrderDetail'*/'@/views/account/orderdetail'),loading: Loading});
 const Paying = Loadable({loader: () => import(/*webpackChunkName:'Paying'*/'@/views/account/paying'),loading: Loading});
 const MyRate = Loadable({loader: () => import(/*webpackChunkName:'MyRate'*/'@/views/account/myrate'),loading: Loading});
 const WriteRate = Loadable({loader: () => import(/*webpackChunkName:'WriteRate'*/'@/views/account/writerate'),loading: Loading});
 const CigarDetail = Loadable({loader: () => import(/*webpackChunkName:'CigarDetail'*/'@/views/cigardetail'),loading: Loading});
-const Detail = Loadable({loader: () => import(/*webpackChunkName:'CigarDetail'*/'@/views/detail'),loading: Loading});
+const Detail = Loadable({loader: () => import(/*webpackChunkName:'CigarDetail'*/'@/views/h5/detail'),loading: Loading});
 
 export default [
   { path: "/error/404", component: Error404 },
@@ -41,13 +41,13 @@ export default [
   
   { path: "/heart", component: Home },
   { path: "/myplatter", component: Home },
-  { path: "/myorder", component: Home },
+  { path: "/myorder", component: MyOrder },
   { path: "/orderdetail", component: Home },
   { path: "/paying", component: Home },
   { path: "/myrate", component: Home },
   { path: "/writerate", component: Home },
   { path: "/cigardetail", component: Home },
-  { path: "/detail", component: Home },
+  { path: "/detail", component: Detail },
 
   
 ];
