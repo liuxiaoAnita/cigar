@@ -233,7 +233,7 @@ class MyOrderPage extends Component {
 
   // 付款
   handelPayMoney = payDataDetail => {
-    console.log(payDataDetail)
+    // console.log(payDataDetail)
     this.setState({
       isPayStatus: true,
       payDataDetail,
@@ -298,6 +298,16 @@ class MyOrderPage extends Component {
       <>
         <div className='pay-background' />
         <div className='pay-box-alert'>
+          {payType === 'alipay' &&  (
+            <div className='pay-right-QRCode alipay'>
+              支付宝二维码
+            </div>
+          )}
+          {payType === 'wechat' &&  (
+            <div className='pay-right-QRCode wechat'>
+              微信的二维码
+            </div>
+          )}
           <div className='pay-left-message'>
             <div className='title'>支付订单</div>
             <div className='NO-detail'>订单号：{payDataDetail.orderId}</div>
@@ -319,16 +329,7 @@ class MyOrderPage extends Component {
               微信支付
             </Button>
           </div>
-          {payType === 'alipay' &&  (
-            <div className='pay-right-QRCode alipay'>
-              支付宝二维码
-            </div>
-          )}
-          {payType === 'wechat' &&  (
-            <div className='pay-right-QRCode wechat'>
-              微信的二维码
-            </div>
-          )}
+          
          
           <div className='close-btn' onClick={() => this.setState({isPayStatus: false})}>X</div>
         </div>

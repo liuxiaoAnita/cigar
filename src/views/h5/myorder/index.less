@@ -102,4 +102,78 @@
       }
     }
   }
+
+  .pay-background{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .pay-box-alert{
+    position: fixed;
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    background: #FFFFFF;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    .pay-right-QRCode{
+      height: 120rem;
+      &.alipay{
+        background: #00AAF2;
+      }
+      &.wechat{
+        background: #0ABC08;
+      }
+    }
+    .pay-left-message{
+      padding: 16px;
+      .title{
+        font-size: 14px;
+      }
+      .NO-detail{
+        font-size: 12px;
+        padding: 8px 0;
+      }
+      .check-title{
+        font-size: 12px;
+        padding: 8px 0;
+      }
+      .alipay-btn{
+        width: 100%;
+        &.selected{
+          border: 1px solid #00AAF2;
+          .anticon {
+            color: #00AAF2;
+          }
+        }
+      }
+      .wechat-btn{
+        width: 100%;
+        margin-top: 16px;
+        &.selected{
+          border: 1px solid #0ABC08;
+          .anticon {
+            color: #0ABC08;
+          }
+        }
+      }
+    }
+  }
+  .close-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+  }
 }
