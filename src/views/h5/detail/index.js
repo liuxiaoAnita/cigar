@@ -107,6 +107,31 @@ class User extends Component {
     }
   }
 
+    // 添加购物车
+  addCarHeratAction = (type) => {
+    const id = getQueryVariable('id') || '';
+    const uid = localStorage.getItem('userUid') || ''
+      const params = {cmd: type, uid, productList: [{
+        "id": id,
+        "count": "1"
+      }]}
+      if (uid === '') {
+        message.error('未登录');
+      } else {
+        login(params)()
+        .then((res) => {
+          if (`${res.result}` === '0') {
+            message.success(`添加${type === 'addCart' ? '购物车' : '心愿单'}成功`);
+          } else {
+            message.error(`${res.resultNote}`);
+          }
+        })
+        .catch((error) => {
+          message.error(error);
+        });
+      }
+    }
+
   renderTop = () => {
     const { dataList, count, productList, topList, uid } = this.state
     return (
@@ -175,7 +200,7 @@ class User extends Component {
         <div className='button-box'>
         </div>
         <div className='button-box fixed'>
-          <div className='myheart'><Icon className='icon-heart' type="heart" theme="filled"  /></div>
+          <div className='myheart' onClick={() => this.addCarHeratAction('addXinyuandan')}><Icon className='icon-heart' type="heart" theme="filled"  /></div>
           <div>
             <Button className='car-button' onClick={this.addCarFun}>加入购物车</Button>
             <Button className='buy-button' type="primary" onClick={this.goBuyPage}>立即购买</Button>

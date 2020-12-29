@@ -15,7 +15,7 @@ const Myself = Loadable({loader: () => import(/*webpackChunkName:'Myself'*/'@/vi
 const MyAddress = Loadable({loader: () => import(/*webpackChunkName:'MyAddress'*/'@/views/h5/myaddress'),loading: Loading});
 const EditAddress = Loadable({loader: () => import(/*webpackChunkName:'EditAddress'*/'@/views/h5/myaddress/ModalAddAress'),loading: Loading});
 
-const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/views/account/heart'),loading: Loading});
+const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/views/h5/heart'),loading: Loading});
 const MyPlatter = Loadable({loader: () => import(/*webpackChunkName:'MyPlatter'*/'@/views/myplatter'),loading: Loading});
 const MyOrder = Loadable({loader: () => import(/*webpackChunkName:'MyOrder'*/'@/views/h5/myorder'),loading: Loading});
 const OrderDetail = Loadable({loader: () => import(/*webpackChunkName:'OrderDetail'*/'@/views/account/orderdetail'),loading: Loading});
@@ -39,7 +39,7 @@ export default [
   { path: "/myaddress", component: MyAddress },
   { path: "/editaddress", component: EditAddress },
   
-  { path: "/heart", component: Home },
+  { path: "/heart", component: Heart },
   { path: "/myplatter", component: Home },
   { path: "/myorder", component: MyOrder },
   { path: "/orderdetail", component: Home },
