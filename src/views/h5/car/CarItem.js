@@ -46,8 +46,15 @@ const LayoutHeader = (props) => {
 
   }, [editStatus])
 
+  const handelItem = () => {
+    console.log(dataItem.id)
+    // if(!editStatus) {
+    //   props.history.push(`/detail?id=${dataItem.id}`)
+    // }
+  }
+
   return (
-    <div className='car-list-item'>
+    <div className='car-list-item' onClick={() => handelItem()}>
       <img src={dataItem.image} className='picture' />
       <div className='detail-mes'>
         <span className='thing-name' title='sdfsjdfsd' >{dataItem.zh_name}<br />{dataItem.en_name}</span>

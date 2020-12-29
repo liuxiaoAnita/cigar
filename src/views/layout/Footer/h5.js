@@ -8,7 +8,12 @@ import Icon01 from "@/assets/images/home_icon_01.png";
 import tub2 from "@/assets/images/tub2.png";
 import "./index.less";
 
+
+const arrHide = [
+  '/detail',
+]
 const Footer = (props) => {
+  const isShowFooter = arrHide.indexOf(props.location.pathname) >= 0
   const [isShowKeFu, setShowKeFu] = useState(false)
   const pathname = props.history.location.pathname
   const menuList = [
@@ -46,7 +51,7 @@ const Footer = (props) => {
 
   return (
     <>
-    <div className='h5-footer-content'>
+    {!isShowFooter && <><div className='h5-footer-content'>
       {menuList.map((item, index) => (
         <div
           className={`h5-footer-item ${item.isActive && 'active'}`}
@@ -72,7 +77,7 @@ const Footer = (props) => {
       ))}
     </div>
     {isShowKeFu && <KeFu onChange={() => setShowKeFu(false)} />}
-    <div style={{minHeight: '70rem', width: '100%'}}></div>
+    <div style={{minHeight: '70rem', width: '100%'}}></div></>}
     </>
   );
 };
