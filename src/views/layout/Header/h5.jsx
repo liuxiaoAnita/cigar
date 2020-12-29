@@ -12,6 +12,7 @@ const arrHide = [
   '/myorder',
   '/detail',
   '/heart',
+  '/myrate',
 ]
 
 const Footer = (props) => {
