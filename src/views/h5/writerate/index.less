@@ -1,0 +1,139 @@
+.H5-content{
+  >div{
+    align-items: initial;
+    width: 100%;
+  }
+  .write-rate-h5-page{
+    background: #EFEFEF;
+    padding: 8rem;
+    .write-item-h5{
+      margin-bottom: 32rem;
+      .menu-detail-message{
+        border-bottom: 1px solid #B78E74;
+        display: flex;
+        background-color: #fff;
+        padding: 0 8px;
+        .message-detail-content{
+          padding-left: 16rem;
+          font-size: 16px;
+        }
+      }
+      .ActionBox{
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8rem;
+        padding-top: 32rem;
+        font-size: 12rem;
+        background: #fff;
+          .Rate{
+          font-size: 20rem;
+        }
+        .sub-title{
+          position: absolute;
+          right: 0;
+          top: 8rem;
+          left: 56%;
+          display: flex;
+          justify-content: space-between;
+          .item-sub{
+            border-radius: 2rem;
+            border: 1px solid #BFBFBF;
+            padding: 0 4rem;
+          }
+        }
+      }
+    }
+    img{
+      width: 40rem;
+      height: 68rem;
+    }
+  }
+
+  .fenshu-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #fff;
+    .fenshu-detail{
+      display: flex;
+      .count-button{
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 8rem;
+        border: 1px solid #B78E74;
+        color: #B78E74;
+      }
+      .input{
+        width: 70px;
+        text-align: center;
+      }
+    }
+  }
+  .textArea-content{
+    background: #fff;
+    padding: 0 8px 8px;
+    .title-name{
+      padding: 8px 0;
+      display: flex;
+    }
+  }
+  .tags-content{
+    .title-name{
+      padding: 16px 0;
+      display: inline-block;
+    }
+    .tag-item{
+      display: inline-block;
+      padding: 8px 20px;
+      margin: 10px 4px;
+      border: 1px solid #F19149;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+      &::before {
+        position: absolute;
+        right: 6px;
+        line-height: 0;
+        top: 9px;
+        font-size: 12px;
+        color: #73523C;
+      }
+    }
+    .selected-tag-box, .tag-box{
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      background: #FFFFFF;
+      border-radius: 6px;
+      min-height: 32px;
+      margin-bottom: 8px;
+    }
+    .selected-tag-box{
+      .tag-item{
+        &::before{
+          content: '-';
+        }
+      }
+    }
+    .tag-box{
+      .tag-item{
+        &::before{
+          content: '+';
+        }
+      }
+    }
+  }
+  .submit-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 32px;
+  }
+}
