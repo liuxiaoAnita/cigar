@@ -14,6 +14,7 @@ const arrHide = [
   '/heart',
   '/myrate',
   '/cigardetail',
+  '/orderdetail',
 ]
 
 const Footer = (props) => {

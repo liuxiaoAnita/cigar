@@ -18,7 +18,7 @@ const EditAddress = Loadable({loader: () => import(/*webpackChunkName:'EditAddre
 const Heart = Loadable({loader: () => import(/*webpackChunkName:'Heart'*/'@/views/h5/heart'),loading: Loading});
 const MyPlatter = Loadable({loader: () => import(/*webpackChunkName:'MyPlatter'*/'@/views/h5/myplatter'),loading: Loading});
 const MyOrder = Loadable({loader: () => import(/*webpackChunkName:'MyOrder'*/'@/views/h5/myorder'),loading: Loading});
-const OrderDetail = Loadable({loader: () => import(/*webpackChunkName:'OrderDetail'*/'@/views/account/orderdetail'),loading: Loading});
+const OrderDetail = Loadable({loader: () => import(/*webpackChunkName:'OrderDetail'*/'@/views/h5/orderdetail'),loading: Loading});
 const Paying = Loadable({loader: () => import(/*webpackChunkName:'Paying'*/'@/views/account/paying'),loading: Loading});
 const MyRate = Loadable({loader: () => import(/*webpackChunkName:'MyRate'*/'@/views/h5/myrate'),loading: Loading});
 const WriteRate = Loadable({loader: () => import(/*webpackChunkName:'WriteRate'*/'@/views/h5/writerate'),loading: Loading});
@@ -42,7 +42,7 @@ export default [
   { path: "/heart", component: Heart },
   { path: "/myplatter", component: MyPlatter },
   { path: "/myorder", component: MyOrder },
-  { path: "/orderdetail", component: Home },
+  { path: "/orderdetail", component: OrderDetail },
   { path: "/paying", component: Home },
   { path: "/myrate", component: MyRate },
   { path: "/writerate", component: WriteRate },

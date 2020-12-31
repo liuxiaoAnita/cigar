@@ -1,0 +1,195 @@
+.H5-content{
+  align-items: baseline;
+  >div{
+    width: 100%;
+    min-height: 100%;
+  }
+}
+.order-detail-h5-page{
+  background: #EFEFEF;
+  img{
+    width: 72rem;
+    height: 91rem;
+  }
+
+  .header-title{
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    .left-mes{
+
+    }
+    &.car-top-mes{
+      height: 123px;
+      background: #B78E74;
+      color: #FEDAC3;
+      align-items: flex-end;
+      padding: 52rem;
+      padding-bottom: 20px;
+      span{
+        color: #FEDAC3;
+      }
+      .car{
+        font-size: 48rem;
+      }
+    }
+    &.fixed{
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 999;
+      // background: #fff;
+      background: #B78E74;
+    }
+    .title-icon{
+      font-size: 16px;
+      padding-right: 16px;
+    }
+    .title-mes{
+      font-size: 16rem;
+    }
+  }
+
+
+  // 商品详情css
+  .detail-box-content{
+    background: #fff;
+    margin: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    .detail-item-mes{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      &+.detail-item-mes{
+        border-top: 1px solid #CECECE;
+      }
+      .left-message{
+        display: flex;
+        align-items: center;
+        >img{
+          width:118px;
+          height: 120px;
+        }
+        .name-message{
+          padding-left: 16px;
+          display: flex;
+          flex-direction: column;
+          font-size: 18px;
+        }
+      }
+      .right-message{
+        font-size: 16px;
+      }
+    }
+  }
+
+  .wuliu-detail{
+    padding: 12px 8px;
+    background: #fff;
+    .car{
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 50%;
+      color: #FEDAC3;
+      background-color: #B78E74;
+      margin-right: 8rem;
+    }
+  }
+  .receive-box-content{
+    padding: 12px 8px;
+    background: #fff;
+    display: flex;
+    align-items: flex-start;
+    .environment{
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 50%;
+      color: #FEDAC3;
+      background-color: #B78E74;
+      margin-right: 8rem;
+    }
+    .receive-inner{
+      display: flex;
+      flex-direction: column;
+    }
+    .receive-item{
+      padding: 8px 0;
+      display: flex;
+      .name{
+        font-style: normal;
+        display: flex;
+        padding-right: 16rem;
+      }
+    }
+  }
+
+  .summary-bottom-content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    .item{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      color: #BABABA;
+      padding: 8px 0;
+      i{
+        font-style: normal;
+      }
+    }
+    .real-money-totle{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-top: 1px solid #CECECE;
+      padding-top: 8rem;
+      font-size: 24rem;
+      color: #000;
+      font-weight: 600;
+      i{
+        font-size: 14rem;
+        font-style: normal;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .order-detail-box-mes{
+    margin: 8px;
+    padding: 8px;
+    background: #fff;
+    .info-title{
+      padding:  14px 0;
+      font-size: 14px;
+    }
+    .progress-item{
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      padding-bottom: 20px;
+    }
+  }
+  .bottomFooter{
+    height: 60px;
+    display: flex;
+    padding: 16px 14px;
+    align-items: center;
+    justify-content: flex-end;
+    background: #fff;
+    margin-top: 16px;
+    &.fixed{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-shadow: 0px -2px 9px #bbb;
+    }
+  }
+}

@@ -11,6 +11,7 @@ import "./index.less";
 
 const arrHide = [
   '/detail',
+  '/orderdetail',
 ]
 const Footer = (props) => {
   const isShowFooter = arrHide.indexOf(props.location.pathname) >= 0
