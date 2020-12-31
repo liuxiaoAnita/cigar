@@ -1,0 +1,234 @@
+.H5-content{
+  img{width: 100rem;}
+  align-items: baseline;
+  >div{
+    width: 100%;
+  }
+
+  .CigarDetailPage-h5{
+    // title
+    .header-title{
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      display: flex;
+      justify-content: space-between;
+      .left-mes{
+  
+      }
+      &.fixed{
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 999;
+        background: #fff;
+        box-shadow: 0px -2px 9px #bbb;
+      }
+      .title-icon{
+        font-size: 16px;
+        padding-right: 16px;
+      }
+      .title-mes{
+        font-size: 16rem;
+      }
+    }
+    // 
+    .descrip-mes{
+      padding: 16px;
+      color: #767676;
+    }
+    .arrow-icon{
+      font-size: 18rem;
+    }
+    .right-content{
+
+      .tool-box{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+        .pinzige-tiaozhuang{
+          font-size: 24rem;
+          color: #7D7D7D;
+          background: #fff;
+          .item-name{
+            padding: 4rem;
+            margin: 0 8rem;
+            border: 1px solid #7D7D7D;
+          }
+          .active{
+            color: #fff;
+            background: #B78E74;
+            border: 1px solid #B78E74;
+          }
+        }
+      }
+    }
+  }
+
+  .right-cigar-box{
+    padding: 16rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+   // 单个cigar 田字格
+   .pinzige-content{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 10px;
+    border: 1px solid #B78E74;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    .top-fen-content{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      display: flex;
+      justify-content: space-between;
+      background: #fff;
+      .left-fen{
+        font-size: 24px;
+        color: #73523C;
+      }
+      .right-mes{
+        text-align: right;
+        .rate{
+          font-size: 14px;
+        }
+        .user-content{
+          font-size: 14px;
+          color: #73523C;
+          .user-icon{
+            color: #73523C;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    .cigar-img{
+      width: 160rem;
+      height: 160rem;
+      // background-color: #fabb91;
+    }
+    .bottom-content{
+      .cigar-price{
+        font-size: 32px;
+        color: #B78E74;
+      }
+      .top-mes{
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        font-weight: 400;
+        color: #000000;
+      }
+      .action-content{
+        display: flex;
+        margin-top: 16px;
+        .myheart{
+          width: 32px;
+          height: 32px;
+          color: #B78E74;
+          border: 1px solid #B78E74;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 10px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        .add-bus{
+          flex: 1;
+        }
+      }
+
+    }
+  }
+  .ant-spin-nested-loading{
+    align-items: baseline;
+  }
+
+      // 单个的cigar 条形
+      .cigar-item-content{
+        flex: 1;
+        display: flex;
+        padding: 6px 10px;
+        margin-bottom: 8px;
+        border: 1px solid #B78E74;
+        margin-bottom: 8px;
+        .left-image{
+          width: 91rem;
+          height: 91rem;
+        }
+        // middle
+        .item-cigar-box{
+          padding-left: 12px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          .top-mes{
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            font-weight: 400;
+            color: #000000;
+          }
+          .bottom-star{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .bottom-userCoin{
+              display: flex;
+            }
+            .fen{
+              font-size: 24rem;
+              color: #73523C;
+            }
+            .rate{
+              margin: 0 10px;
+              font-size: 12rem;
+            }
+            .user-content{
+              font-size: 18px;
+              color: #73523C;
+              .user-icon{
+                font-size: 20px;
+              }
+            }
+          }
+        }
+        // right
+        .right-price{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .cigar-price{
+            font-size: 24rem;
+            color: #B78E74;
+          }
+          .action-content{
+            display: flex;
+            .myheart{
+              width: 32px;
+              height: 32px;
+              color: #B78E74;
+              border: 1px solid #B78E74;
+              font-size: 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 10px;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+}
