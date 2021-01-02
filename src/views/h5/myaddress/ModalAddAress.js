@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import intl from 'react-intl-universal';
-import {  Input, message } from "antd";
-import { Modal, Form,  } from 'antd'
+import {  Button, Input, message } from "antd";
+import { Drawer, Form,  } from 'antd'
 import { connect } from "react-redux";
 import CascaderCity from '@/components/CascaderCity'
 import "./index.less";
@@ -11,7 +11,7 @@ import { login, getUserInfo } from "@/store/actions";
 
 const { TextArea } = Input;
 const ColorItemContent = (props) => {
-  const { data = {} } = props;
+  const { data = {}, onChange } = props;
   const { name, phone, cityCode, address, province_city_town } = data;
   const [loading, setLoading] = useState(false);
 
@@ -54,11 +54,11 @@ const ColorItemContent = (props) => {
         province_city_town: provinceCityTown,
       }
       console.log(newData)
-      // onChange({newData})
+      onChange({newData})
     }
 
   const handleCancelAdd = () => {
-    // onChange()
+    onChange()
   }
   
 
@@ -68,8 +68,10 @@ const ColorItemContent = (props) => {
     setCityCodeNew(value.message || [])
   }
   return (
-    <Modal
-        title="收货地址"
+    <Drawer
+        title="title"
+        style={{width: '375rem'}}
+        closable={false}
         visible={true}
         onOk={handleOkAdd}
         onCancel={handleCancelAdd}
@@ -86,7 +88,11 @@ const ColorItemContent = (props) => {
               <TextArea placeholder='详细地址' rows={4} value={addressNew}  onChange={e => setAddressNew(e.target.value)}/>
           </div>
         </div>
-      </Modal>
+        <div className='modal-address-button'>
+          <Button onClick={handleCancelAdd}>取消</Button>
+          <Button type='primary' onClick={handleOkAdd}>保存</Button>
+        </div>
+      </Drawer>
   );
 };
 
