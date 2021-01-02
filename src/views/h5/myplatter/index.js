@@ -132,7 +132,7 @@ class MyPlatterPage extends Component {
 
   // 右侧购物总结清单
   renderRightMenu = () => {
-    const {myOrder, totleCount} = this.state;
+    const {myOrder} = this.state;
     return(
       <div className='right-menu'>
         <div className='list-menu-box'>
@@ -148,13 +148,6 @@ class MyPlatterPage extends Component {
               </div>}
             </React.Fragment>
           ))}
-        </div>
-        <div className='totle-price'>订单金额：{totleCount}</div>
-        <div className='add-shop-action'>
-          <Button className='add-shop-btn' onClick={() => this.handelAddShop('addCart')} type='primary'>添加到购物车</Button>
-          <Button className='add-heart-btn' onClick={() => this.handelAddShop('addXinyuandan')} type="link" block>
-            <Icon className='icon-image' type="heart" />添加到心愿单
-          </Button>
         </div>
       </div>
     )
@@ -203,27 +196,51 @@ class MyPlatterPage extends Component {
   }
 
   render() {
-    const {dataList, adList} = this.state
+    const {dataList, adList, totleCount} = this.state
     return (
       <div className="MyPlatterPage-h5-container">
+        <div className='header-title'></div>
+        <div className='header-title fixed'>
+          <div className='left-mes'>
+          <Icon
+            className='title-icon'
+            type="left"
+            onClick={() => {
+              console.log(this.props.history.go(-1))
+            }}
+          />
+          <span className='title-mes'>自选拼盘</span>
+          </div>
+        </div>
         <BannerAdvert data={adList} />
         <div className='platter-box'>
           <TitleSplit
             title='自选拼盘'
+            fontSize='32px'
           />
           <div className='sub-title'>
             <span className='left-message'>本版面单支雪茄图片仅供参考，实际大小请以标示的雪茄环径长度为准。<br />请点击单支雪茄图片，获取详细资料</span>
-            <div className='right-mes'>
-              <span className='menu-name-title'>拼盘菜单</span>
-              <span className='menu-sub-title'>运费¥20，自选10支或以上自动扣减运费</span>
-            </div>
+            
           </div>
           <div className='platter-content'>
             <div className='platter-left-detail'>
               {dataList.length > 0 ? this.renderPlatter() : this.renderEmpty()}
             </div>
+          </div>
+          <div className='sum-content'> 
+            <div className='right-mes'>
+              <span className='menu-name-title'>拼盘菜单</span>
+              <span className='menu-sub-title'>运费¥20，自选10支或以上自动扣减运费</span>
+            </div>
             <div className='platter-right'>
               {this.renderRightMenu()}
+            </div>
+            <div className='totle-price'>订单金额：{totleCount}</div>
+            <div className='add-shop-action'>
+              <Button className='add-shop-btn' onClick={() => this.handelAddShop('addCart')} type='primary'>添加到购物车</Button>
+              <Button className='add-heart-btn' onClick={() => this.handelAddShop('addXinyuandan')} type="link" block>
+                <Icon className='icon-image' theme="filled" type="heart" />添加到心愿单
+              </Button>
             </div>
           </div>
         </div>

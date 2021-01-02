@@ -31,6 +31,7 @@ class CarPage extends Component {
   )
 
   render() {
+    const { buyNum, isBuyNow} = this.state
     const { editStatus } = this.state
     return (
       <div className="h5-Car-Page" >
@@ -39,7 +40,14 @@ class CarPage extends Component {
         {
           this.state.loginStatus ? <CarList editStatus={editStatus} /> : this.renderLogin()
         }
-
+        <div className='go-button-pay'>
+          <Button type='primary' onClick={() => {
+             this.props.history.push(`/car?isPay=paying`);
+             this.setState({
+               isPayig: true
+             })
+          }}>去结账</Button>
+        </div>
       </div>
     );
   }

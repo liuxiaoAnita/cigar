@@ -224,7 +224,7 @@ const CigarDetailPage = (props) => {
           className='title-icon'
           type="left"
           onClick={() => {
-            console.log(this.props.history.go(-1))
+            props.history.go(-1)
           }}
         />
         <span className='title-mes'>{catename}</span>

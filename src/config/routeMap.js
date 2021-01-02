@@ -29,6 +29,7 @@ export default [
   { path: "/forget", component: Forget },
   { path: "/register", component: Register },
   { path: "/car", component: Car, needLogin: true  },
+  { path: "/carpaying", component: Car,},
   { path: "/myself", component: Myself },
   { path: "/myaddress", component: Myself },
   { path: "/editaddress", component: Myself },

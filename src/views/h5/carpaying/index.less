@@ -1,0 +1,170 @@
+.car-shop-content{
+  background: #fff;
+  width: 1200px;
+  margin: auto;
+  .car-title{
+    font-size: 36px;
+    color: #74523C;
+    padding: 30px 0;
+  }
+  .car-detail{
+    display: flex;
+
+    // 左侧购物车具体内容css
+    .left-mes{
+      flex: 1;
+      margin-right: 20px;
+      .bus-title-mes{
+        display: flex;
+        height: 40px;
+        padding-right: 20px;
+        text-align: center;
+        padding: 10px 20px 10px 0;
+        font-size: 16px;
+        color: #74523C;
+        .image{width: 120px;}
+        .name{flex: 1;}
+        .price{width: 140px; text-align: left;}
+        .number{width: 100px; margin: 0 20px; text-align: left;}
+        .totle{width: 140px; text-align: right;}
+      }
+      
+    }
+
+    // 右侧总结css
+    .car-right{
+      width: 320px;
+      .right-title{
+        height: 40px;
+        line-height: 40px;
+        font-size: 28px;
+        color: #000000;
+      }
+      .right-conent{
+        padding: 10px 32px;
+        background: #ECECEC;
+        .price-content{
+          padding-bottom: 40px;
+          .right-detail{
+            padding-top: 40px;
+            font-size: 20px;
+            display: flex;
+            color: #626262;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+        .totle-price-content{
+          min-height: 200px;
+          .totle-name{
+            font-size: 20px;
+          }
+          .totle-price{
+            font-size: 30px;
+            text-align: right;
+          }
+          .totle-btn{
+            width: 100%;
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+
+    // 空状态 css
+    .empty-content{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding-bottom: 60px;
+      .shopping-car{
+        font-size: 72px;
+        color: #BA8056;
+        // background: linear-gradient(142deg, #BA8056, #F6E2A6, #CC8E5E, #A47856);
+      }
+      .detail-mes{
+        font-size: 24px;
+        font-weight: 500;
+        color: #74523C;
+        padding: 20px;
+      }
+      .link-content{
+        font-size: 14px;
+        font-weight: 500;
+        color: #74523C;
+        .link-url{
+          color: #0067FF;
+          font-style: normal;
+          display: inline-block;
+          padding: 0 12px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+.detail-box{
+  display: flex;
+  border: 1px solid #CEA48A;
+  min-height: 160px;
+  _height: 160px;
+  align-items: center;
+  padding-right: 20px;
+  position: relative;
+  &+.detail-box{
+    margin-top: 20px;
+  }
+  .thing-image{
+    width: 120px;
+    max-height: 160px;
+  }
+  .item-name-show{
+    display: flex;
+    flex-direction: column;
+    color: #74523C;
+    padding: 0 24px;
+    flex: 1;
+    line-height: 24px;
+  }
+  .item-price-content{
+    width: 140px;
+    .price-del{
+      font-size: 14px;
+      color: #949494;
+    }
+    .price-now{
+      
+      font-size: 20px;
+      font-weight: 600;
+      color: #442613;
+    }
+  }
+  .item-num-input{
+    margin: 0 20px;
+    width: 100px;
+  }
+  .item-price-totle{
+    font-size: 20px;
+    font-weight: 400;
+    color: #442613;
+    width: 140px;
+    text-align: right;
+  }
+  .btn-delete{
+   position: absolute;
+   right: 20px;
+   bottom: 10px;
+  }
+  .btn-edit{
+    position: absolute;
+    right: 64px;
+    bottom: 10px;
+  }
+}

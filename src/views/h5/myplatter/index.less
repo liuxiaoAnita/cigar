@@ -1,3 +1,173 @@
-.MyPlatterPage-h5-container{img{
-  width: 100rem;
-}}
+.H5-content{
+  align-items: baseline;
+  >div{
+    width: 100%;
+    
+  }
+}
+
+.MyPlatterPage-h5-container{
+  .title-split-box{
+    .title-name{
+      width: 100%;
+      padding: 0 22px;
+    }
+  }
+  // title
+  .header-title{
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    .left-mes{
+
+    }
+    &.fixed{
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      box-shadow: 0px -2px 9px #bbb;
+    }
+    .title-icon{
+      font-size: 16px;
+      padding-right: 16px;
+    }
+    .title-mes{
+      font-size: 16rem;
+    }
+  }
+
+  .sub-title{
+    padding: 12px 20px;
+    font-size: 12rem;
+    color: #8D8D8D;
+  }
+
+  .platter-left-detail{
+
+    .my-platter-content{ 
+      .my-platter-item{
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        margin-bottom: 16px;
+        border-radius: 4px;
+        border: 1px solid #CEA489;
+        .platter-image{
+          width: 100%;
+          height: 160px;
+        }
+        .title-name{
+          display: flex;
+          justify-content: space-between;
+          font-size: 18px;
+          color: #73523C;
+          border-bottom: 1px solid #73523C;
+          padding: 4px 0;
+          >span{
+            padding-right: 60px;
+            display: inline-block;
+          }
+        }
+        .platter-mes{
+          display: flex;
+          justify-content: space-between;
+          padding-right: 20px;
+          .message{
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            color: #010101;
+            padding-top: 8px;
+            >span{
+              padding-top: 4px;
+            }
+          }
+          .action-box{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            .now-price{
+              
+              color: #432512;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 钱的总汇
+  .sum-content{
+    .right-mes{
+      width: 400px;
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      .menu-name-title{
+        font-size: 28px;
+        color: #000000;
+      }
+      .menu-sub-title{
+        font-size: 16px;
+        color: #B78E74;
+      }
+    }
+  }
+
+  .right-menu{
+     // 单子 列表
+     .list-menu-box{
+      margin: 8px;
+      .list-item{
+        background: #ECECEC;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        .btn-box{
+          .plus, .minus{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            color: #432512;
+            background: #CEA489;
+            text-align: center;
+            margin: 0 4px;
+            cursor: pointer;
+          }
+        }
+      }
+     }
+  }
+
+   // 下面的总金额以及按钮
+   .totle-price{
+    font-size: 25px;
+    color: #432512;
+    text-align: left;
+    padding: 16px;
+  }
+  .add-shop-action{
+    text-align: center;
+    padding: 10px 0 20px;
+    .add-shop-btn{
+      width: 80%;
+      margin: auto;
+      height: 40px;
+    }
+    .add-heart-btn{
+      height: 40px;
+      margin-top: 10px;
+    }
+  }
+}

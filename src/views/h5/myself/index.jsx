@@ -89,7 +89,7 @@ class MyselfPage extends Component {
           <span className='item' onClick={() => this.props.history.push('/myaddress')} >收货地址</span>
           <span className='item' onClick={() => this.props.history.push('/myorder')}>我的订单</span>
           <span className='item' onClick={() => this.props.history.push('/heart')}>心愿单</span>
-          <span className='item'>我的评价</span>
+          <span className='item' onClick={() => this.props.history.push('/myrate')}>我的评价</span>
         </div>
       </div>
     )
@@ -248,8 +248,8 @@ class MyselfPage extends Component {
         {/* 公共部分 */}
         <div className='other-message-box'>
           <div className='other-item'>
-            <span className='item'>注册流程</span>
-            <span className='item'>购物流程</span>
+            {/* <span className='item'>注册流程</span>
+            <span className='item'>购物流程</span> */}
             <span
               className='item'
               onClick={() => {
@@ -262,7 +262,11 @@ class MyselfPage extends Component {
             </span>
           </div>
           <div className='other-item'>
-            <span className='item'>关于我们</span>
+            <span className='item' onClick={() => {
+                this.setState({
+                  isShowKeFu: true,
+                })
+              }}>关于我们</span>
           </div>
         </div>
       </div>

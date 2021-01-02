@@ -70,15 +70,24 @@ class H5Home extends Component {
             key={`category-h5-item-${index}`}
             onClick={() => {
               if (item.category2List.length > 0) {
-              console.log(item)
-
+                console.log(item)
                 this.setState({
                   categoryChild: item,
                   showCategoryChild: true,
                 })
               } else {
-                this.props.history.push(`/detail?id=${item.id}`);
-                window.location.reload()
+                // this.props.history.push(`/detail?id=${item.id}`);
+                // window.location.reload()
+                if (`${item.type}` === '1') {
+                  this.props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
+                  window.location.reload()
+                } else if (`${item.type}` === '2') {
+                  this.props.history.push(`/myplatter?type=${item.type}&categoryId=${item.id}`)
+                  window.location.reload()
+                } else if (`${item.type}` === '3') {
+                  this.props.history.push(`/cigardetail?type=${item.type}&categoryId=${item.id}`)
+                  window.location.reload()
+                }
               }
             }}
           >
