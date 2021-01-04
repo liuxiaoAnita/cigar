@@ -91,6 +91,7 @@ class LoginPage extends Component {
             message.success(res.resultNote)
             this.initAddressGet()
             console.log(res)
+            this.setState({rightTitleStasus: false})
           } else {
             message.error(`${res.resultNote}`);
           }
@@ -125,7 +126,19 @@ class LoginPage extends Component {
     ) : <span className='rightTitleStasus' onClick={() => this.setState({rightTitleStasus: true})}>编辑</span>;
     return (
       <div className="h5-my-address-Page" >
-        <H5Header titleName='收货地址' rightAxure={rightAxure} />
+         <div className='header-title'></div>
+        <div className='header-title fixed'>
+          <div className='left-mes'>
+          <Icon
+            className='title-icon'
+            type="left"
+            onClick={() => {
+              console.log(this.props.history.go(-1))
+            }}
+          />
+          <span className='title-mes'>收货地址</span>
+          </div>
+        </div>
         <div className='my-address'>
             {/* 收货地址进行循环展示 todo */}
             {addressData && addressData.map((item, index) => (

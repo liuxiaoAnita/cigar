@@ -14,7 +14,7 @@ const HomeBanner = (props) => {
   return (
     <div className='h5-header-box'>
       
-      <div className='title-name'><Icon className='icon' type="left" /><span >{titleName}</span></div>
+      <div className='title-name'><Icon onClick={() => props.history.push(-1)} className='icon' type="left" /><span >{titleName}</span></div>
       {rightAxure}
     </div>
   );
