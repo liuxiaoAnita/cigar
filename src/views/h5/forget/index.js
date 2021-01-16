@@ -28,10 +28,9 @@ const ForgetPage = (props) => {
     .then(res => {
       console.log(res)
       if(`${res.result}` === '0'){
-        console.log(res.body)
         const {body} = res
         setCode(body.code)
-        setIconUrl(body.icon)
+        setIconUrl(`${body.icon}?random=${Math.random()}`)
         form.setFieldsValue({yzm: ''})
         setYzm('')
       } else {
@@ -167,7 +166,7 @@ const ForgetPage = (props) => {
                   )}
                 </Form.Item>
                 <Form.Item>
-                <img width='60' className='yzmImage' onClick={initCode} src={`${iconUrl}?random=${Math.random()}`} alt='验证码' />
+                <img width='60' className='yzmImage' onClick={initCode} src={iconUrl} alt='验证码' />
 
                   {getFieldDecorator("yzm", {
                     rules: [
