@@ -126,6 +126,7 @@ class MyselfPage extends Component {
             {touxiangArr.map((item, index) => (
               <div className={`touxiangItem ${touxiangChose - 1 === index ? 'chosed' : ''}`} onClick={() => this.touxiangChose(`${index + 1}`)}>
                 <img alt='头像' src={item} className='touxiangImg' />
+                {touxiangChose - 1 === index && <Icon className='active' type="check-circle" />}
               </div>
             ))}
           </div>
