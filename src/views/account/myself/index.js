@@ -37,7 +37,10 @@ class User extends Component {
       sex:'',
       email: '',
       birth:'',
+      icon: '',
     },
+    choseTouxiang: '1',
+    touxiang: '1',
     receiveMes:{},
     visibleUserInfo: false,
     visibleAddress: false,
@@ -58,12 +61,19 @@ class User extends Component {
     const uid = localStorage.getItem('userUid') || ''
     if (uid && uid !== '') {
       const userInfoNew = JSON.parse(localStorage.getItem('userInfoMes'))
+      const newInfo = {
+        ...userInfo,
+        ...userInfoNew,
+      }
+      const { icon = '1' } = newInfo
       this.setState({
         uid,
         userInfo: {
           ...userInfo,
           ...userInfoNew,
-        }
+        },
+        touxiang: icon.charAt(icon.length - 1),
+        choseTouxiang: icon.charAt(icon.length - 1),
       })
     } else {
       message.error('登录时效，请重新登录')
@@ -190,9 +200,12 @@ class User extends Component {
     login(params)()
       .then((res) => {
         if (`${res.result}` === '0') {
+          const { icon = '1' } = res.body;
           localStorage.setItem('userInfoMes', JSON.stringify(res.body))
           this.setState({
-            userInfo: res.body
+            userInfo: res.body,
+            touxiang: icon.charAt(icon.length - 1),
+            choseTouxiang: icon.charAt(icon.length - 1),
           })
         } else {
           message.error(`${res.resultNote}`);
@@ -295,40 +308,67 @@ class User extends Component {
 
   handleUserImgOk = () => {
     console.log('handleUserImgOk')
+    const { choseTouxiang } = this.state;
+    const uid = localStorage.getItem('userUid') || '';
+    login({uid, cmd: 'editIcon', icon: choseTouxiang})()
+    .then(res => {
+      if (`${res.result}` === '0') {
+        message.success('头像设置成功！');
+        this.setState({
+          visibleUserImg: false,
+        })
+        this.reGetUserInfo();
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+    })
+    .catch((error) => {
+      message.error(error);
+    });
   }
 
   render() {
-    const { userInfo, addressData, modalAddress, visibleAddress, visibleUserImg, confirmLoading } = this.state
-    const { nickname = '', sex = '', email = '', birth = '', icon = '0' } = userInfo;
+    const { userInfo, addressData, modalAddress, visibleAddress, visibleUserImg, confirmLoading, touxiang, choseTouxiang } = this.state
+    const { nickname = '', sex = '', email = '', birth = ''} = userInfo;
     console.log('icon')
-    console.log(userInfo)
+    console.log(touxiang)
     return (
       <div className="myself-container">
         <Menu/>
         <div className='right-user-info'>
           <div className='right-title'>账户信息</div>
           <div className='user-mes'>
-            <img src={userImageArr[0]['imageUrl']} className='user-img'
-            // onClick={() => this.setState({ visibleUserImg: true, })}
+            <img
+              alt='头像'
+              src={imageArr[touxiang -1 || '1']}
+              className='user-img'
+              onClick={() => this.setState({ visibleUserImg: true, })}
             />
 
             <Modal
-              title="Title"
+              title="更换头像"
               visible={visibleUserImg}
               onOk={this.handleUserImgOk}
               confirmLoading={confirmLoading}
-              onCancel={() => this.setState({ visibleUserImg: false, })}
+              onCancel={() => this.setState({
+                visibleUserImg: false,
+                choseTouxiang: touxiang,
+              })}
               okText="确认"
               cancelText="取消"
             >
-              <p style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-                {userImageArr.map((item, index) => (
-                  <div key={`userImage${index}`} style={{width: '23%', margin: '8px 0'}} className={(icon === item.id || (icon === '' && index === 0)) ? 'active userImgItem' : 'userImgItem'} >
-                    <img src={item.imageUrl} style={{width: '100%'}}  />
-                    <Icon className='is-active' type="check-circle" />
+              <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+                {imageArr.map((item, index) => (
+                  <div key={`userImage_${index}`} onClick={() => {
+                    this.setState({
+                      choseTouxiang: index + 1,
+                    })
+                  }} style={{width: '23%', margin: '8px 0'}} className='userImgItem' >
+                    <img src={item} alt='' style={{width: '100%'}}  />
+                    {choseTouxiang - 1 === index && <Icon className='is-active' type="check-circle" />}
                   </div>
                 ))}
-              </p>
+              </div>
             </Modal>
             <div className='detail-mes'>
               <div className='detail-item'>

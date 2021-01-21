@@ -1,20 +1,33 @@
 import React, { Component } from "react";
 import {message, Icon, Drawer, Button, Modal, DatePicker, Input} from 'antd';
 import KeFu from '@/components/KeFu'
+import img01 from '@/assets/UserImg/wd_tx01.png'
+import img02 from '@/assets/UserImg/wd_tx02.png'
+import img03 from '@/assets/UserImg/wd_tx03.png'
+import img04 from '@/assets/UserImg/wd_tx04.png'
+import img05 from '@/assets/UserImg/wd_tx05.png'
+import img06 from '@/assets/UserImg/wd_tx06.png'
+import img07 from '@/assets/UserImg/wd_tx07.png'
+import img08 from '@/assets/UserImg/wd_tx08.png'
 import {login} from "@/store/actions";
 import moment from 'moment';
 
 import "./index.less";
-
+const touxiangArr = [
+  img01, img02, img03, img04, img05, img06, img07, img08, 
+]
 const dateFormat = 'YYYY/MM/DD';
 class MyselfPage extends Component {
   state = {
+    touxiangImg: '',
+    touxiangChose: 1,
     isLogin: false,
     isShowKeFu: false,
     userMes: {},
     visibleSettingDrawer: false,
     visibleMesDrawer: false,
     editUserStatus: false,
+    visibleTouxiang: false,
   };
   componentDidMount() {
     const uid = localStorage.getItem('userUid') || '';
@@ -32,8 +45,11 @@ class MyselfPage extends Component {
     login({uid, cmd: 'userInfo'})()
     .then(res => {
       if (`${res.result}` === '0') {
+        const {icon = '1'} = res.body;
         this.setState({
           userMes: res.body,
+          touxiangImg:  icon.charAt(icon.length-1) || '1',
+          touxiangChose: icon.charAt(icon.length-1) || '1',
         })
       } else {
         message.error(`${res.resultNote}`);
@@ -61,10 +77,10 @@ class MyselfPage extends Component {
   )
 
   renderLogin = () => {
-    const {userMes} = this.state
+    const {userMes, touxiangChose, touxiangImg} = this.state
     const { 
     email= "",
-    icon= "",
+    icon= "1",
     nickname = "",
     phone = "",
     sex = "",
@@ -77,7 +93,7 @@ class MyselfPage extends Component {
           })
         }} />
         <div className='user-detail-mes'>
-          <img className='user-icon' src={icon} />
+          <img alt='头像' className='user-icon' onClick={() => this.setState({visibleTouxiang: true})} src={touxiangArr[touxiangImg-1]} />
           <div className='user-mes'>
             <span className='nickname'>{nickname}</span>
             <span className='sex-user'>{sex === '女' ? '女士' : '先生'}</span>
@@ -91,8 +107,58 @@ class MyselfPage extends Component {
           <span className='item' onClick={() => this.props.history.push('/heart')}>心愿单</span>
           <span className='item' onClick={() => this.props.history.push('/myrate')}>我的评价</span>
         </div>
+        <Modal
+          title="更换头像"
+          width={300}
+          visible={this.state.visibleTouxiang}
+          onOk={this.handleOkTouxiang}
+          onCancel={() => {
+            const { touxiangImg } = this.state;
+            this.setState({
+              visibleTouxiang: false,
+              touxiangChose: touxiangImg,
+            })
+          }}
+          okText="确认"
+              cancelText="取消"
+        >
+          <div className="touxiang-box">
+            {touxiangArr.map((item, index) => (
+              <div className={`touxiangItem ${touxiangChose - 1 === index ? 'chosed' : ''}`} onClick={() => this.touxiangChose(`${index + 1}`)}>
+                <img alt='头像' src={item} className='touxiangImg' />
+              </div>
+            ))}
+          </div>
+        </Modal>
       </div>
     )
+  }
+
+  touxiangChose = (number) => {
+    this.setState({
+      touxiangChose: number,
+    })
+  }
+
+  handleOkTouxiang = () => {
+    const { touxiangChose } = this.state;
+    const uid = localStorage.getItem('userUid') || '';
+    console.log('handleOkTouxiang')
+    login({uid, cmd: 'editIcon', icon: touxiangChose})()
+    .then(res => {
+      if (`${res.result}` === '0') {
+        message.success('头像设置成功！');
+        this.setState({
+          visibleTouxiang: false,
+        })
+        this.getUserMes();
+      } else {
+        message.error(`${res.resultNote}`);
+      }
+    })
+    .catch((error) => {
+      message.error(error);
+    });
   }
 
   onClose = () => {
@@ -185,6 +251,7 @@ class MyselfPage extends Component {
           placement='bottom'
           closable={false}
           onClose={this.onClose}
+          style={{ height: '220rem' }}
           visible={visibleSettingDrawer}
         >
           <div className='drawer-btn' onClick={() =>this.props.history.push('/forget')}>修改密码</div>

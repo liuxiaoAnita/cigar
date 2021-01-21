@@ -9,6 +9,7 @@ import ModalAddAress from "./ModalAddAress";
 class LoginPage extends Component {
   state = {
     loginPhone: '',
+    visibleDrawer: false,
     visible: false,
     rightTitleStasus: false,
     deleteId: '',
@@ -123,7 +124,7 @@ class LoginPage extends Component {
       }}>
         保存
       </span>
-    ) : <span className='rightTitleStasus' onClick={() => this.setState({rightTitleStasus: true})}>编辑</span>;
+    ) : <span className='rightTitleStasus' onClick={() => this.setState({rightTitleStasus: true})}>管理</span>;
     return (
       <div className="h5-my-address-Page" >
          <div className='header-title'></div>
@@ -138,6 +139,7 @@ class LoginPage extends Component {
           />
           <span className='title-mes'>收货地址</span>
           </div>
+          {rightAxure}
         </div>
         <div className='my-address'>
             {/* 收货地址进行循环展示 todo */}
@@ -163,10 +165,17 @@ class LoginPage extends Component {
           >
             <p>确认删除改地址？</p>
           </Modal>
-          {this.state.visibleDrawer && <ModalAddAress  data={modalAddress}  onChange={val =>{
-            this.setState({visibleDrawer: false});
-            if (val) this.handleOkAdd(val.newData)}}
-          />}
+          {this.state.visibleDrawer && (
+          <ModalAddAress
+            data={modalAddress}
+            onChange={val => {
+              this.setState({visibleDrawer: false});
+              if (val) {
+                this.handleOkAdd(val.newData)
+              }
+            }}
+          />
+          )}
       </div>
     );
   }

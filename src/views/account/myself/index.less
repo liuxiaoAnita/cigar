@@ -24,6 +24,7 @@
         width: 80px;
         height: 80px;
         margin-right: 20px;
+        cursor: pointer;
       }
       .detail-mes{
         flex: 1;
@@ -168,7 +169,15 @@
 
   // 头像弹窗
   .userImgItem{
+    position: relative;
+    cursor: pointer;
     .is-active{
-
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      font-size: 28px;
+      background: #B78E74;
+      color: #fff;
+      border-radius: 50%;
     }
   }

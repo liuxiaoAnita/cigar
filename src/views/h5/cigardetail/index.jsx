@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-import intl from 'react-intl-universal';
+// import { Redirect } from "react-router-dom";
+// import intl from 'react-intl-universal';
 import {getQueryVariable} from '@/utils'
-import { Form, Icon, Input, Button, message, Rate, Select, Spin  } from "antd";
+import { Form, Icon, Button, message, Rate, Select, Spin, Drawer } from "antd";
 import { connect } from "react-redux";
 import "./index.less";
-import { login, getUserInfo } from "@/store/actions";
+import { login } from "@/store/actions";
 import ColorContent from './Color'
 import OtherItem from './OtherItem'
 
@@ -22,6 +22,7 @@ const CigarDetailPage = (props) => {
   const [flag, setFlag] = useState('0'); // 0：升序1：降序
   const [orderBy, setOrderBy] = useState('0'); // 0：默认1：价格2：产品3：评分4：星级
   const [leftChose, setLeftChose] = useState({})
+  const [visible, setVisible] = useState(false);
   
   const [ cigarStatus, setCigarStatus] = useState(true); // 
   const [ cigarList, setCigarList] = useState([]); // 列表数据
@@ -214,6 +215,10 @@ const CigarDetailPage = (props) => {
     </div>
   )
 
+  const onClose = () =>{
+    setVisible(false);
+  }
+
   return (
     loading ? <Spin spinning={loading} /> :
     <div className='CigarDetailPage-h5'>
@@ -230,8 +235,14 @@ const CigarDetailPage = (props) => {
         <span className='title-mes'>{catename}</span>
         </div>
       </div>
-      <div className='descrip-mes'>{cateContent}</div>
-      
+      <div className='descrip-mes'></div>
+      <Drawer
+        title={cateContent}
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        visible={visible}
+      >
       <div className='left-content'>
         <div className='detail-mess-box'>
           {`${categoryType}` === '2' && 
@@ -289,6 +300,7 @@ const CigarDetailPage = (props) => {
 
        
         </div>
+      </Drawer>
       <div className='right-content'>
         {/* 操作栏 */}
         <div className='tool-box'>
@@ -311,6 +323,7 @@ const CigarDetailPage = (props) => {
           <div className='pinzige-tiaozhuang'>
             <Icon className={`item-name  pinzige ${cigarStatus && 'active'}`} onClick={() => setCigarStatus(true)} theme="filled" type="appstore" />
             <Icon className={`item-name tiaozhuang ${!cigarStatus && 'active'}`} onClick={() => setCigarStatus(false)} type="menu" />
+            <Icon className={`item-name filterDrawer ${!cigarStatus && 'active'}`} onClick={() => setVisible(true)} type="filter" />
           </div>
         </div>
         <Spin spinning={loadThing}  className='right-cigar-box' tip="Loading...">

@@ -10,7 +10,6 @@ const arrHide = [
   '/myaddress',
   '/car',
   '/myorder',
-  '/detail',
   '/heart',
   '/myrate',
   '/cigardetail',

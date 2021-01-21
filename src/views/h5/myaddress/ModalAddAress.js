@@ -69,12 +69,13 @@ const ColorItemContent = (props) => {
   }
   return (
     <Drawer
-        title="title"
-        style={{width: '375rem'}}
-        closable={false}
+        title="收货地址"
+        width={300}
+        // closable={false}
         visible={true}
-        onOk={handleOkAdd}
-        onCancel={handleCancelAdd}
+        // onOk={handleOkAdd}
+        onClose={handleCancelAdd}
+        // className="modalAddress_h5"
       >
         <div className='add_edit_address'>
           <div className='address_item name_phone'>

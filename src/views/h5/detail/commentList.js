@@ -1,5 +1,6 @@
 import React , { useEffect, useState } from 'react';
 import {withRouter} from "react-router-dom";
+import UserImg from '@/assets/UserImg/wd_tx03.png'
 import { login } from "@/store/actions";
 import { Spin, message, Pagination, Rate } from 'antd'
 import { connect } from "react-redux";
@@ -47,7 +48,7 @@ const PayingPage = (props) => {
       {loading && <Spin spinning={loading} className='loadingComment' />}
       {!loading && commentList && commentList.map((item, index) => (
         <div className='comment-item' key={`comment-item-${index}`}>
-          <img className='icon' src={item.icon} />
+          <img className='icon' src={item.icon || UserImg} />
           <div className='comment-message'>
             <div className='nickName'>{item.nickname}</div>
             <div className='createDate'>{item.create_date}</div>
